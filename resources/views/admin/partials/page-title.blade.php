@@ -1,0 +1,16 @@
+<!-- Page Title Start -->
+<div class="flex items-center md:justify-between flex-wrap gap-2 mb-6">
+    <div>
+        <h4 class="text-default-900 text-lg font-medium mb-2">{{ $title ?? '' }}</h4>
+        @if(!empty($subtitle))
+            <div class="md:flex hidden items-center gap-3 text-sm font-semibold">
+                <a href="#" class="text-sm font-medium text-default-700">Windzon</a>
+                <i class="material-symbols-rounded text-xl flex-shrink-0 text-default-500">chevron_right</i>
+                <a href="#" class="text-sm font-medium text-default-700">{{ $subtitle }}</a>
+                <i class="material-symbols-rounded text-xl flex-shrink-0 text-default-500">chevron_right</i>
+                <a href="#" class="text-sm font-medium text-default-700" aria-current="page">{{ $title ?? '' }}</a>
+            </div>
+        @endif
+    </div>
+</div>
+<!-- Page Title End -->

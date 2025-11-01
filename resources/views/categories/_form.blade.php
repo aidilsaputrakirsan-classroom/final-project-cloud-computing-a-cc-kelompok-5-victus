@@ -1,33 +1,39 @@
 @csrf
 
-<div class="mb-3">
-  <label class="form-label">Name</label>
-  <input type="text" name="name" class="form-control" value="{{ old('name', $category->name ?? '') }}" required>
-</div>
+<div class="grid lg:grid-cols-2 gap-6">
+    <div>
+        <label class="text-default-800 text-sm font-medium inline-block mb-2">Name</label>
+        <input type="text" name="name" class="form-input" value="{{ old('name', $category->name ?? '') }}" required>
+    </div>
 
-<div class="mb-3">
-  <label class="form-label">Slug (optional)</label>
-  <input type="text" name="slug" class="form-control" value="{{ old('slug', $category->slug ?? '') }}">
-</div>
+    <div>
+        <label class="text-default-800 text-sm font-medium inline-block mb-2">Slug (optional)</label>
+        <input type="text" name="slug" class="form-input" value="{{ old('slug', $category->slug ?? '') }}">
+    </div>
 
-<div class="mb-3">
-  <label class="form-label">Parent</label>
-  <select name="parent_id" class="form-select">
-    <option value="">- None -</option>
-    @foreach($parents as $p)
-      <option value="{{ $p->id }}" {{ (old('parent_id', $category->parent_id ?? '') == $p->id) ? 'selected' : '' }}>{{ $p->name }}</option>
-    @endforeach
-  </select>
-</div>
+    <div>
+        <label class="text-default-800 text-sm font-medium inline-block mb-2">Parent</label>
+        <select name="parent_id" class="form-select">
+            <option value="">- None -</option>
+            @foreach($parents as $p)
+                <option value="{{ $p->id }}" {{ (old('parent_id', $category->parent_id ?? '') == $p->id) ? 'selected' : '' }}>{{ $p->name }}</option>
+            @endforeach
+        </select>
+    </div>
 
-<div class="mb-3">
-  <label class="form-label">Description</label>
-  <textarea name="description" class="form-control" rows="4">{{ old('description', $category->description ?? '') }}</textarea>
-</div>
+    <div class="lg:col-span-2">
+        <label class="text-default-800 text-sm font-medium inline-block mb-2">Description</label>
+        <textarea name="description" class="form-input h-24">{{ old('description', $category->description ?? '') }}</textarea>
+    </div>
 
-<div class="form-check mb-3">
-  <input class="form-check-input" type="checkbox" name="is_active" id="is_active" {{ old('is_active', $category->is_active ?? true) ? 'checked' : '' }}>
-  <label class="form-check-label" for="is_active">Active</label>
-</div>
+    <div class="lg:col-span-2">
+        <label class="inline-flex items-center">
+            <input type="checkbox" name="is_active" value="1" class="form-checkbox" {{ old('is_active', $category->is_active ?? true) ? 'checked' : '' }}>
+            <span class="ms-2 text-default-800">Active</span>
+        </label>
+    </div>
 
-<button class="btn btn-primary">Save</button>
+    <div class="lg:col-span-2">
+        <button class="inline-block py-2 px-4 bg-primary text-white rounded">Save</button>
+    </div>
+</div>
