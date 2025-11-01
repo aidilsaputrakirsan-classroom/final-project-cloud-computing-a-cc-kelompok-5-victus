@@ -7,9 +7,16 @@
     <h1 class="text-2xl font-semibold">Edit Category</h1>
   </div>
 
-  <form action="{{ route('categories.update', $category) }}" method="POST" class="bg-white p-6 rounded">
-    @method('PUT')
-    @include('categories._form')
-  </form>
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">Edit Category</h4>
+    </div>
+    <div class="p-6">
+      <form action="{{ route('categories.update', $category) }}" method="POST">
+        @method('PUT')
+        @include('categories._form')
+      </form>
+    </div>
+  </div>
 
 @endsection

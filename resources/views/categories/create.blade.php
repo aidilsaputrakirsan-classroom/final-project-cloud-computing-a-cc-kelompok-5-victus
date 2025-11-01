@@ -7,8 +7,15 @@
     <h1 class="text-2xl font-semibold">Create Category</h1>
   </div>
 
-  <form action="{{ route('categories.store') }}" method="POST" class="bg-white p-6 rounded">
-    @include('categories._form')
-  </form>
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">New Category</h4>
+    </div>
+    <div class="p-6">
+      <form action="{{ route('categories.store') }}" method="POST">
+        @include('categories._form')
+      </form>
+    </div>
+  </div>
 
 @endsection

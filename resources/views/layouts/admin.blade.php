@@ -1,11 +1,5 @@
 <!doctype html>
 <html lang="en">
-<!-- Icons css  (Mandatory in All Pages) -->
-<link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css">
-
-<!-- App css  (Mandatory in All Pages) -->
-<link href="{{ asset('assets/css/app.min.css') }}" rel="stylesheet" type="text/css">
-<link href="{{ asset('assets/css/admin-custom.css') }}" rel="stylesheet" type="text/css">
 
 <head>
   <meta charset="utf-8">
@@ -44,19 +38,8 @@
       </div>
     </main>
 
-    <div class="px-6">
-      <!-- Footer (restored into layout) -->
-      <footer class="footer h-16 flex items-center px-6 border-t border-gray-200">
-        <div class="flex md:justify-between justify-center w-full gap-4">
-          <div>
-            <script>document.write(new Date().getFullYear())</script> ©Travesta
-          </div>
-          <div class="md:flex hidden gap-2 item-center md:justify-end">
-            Design &amp; Develop by<a href="#" class="text-primary">Victus</a>
-          </div>
-        </div>
-      </footer>
-    </div>
+    {{-- footer and required admin scripts (preline, jquery, app.js) are included via partial --}}
+    @include('layouts.footer')
 
     @stack('scripts')
 </body>
