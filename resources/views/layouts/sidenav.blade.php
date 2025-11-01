@@ -7,6 +7,7 @@
         </a>
         <a href="{{ url('/') }}" class="lg:hidden flex items-center">
             <img src="{{ asset('assets/images/logo-sm.png') }}" alt="logo" class="h-6">
+            <span class="text-white text-lg font-semibold tracking-wide">Travesta</span>
         </a>
     </div>
 
@@ -16,7 +17,8 @@
                 <a class="group flex items-center gap-x-3.5 rounded-md px-3 py-2 text-sm font-medium transition-none {{ request()->routeIs('posts.*') ? 'bg-default-100/5 text-primary is-active' : 'text-default-300 hover:bg-default-100/5' }}"
                     href="{{ route('posts.index') }}">
                     <span class="icon-wrap inline-flex items-center justify-center rounded-md h-9 w-9 bg-transparent">
-                        <i class="material-symbols-rounded font-light text-2xl transition-none group-hover:fill-1">article</i>
+                        <i
+                            class="material-symbols-rounded font-light text-2xl transition-none group-hover:fill-1">article</i>
                     </span>
                     <span class="menu-text">Posts</span>
                 </a>
@@ -26,7 +28,8 @@
                 <a href="{{ route('categories.index') }}"
                     class="group flex items-center gap-x-3.5 rounded-md px-3 py-2 text-sm font-medium transition-none {{ request()->routeIs('categories.*') ? 'bg-default-100/5 text-primary is-active' : 'text-default-300 hover:bg-default-100/5' }}">
                     <span class="icon-wrap inline-flex items-center justify-center rounded-md h-9 w-9 bg-transparent">
-                        <i class="material-symbols-rounded font-light text-2xl transition-none group-hover:fill-1">label</i>
+                        <i
+                            class="material-symbols-rounded font-light text-2xl transition-none group-hover:fill-1">label</i>
                     </span>
                     <span class="menu-text"> Categories </span>
                 </a>
@@ -35,9 +38,11 @@
             <li class="px-5 py-2 text-sm font-medium text-default-600">Elements</li>
 
             <li class="menu-item">
-                <a href="#" class="group flex items-center gap-x-3.5 rounded-md px-3 py-2 text-sm font-medium text-default-300 transition-none hover:bg-default-100/5">
+                <a href="#"
+                    class="group flex items-center gap-x-3.5 rounded-md px-3 py-2 text-sm font-medium text-default-300 transition-none hover:bg-default-100/5">
                     <span class="icon-wrap inline-flex items-center justify-center rounded-md h-9 w-9 bg-transparent">
-                        <i class="material-symbols-rounded font-light text-2xl transition-none group-hover:fill-1">table_chart</i>
+                        <i
+                            class="material-symbols-rounded font-light text-2xl transition-none group-hover:fill-1">table_chart</i>
                     </span>
                     <span class="menu-text"> Tables </span>
                 </a>
