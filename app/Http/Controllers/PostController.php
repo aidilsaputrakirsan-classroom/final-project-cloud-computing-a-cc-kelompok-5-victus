@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Storage;
 class PostController extends Controller
 {
     // For now allow CRUD without auth (auth will be added later).
+    public function __construct()
+    {
+        // require authentication for create/store/edit/update/destroy actions
+        $this->middleware('auth')->except(['index','show']);
+    }
 
     public function index()
     {

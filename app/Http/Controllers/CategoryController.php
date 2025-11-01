@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
+    public function __construct()
+    {
+        // require authentication for create/store/edit/update/destroy actions
+        $this->middleware('auth')->except(['index']);
+    }
     public function index()
     {
         $categories = Category::withCount('posts')->latest()->paginate(15);

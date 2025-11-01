@@ -58,8 +58,18 @@
                     <a class="flex items-center py-2 px-3 rounded-md text-sm text-default-800 hover:bg-gray-100"
                         href="#">Settings</a>
                     <hr class="my-2">
-                    <a class="flex items-center py-2 px-3 rounded-md text-sm text-default-800 hover:bg-gray-100"
-                        href="#">Log Out</a>
+                    @auth
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit"
+                                class="w-full text-start flex items-center py-2 px-3 rounded-md text-sm text-default-800 hover:bg-gray-100">
+                                Log Out
+                            </button>
+                        </form>
+                    @else
+                        <a class="flex items-center py-2 px-3 rounded-md text-sm text-default-800 hover:bg-gray-100"
+                            href="{{ route('login') }}">Log Out</a>
+                    @endauth
                 </div>
             </div>
         </div>
