@@ -38,8 +38,8 @@
       </div>
     </main>
 
-    {{-- footer and required admin scripts (preline, jquery, app.js) are included via partial --}}
-    @include('layouts.footer')
+    {{-- scripts (preline, jquery, app.js) are included via partial --}}
+    @include('layouts.scripts')
 
     @stack('scripts')
 </body>

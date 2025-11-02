@@ -59,7 +59,7 @@
                         href="#">Settings</a>
                     <hr class="my-2">
                     @auth
-                        <form method="POST" action="{{ route('logout') }}">
+                        <form method="POST" action="{{ route('logout') }}" data-logout-form>
                             @csrf
                             <button type="submit"
                                 class="w-full text-start flex items-center py-2 px-3 rounded-md text-sm text-default-800 hover:bg-gray-100">
