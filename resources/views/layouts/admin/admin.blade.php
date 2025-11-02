@@ -18,11 +18,11 @@
 
 <body class="bg-gray-50 text-default-700">
 
-  @include('layouts.sidenav')
+  @include('layouts.admin.sidenav')
   <!-- Admin-specific layout styles moved to public/assets/css/admin-custom.css -->
 
   <div id="main-wrapper" class="min-h-screen">
-    @include('layouts.topbar')
+    @include('layouts.admin.topbar')
 
     <main class="p-6">
       <div class="container mx-auto">
@@ -39,7 +39,7 @@
     </main>
 
     {{-- scripts (preline, jquery, app.js) are included via partial --}}
-    @include('layouts.scripts')
+    @include('layouts.admin.scripts')
 
     @stack('scripts')
 </body>

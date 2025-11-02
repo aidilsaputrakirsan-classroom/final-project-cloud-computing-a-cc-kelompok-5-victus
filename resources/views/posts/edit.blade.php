@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.admin.admin')
 
 @section('title', 'Edit Post')
 
@@ -7,7 +7,8 @@
     <h1 class="text-2xl font-semibold">Edit Post</h1>
   </div>
 
-  <form action="{{ route('posts.update', $post) }}" method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded">
+  <form action="{{ route('posts.update', $post) }}" method="POST" enctype="multipart/form-data"
+    class="bg-white p-6 rounded">
     @method('PUT')
     @include('posts._form')
   </form>

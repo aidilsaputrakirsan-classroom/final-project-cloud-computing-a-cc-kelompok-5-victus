@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.admin.admin')
 
 @php use Illuminate\Support\Str; @endphp
 
@@ -39,29 +39,36 @@
               </thead>
               <tbody class="divide-y divide-gray-200">
                 @foreach($posts as $post)
-                <tr>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-800">{{ $post->id }}</td>
-                  <td class="px-6 py-4 whitespace-nowrap" style="width:120px;">
-                    @if($post->featured_image)
-                      <img src="{{ \Illuminate\Support\Facades\Storage::url($post->featured_image) }}" alt="" class="h-16 w-28 object-cover rounded">
-                    @else
-                      <div class="h-16 w-28 bg-gray-100 flex items-center justify-center text-sm text-default-500 rounded">No Image</div>
-                    @endif
-                  </td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-default-800"><a href="{{ route('posts.show', $post) }}" class="text-default-800 hover:underline">{{ $post->title }}</a></td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-default-800">{{ $post->category->name ?? 'Uncategorized' }}</td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-default-800">{{ ucfirst($post->status) }}</td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-default-800">{{ $post->user->name ?? 'N/A' }}</td>
-                  <td class="px-6 py-4 whitespace-nowrap text-sm text-default-800">{{ $post->published_at?->format('Y-m-d') }}</td>
-                  <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                    <a href="{{ route('posts.edit', $post) }}" class="text-primary hover:text-sky-700 mr-3">Edit</a>
-                    <form action="{{ route('posts.destroy', $post) }}" method="POST" class="inline" onsubmit="return confirm('Delete post?');">
-                      @csrf
-                      @method('DELETE')
-                      <button class="text-red-600 hover:text-red-900">Delete</button>
-                    </form>
-                  </td>
-                </tr>
+                  <tr>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-800">{{ $post->id }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap" style="width:120px;">
+                      @if($post->featured_image)
+                        <img src="{{ \Illuminate\Support\Facades\Storage::url($post->featured_image) }}" alt=""
+                          class="h-16 w-28 object-cover rounded">
+                      @else
+                        <div class="h-16 w-28 bg-gray-100 flex items-center justify-center text-sm text-default-500 rounded">
+                          No Image</div>
+                      @endif
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-default-800"><a
+                        href="{{ route('posts.show', $post) }}"
+                        class="text-default-800 hover:underline">{{ $post->title }}</a></td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-default-800">
+                      {{ $post->category->name ?? 'Uncategorized' }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-default-800">{{ ucfirst($post->status) }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-default-800">{{ $post->user->name ?? 'N/A' }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-default-800">
+                      {{ $post->published_at?->format('Y-m-d') }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
+                      <a href="{{ route('posts.edit', $post) }}" class="text-primary hover:text-sky-700 mr-3">Edit</a>
+                      <form action="{{ route('posts.destroy', $post) }}" method="POST" class="inline"
+                        onsubmit="return confirm('Delete post?');">
+                        @csrf
+                        @method('DELETE')
+                        <button class="text-red-600 hover:text-red-900">Delete</button>
+                      </form>
+                    </td>
+                  </tr>
                 @endforeach
               </tbody>
             </table>

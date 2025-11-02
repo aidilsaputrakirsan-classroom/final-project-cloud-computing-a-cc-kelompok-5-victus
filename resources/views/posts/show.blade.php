@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.admin.admin')
 
 @section('title', $post->title)
 
@@ -14,7 +14,8 @@
       @if(auth()->id() === $post->user_id)
         <div class="mt-3">
           <a href="{{ route('posts.edit', $post) }}" class="btn btn-sm btn-secondary">Edit</a>
-          <form action="{{ route('posts.destroy', $post) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Delete?');">
+          <form action="{{ route('posts.destroy', $post) }}" method="POST" class="d-inline-block"
+            onsubmit="return confirm('Delete?');">
             @csrf
             @method('DELETE')
             <button class="btn btn-sm btn-danger">Delete</button>
