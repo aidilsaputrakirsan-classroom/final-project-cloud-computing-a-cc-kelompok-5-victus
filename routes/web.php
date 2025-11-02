@@ -7,8 +7,8 @@ use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
-    // Always send root to the login page. Authenticated users can navigate to posts after login.
-    return redirect()->route('login');
+    // Show the public landing index as the site's root page.
+    return view('landing.index');
 });
 
 // Posts resource (index/show public). create/edit/delete require auth via controller middleware.
@@ -21,3 +21,14 @@ Route::post('login', [AuthController::class, 'login'])->name('login.post');
 Route::get('register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('register', [AuthController::class, 'register'])->name('register.post');
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+
+// Landing page (user-facing template)
+Route::get('/landing', function () {
+    return view('landing.index');
+})->name('landing');
+
+// Blog page for landing
+use App\Http\Controllers\LandingBlogController;
+
+Route::get('/blog', [LandingBlogController::class, 'index'])->name('landing.blog');
+Route::get('/blog/{slug}', [LandingBlogController::class, 'show'])->name('landing.blog.show');
