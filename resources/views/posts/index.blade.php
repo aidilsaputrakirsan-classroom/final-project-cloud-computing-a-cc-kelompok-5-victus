@@ -55,20 +55,26 @@
                         class="text-default-800 hover:underline">{{ $post->title }}</a></td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-default-800">
                       @if($post->category)
-                        <span class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-primary/25 text-sky-800">{{ $post->category->name }}</span>
+                        <span
+                          class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-primary/25 text-sky-800">{{ $post->category->name }}</span>
                       @else
-                        <span class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-gray-100 text-default-800">Uncategorized</span>
+                        <span
+                          class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-gray-100 text-default-800">Uncategorized</span>
                       @endif
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-default-800">
                       @if($post->status === 'published')
-                        <span class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-green-100 text-green-800">Published</span>
+                        <span
+                          class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-green-100 text-green-800">Published</span>
                       @elseif($post->status === 'draft')
-                        <span class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">Draft</span>
+                        <span
+                          class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">Draft</span>
                       @elseif($post->status === 'archived')
-                        <span class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-white/10 text-default-600">Archived</span>
+                        <span
+                          class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-white/10 text-default-600">Archived</span>
                       @else
-                        <span class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-gray-100 text-default-800">{{ ucfirst($post->status) }}</span>
+                        <span
+                          class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-gray-100 text-default-800">{{ ucfirst($post->status) }}</span>
                       @endif
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-default-800">{{ $post->user->name ?? 'N/A' }}</td>
