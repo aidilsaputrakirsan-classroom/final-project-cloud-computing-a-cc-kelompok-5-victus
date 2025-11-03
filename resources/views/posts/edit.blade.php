@@ -7,10 +7,15 @@
     <h1 class="text-2xl font-semibold">Edit Post</h1>
   </div>
 
-  <form action="{{ route('posts.update', $post) }}" method="POST" enctype="multipart/form-data"
-    class="bg-white p-6 rounded">
-    @method('PUT')
-    @include('posts._form')
-  </form>
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">Edit Posts</h4>
+    </div>
+    <form action="{{ route('posts.update', $post) }}" method="POST" enctype="multipart/form-data"
+      class="bg-white p-6 rounded">
+      @method('PUT')
+      @include('posts._form')
+    </form>
+  </div>
 
 @endsection

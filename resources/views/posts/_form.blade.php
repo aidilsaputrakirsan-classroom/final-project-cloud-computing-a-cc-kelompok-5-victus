@@ -1,5 +1,3 @@
-@php use Illuminate\Support\Str; @endphp
-
 @csrf
 
 <div class="grid lg:grid-cols-2 gap-6">
@@ -33,7 +31,8 @@
         <input type="file" name="featured_image" class="form-input">
         @if(!empty($post->featured_image))
             <div class="mt-2">
-                <img src="{{ \Illuminate\Support\Facades\Storage::url($post->featured_image) }}" alt="" class="h-28 object-cover">
+                <img src="{{ \Illuminate\Support\Facades\Storage::url($post->featured_image) }}" alt=""
+                    class="h-28 object-cover">
             </div>
         @endif
     </div>

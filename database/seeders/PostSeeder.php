@@ -20,7 +20,7 @@ class PostSeeder extends Seeder
 
         if ($categories->isEmpty()) {
             $categories = collect([
-                Category::create(['name'=>'Uncategorized','slug'=>'uncategorized','is_active'=>true])
+                Category::create(['name' => 'Uncategorized', 'slug' => 'uncategorized', 'is_active' => true])
             ]);
         }
 

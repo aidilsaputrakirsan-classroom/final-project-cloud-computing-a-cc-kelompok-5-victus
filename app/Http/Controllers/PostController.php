@@ -16,7 +16,7 @@ class PostController extends Controller
     public function __construct()
     {
         // require authentication for create/store/edit/update/destroy actions
-        $this->middleware('auth')->except(['index','show']);
+        $this->middleware('auth')->except(['index', 'show']);
     }
 
     public function index()
@@ -56,8 +56,8 @@ class PostController extends Controller
             $data['slug'] = $this->uniqueSlug($data['title']);
         }
 
-    // If no authenticated user, assign to first user as fallback
-    $data['user_id'] = Auth::id() ?? User::first()->id;
+        // If no authenticated user, assign to first user as fallback
+        $data['user_id'] = Auth::id() ?? User::first()->id;
 
 
         if ($data['status'] === 'published') {
