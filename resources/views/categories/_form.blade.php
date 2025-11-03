@@ -22,7 +22,7 @@
     </div>
 
     <div class="lg:col-span-2">
-        <label class="text-default-800 text-sm font-medium inline-block mb-2">Descriptions</label>
+        <label class="text-default-800 text-sm font-medium inline-block mb-2">Description</label>
         <textarea name="description" class="form-input h-24">{{ old('description', $category->description ?? '') }}</textarea>
     </div>
 
