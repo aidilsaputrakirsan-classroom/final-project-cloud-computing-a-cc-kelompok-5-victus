@@ -8,13 +8,27 @@
     <a href="{{ route('categories.create') }}" class="btn btn-sm bg-primary text-white">New Category</a>
   </div>
 
+  {{-- Filter --}}
+  <form method="GET" action="{{ route('categories.index') }}" class="mb-4 flex flex-wrap gap-3 items-end">
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Active</label>
+      <select name="is_active" class="form-select rounded-md border-gray-300">
+        <option value="">All</option>
+        <option value="1" {{ request('is_active') === '1' ? 'selected' : '' }}>Active</option>
+        <option value="0" {{ request('is_active') === '0' ? 'selected' : '' }}>Inactive</option>
+      </select>
+    </div>
+    <div>
+      <button type="submit" class="btn bg-primary text-white">Filter</button>
+      <a href="{{ route('categories.index') }}" class="btn bg-gray-200">Reset</a>
+    </div>
+  </form>
+
   <div class="card overflow-hidden">
     <div class="card-header">
       <h4 class="card-title">Categories</h4>
     </div>
-
     <div>
-      {{-- Alert placeholder for delete confirmation (inserts template-styled alert) --}}
       <div id="delete-alert-placeholder"></div>
       <div class="overflow-x-auto">
         <div class="min-w-full inline-block align-middle">
@@ -32,13 +46,13 @@
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-200">
-                @foreach($categories as $cat)
+                @forelse($categories as $cat)
                   <tr>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-800">{{ $cat->id }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-default-800">{{ $cat->name }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-default-800">{{ $cat->slug }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-default-800">{{ optional($cat->parent)->name }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm">
+                    <td class="px-6 py-4">{{ $cat->id }}</td>
+                    <td class="px-6 py-4">{{ $cat->name }}</td>
+                    <td class="px-6 py-4">{{ $cat->slug }}</td>
+                    <td class="px-6 py-4">{{ optional($cat->parent)->name }}</td>
+                    <td class="px-6 py-4">
                       @if($cat->is_active)
                         <span
                           class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-success/25 text-success text-sm font-medium">Yes</span>
@@ -47,20 +61,22 @@
                           class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary/25 text-secondary text-sm font-medium">No</span>
                       @endif
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-default-800">{{ $cat->posts_count }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                      <div class="flex items-center justify-end gap-2">
-                        <a href="{{ route('categories.edit', $cat) }}" class="btn btn-sm bg-info text-white">Edit</a>
-                        <form action="{{ route('categories.destroy', $cat) }}" method="POST" class="inline delete-form">
-                          @csrf
-                          @method('DELETE')
-                          <button type="button" class="btn btn-sm bg-danger text-white btn-delete"
-                            data-name="{{ $cat->name }}" data-type="category">Delete</button>
-                        </form>
-                      </div>
+                    <td class="px-6 py-4">{{ $cat->posts_count }}</td>
+                    <td class="px-6 py-4 text-end">
+                      <a href="{{ route('categories.edit', $cat) }}" class="btn btn-sm bg-info text-white">Edit</a>
+                      <form action="{{ route('categories.destroy', $cat) }}" method="POST" class="inline delete-form">
+                        @csrf
+                        @method('DELETE')
+                        <button type="button" class="btn btn-sm bg-danger text-white btn-delete w-fit"
+                          data-name="{{ $cat->name }}" data-type="category">Delete</button>
+                      </form>
                     </td>
                   </tr>
-                @endforeach
+                @empty
+                  <tr>
+                    <td colspan="7" class="text-center py-4 text-gray-500">No categories found.</td>
+                  </tr>
+                @endforelse
               </tbody>
             </table>
           </div>
@@ -70,7 +86,6 @@
   </div>
 
   <div class="mt-4">{{ $categories->links() }}</div>
-
 @endsection
 
 @push('scripts')

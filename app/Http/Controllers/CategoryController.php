@@ -9,12 +9,20 @@ class CategoryController extends Controller
 {
     public function __construct()
     {
-        // require authentication for create/store/edit/update/destroy actions
         $this->middleware('auth')->except(['index']);
     }
-    public function index()
+
+    public function index(Request $request)
     {
-        $categories = Category::withCount('posts')->latest()->paginate(15);
+        $query = Category::withCount('posts')->latest();
+
+        // Filter berdasarkan aktif/nonaktif
+        if ($request->filled('is_active')) {
+            $query->where('is_active', $request->is_active);
+        }
+
+        $categories = $query->paginate(15)->appends($request->query());
+
         return view('categories.index', compact('categories'));
     }
 

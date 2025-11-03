@@ -12,22 +12,41 @@ use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
-    // For now allow CRUD without auth (auth will be added later).
     public function __construct()
     {
-        // require authentication for create/store/edit/update/destroy actions
         $this->middleware('auth')->except(['index', 'show']);
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        // Show all posts (published and drafts) in the admin table view.
-        // Order by published_at desc (nulls last) then created_at desc so recent items appear.
-        $posts = Post::with('category', 'user')
+        // Ambil semua kategori & user untuk dropdown filter
+        $categories = Category::all();
+        $authors = User::all();
+
+        // Query dasar
+        $query = Post::with('category', 'user');
+
+        // Terapkan filter
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        if ($request->filled('author_id')) {
+            $query->where('user_id', $request->author_id);
+        }
+
+        // Urutkan
+        $posts = $query
             ->orderByDesc('published_at')
             ->orderByDesc('created_at')
-            ->paginate(10);
-        return view('posts.index', compact('posts'));
+            ->paginate(10)
+            ->appends($request->query()); // biar pagination tetap bawa filter
+
+        return view('posts.index', compact('posts', 'categories', 'authors'));
     }
 
     public function show(Post $post)
@@ -56,15 +75,12 @@ class PostController extends Controller
             $data['slug'] = $this->uniqueSlug($data['title']);
         }
 
-        // If no authenticated user, assign to first user as fallback
         $data['user_id'] = Auth::id() ?? User::first()->id;
-
 
         if ($data['status'] === 'published') {
             $data['published_at'] = now();
         }
 
-        // handle featured image upload
         if ($request->hasFile('featured_image')) {
             $path = $request->file('featured_image')->store('featured_images', 'public');
             $data['featured_image'] = $path;
@@ -96,7 +112,6 @@ class PostController extends Controller
             $data['slug'] = $this->uniqueSlug($data['title'], $post->id);
         }
 
-
         if ($data['status'] === 'published' && !$post->published_at) {
             $data['published_at'] = now();
         }
@@ -105,9 +120,7 @@ class PostController extends Controller
             $data['published_at'] = null;
         }
 
-        // handle featured image replacement
         if ($request->hasFile('featured_image')) {
-            // delete old file if exists
             if ($post->featured_image) {
                 Storage::disk('public')->delete($post->featured_image);
             }

@@ -3,23 +3,60 @@
 @section('title', 'Posts')
 
 @section('content')
-  @php
-    $pageTitle = 'Posts';
-    $pageSubtitle = 'Manage Posts';
-  @endphp
-
   <div class="md:flex md:items-center md:justify-between mb-6">
     <h1 class="text-2xl font-semibold">Posts</h1>
     <a href="{{ route('posts.create') }}" class="btn btn-sm bg-primary text-white">New Post</a>
   </div>
 
+  {{-- Filter --}}
+  <form method="GET" action="{{ route('posts.index') }}" class="mb-4 flex flex-wrap gap-3 items-end">
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Category</label>
+      <select name="category_id" class="form-select rounded-md border-gray-300">
+        <option value="">All</option>
+        @foreach($categories as $cat)
+          <option value="{{ $cat->id }}" {{ request('category_id') == $cat->id ? 'selected' : '' }}>
+            {{ $cat->name }}
+          </option>
+        @endforeach
+      </select>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Status</label>
+      <select name="status" class="form-select rounded-md border-gray-300">
+        <option value="">All</option>
+        <option value="published" {{ request('status') == 'published' ? 'selected' : '' }}>Published</option>
+        <option value="draft" {{ request('status') == 'draft' ? 'selected' : '' }}>Draft</option>
+        <option value="archived" {{ request('status') == 'archived' ? 'selected' : '' }}>Archived</option>
+      </select>
+    </div>
+
+    <div>
+      <label class="block text-sm font-medium text-gray-700">Author</label>
+      <select name="author_id" class="form-select rounded-md border-gray-300">
+        <option value="">All</option>
+        @foreach($authors as $user)
+          <option value="{{ $user->id }}" {{ request('author_id') == $user->id ? 'selected' : '' }}>
+            {{ $user->name }}
+          </option>
+        @endforeach
+      </select>
+    </div>
+
+    <div>
+      <button type="submit" class="btn bg-primary text-white">Filter</button>
+      <a href="{{ route('posts.index') }}" class="btn bg-gray-200">Reset</a>
+    </div>
+  </form>
+
+  {{-- Table --}}
   <div class="card overflow-hidden">
     <div class="card-header">
       <h4 class="card-title">Posts</h4>
     </div>
 
     <div>
-      {{-- Alert placeholder for delete confirmation (inserts template-styled alert) --}}
       <div id="delete-alert-placeholder"></div>
       <div class="overflow-x-auto">
         <div class="min-w-full inline-block align-middle">
@@ -38,56 +75,35 @@
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-200">
-                @foreach($posts as $post)
+                @forelse($posts as $post)
                   <tr>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-800">{{ $post->id }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap" style="width:120px;">
+                    <td class="px-6 py-4">{{ $post->id }}</td>
+                    <td class="px-6 py-4">
                       @if($post->featured_image)
-                        <img src="{{ \Illuminate\Support\Facades\Storage::url($post->featured_image) }}" alt=""
-                          class="h-16 w-28 object-cover rounded">
+                        <img src="{{ Storage::url($post->featured_image) }}" class="h-16 w-28 object-cover rounded">
                       @else
-                        <div class="h-16 w-28 bg-gray-100 flex items-center justify-center text-sm text-default-500 rounded">
-                          No Image</div>
+                        <div class="h-16 w-28 bg-gray-100 flex items-center justify-center text-sm text-default-500 rounded">No Image</div>
                       @endif
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-default-800"><a
-                        href="{{ route('posts.show', $post) }}"
-                        class="text-default-800 hover:underline">{{ $post->title }}</a></td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-default-800">
-                      @if($post->category)
-                        <span class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-primary/25 text-sky-800">{{ $post->category->name }}</span>
-                      @else
-                        <span class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-gray-100 text-default-800">Uncategorized</span>
-                      @endif
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-default-800">
-                      @if($post->status === 'published')
-                        <span class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-green-100 text-green-800">Published</span>
-                      @elseif($post->status === 'draft')
-                        <span class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">Draft</span>
-                      @elseif($post->status === 'archived')
-                        <span class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-white/10 text-default-600">Archived</span>
-                      @else
-                        <span class="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-full text-xs font-medium bg-gray-100 text-default-800">{{ ucfirst($post->status) }}</span>
-                      @endif
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-default-800">{{ $post->user->name ?? 'N/A' }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-default-800">
-                      {{ $post->published_at?->format('Y-m-d') }}
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
-                      <div class="flex flex-col items-end gap-2">
-                        <a href="{{ route('posts.edit', $post) }}" class="btn btn-sm bg-info text-white w-fit">Edit</a>
-                        <form action="{{ route('posts.destroy', $post) }}" method="POST" class="inline delete-form">
-                          @csrf
-                          @method('DELETE')
-                          <button type="button" class="btn btn-sm bg-danger text-white btn-delete w-fit"
-                            data-name="{{ $post->title }}" data-type="post">Delete</button>
-                        </form>
-                      </div>
+                    <td class="px-6 py-4">{{ $post->title }}</td>
+                    <td class="px-6 py-4">{{ $post->category->name ?? 'Uncategorized' }}</td>
+                    <td class="px-6 py-4">{{ ucfirst($post->status) }}</td>
+                    <td class="px-6 py-4">{{ $post->user->name ?? 'N/A' }}</td>
+                    <td class="px-6 py-4">{{ $post->published_at?->format('Y-m-d') }}</td>
+                    <td class="px-6 py-4 text-end">
+                      <a href="{{ route('posts.edit', $post) }}" class="btn btn-sm bg-info text-white w-fit">Edit</a>
+                      <form action="{{ route('posts.destroy', $post) }}" method="POST" class="inline delete-form">
+                        @csrf
+                        @method('DELETE')
+                        <button type="button" class="btn btn-sm bg-danger text-white btn-delete w-fit" data-name="{{ $post->title }}" data-type="post">Delete</button>
+                      </form>
                     </td>
                   </tr>
-                @endforeach
+                @empty
+                  <tr>
+                    <td colspan="8" class="text-center py-4 text-gray-500">No posts found.</td>
+                  </tr>
+                @endforelse
               </tbody>
             </table>
           </div>
@@ -97,7 +113,6 @@
   </div>
 
   <div class="mt-4">{{ $posts->links() }}</div>
-
 @endsection
 
 @push('scripts')
