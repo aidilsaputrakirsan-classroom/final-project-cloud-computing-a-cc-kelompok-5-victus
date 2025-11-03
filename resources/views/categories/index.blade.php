@@ -52,7 +52,7 @@
                       <form action="{{ route('categories.destroy', $cat) }}" method="POST" class="inline delete-form">
                         @csrf
                         @method('DELETE')
-                        <button type="button" class="btn btn-sm bg-danger text-white btn-delete" data-name="{{ $cat->name }}">Delete</button>
+                        <button type="button" class="btn btn-sm bg-danger text-white btn-delete" data-name="{{ $cat->name }}">Deletes</button>
                       </form>
                     </div>
                   </td>

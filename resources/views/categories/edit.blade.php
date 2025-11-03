@@ -9,7 +9,7 @@
 
   <div class="card">
     <div class="card-header">
-      <h4 class="card-title">Edit Category</h4>
+      <h4 class="card-title">Edit Categories</h4>
     </div>
     <div class="p-6">
       <form action="{{ route('categories.update', $category) }}" method="POST">
