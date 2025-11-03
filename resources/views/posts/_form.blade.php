@@ -29,11 +29,12 @@
     </div>
 
     <div>
-        <label class="text-default-800 text-sm font-medium inline-block mb-2">Featured image (optional)</label>
+        <label class="text-default-800 text-sm font-medium inline-block mb-2">Featured images (optional)</label>
         <input type="file" name="featured_image" class="form-input">
         @if(!empty($post->featured_image))
             <div class="mt-2">
-                <img src="{{ \Illuminate\Support\Facades\Storage::url($post->featured_image) }}" alt="" class="h-28 object-cover">
+                <img src="{{ \Illuminate\Support\Facades\Storage::url($post->featured_image) }}" alt=""
+                    class="h-28 object-cover">
             </div>
         @endif
     </div>
