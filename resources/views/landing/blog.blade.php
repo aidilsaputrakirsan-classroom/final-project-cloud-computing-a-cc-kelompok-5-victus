@@ -1,6 +1,6 @@
 @extends('layouts.user.app')
 
-@section('title', 'Blog - Turmet')
+@section('title', 'Blog')
 
 @section('content')
 
