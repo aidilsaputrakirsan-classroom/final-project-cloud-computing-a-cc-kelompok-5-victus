@@ -2,25 +2,24 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\User;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
-    /**
-     * Seed the application's database.
-     */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // Buat user admin jika belum ada
+        User::firstOrCreate(
+            ['email' => 'admin@travesta.id'],
+            [
+                'name' => 'Admin',
+                'password' => bcrypt('password'), // password default
+                'email_verified_at' => now(),
+            ]
+        );
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        // Jalankan seeder lainnya
         $this->call([
             \Database\Seeders\CategorySeeder::class,
             \Database\Seeders\PostSeeder::class,
