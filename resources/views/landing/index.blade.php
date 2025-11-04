@@ -119,7 +119,7 @@
                                     </a>
                                     <div class="content">
                                         <h4><a href="#">Labuan Bajo</a></h4>
-                                        <p>174,688 Pengunjung</p>
+                                        <p>Nusa Tenggara Timur</p>
                                     </div>
                                 </div>
                                 <div class="new-top-desti-thumb">
@@ -130,7 +130,7 @@
                                     </a>
                                     <div class="content">
                                         <h4><a href="#">Danau Toba</a></h4>
-                                        <p>174,688 Pengunjung</p>
+                                        <p>Sumatera Utara</p>
                                     </div>
                                 </div>
                             </div>
@@ -143,7 +143,7 @@
                                     </a>
                                     <div class="content">
                                         <h4><a href="#">Candi Borobudur</a></h4>
-                                        <p>174,688 Pengunjung</p>
+                                        <p>Jawa Tengah</p>
                                     </div>
                                 </div>
                             </div>
@@ -160,7 +160,7 @@
                                     </a>
                                     <div class="content">
                                         <h4><a href="#">Kawah Putih</a></h4>
-                                        <p>174,688 Pengunjung</p>
+                                        <p>Jawa Barat</p>
                                     </div>
                                 </div>
                                 <div class="new-top-desti-thumb">
@@ -171,11 +171,11 @@
                                     </a>
                                     <div class="content">
                                         <h4><a href="#">Tanah Lot Bali</a></h4>
-                                        <p>174,688 Pengunjung</p>
+                                        <p>Bali</p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
+                            <iv class="col-md-6">
                                 <div class="new-top-desti-thumb">
                                     <img src="{{ asset('assets/images-user/destination/new/top6.jpg') }}" alt="img">
                                     <a href="{{ asset('assets/images-user/destination/new/top6.jpg') }}"
@@ -184,7 +184,7 @@
                                     </a>
                                     <div class="content">
                                         <h4><a href="#">Tana Toraja</a></h4>
-                                        <p>174,688 Pengunjung</p>
+                                        <p>Sulawesi Selatan</p>
                                     </div>
                                 </div>
                                 <div class="new-top-desti-thumb">
@@ -195,14 +195,14 @@
                                     </a>
                                     <div class="content">
                                         <h4><a href="#">Pulau Derawan</a></h4>
-                                        <p>174,688 Pengunjung</p>
+                                        <p>Kalimantan Timur</p>
                                     </div>
                                 </div>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
         </div>
     </section>
 

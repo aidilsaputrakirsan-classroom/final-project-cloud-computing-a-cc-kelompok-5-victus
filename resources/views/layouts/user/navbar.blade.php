@@ -63,7 +63,8 @@
                     <ul>
                         <li class="d-flex align-items-center">
                             <div class="offcanvas__contact-icon"><i class="fal fa-map-marker-alt"></i></div>
-                            <div class="offcanvas__contact-text"><a target="_blank" href="#">Main Street, Melbourne,
+                            <div class="offcanvas__contact-text"><a target="_blank" href="#">Main Street,
+                                    Melbourne,
                                     Australia</a></div>
                         </li>
                         <li class="d-flex align-items-center">
@@ -73,7 +74,8 @@
                         </li>
                         <li class="d-flex align-items-center">
                             <div class="offcanvas__contact-icon mr-15"><i class="fal fa-clock"></i></div>
-                            <div class="offcanvas__contact-text"><a target="_blank" href="#">Mon-Fri, 09am - 05pm</a>
+                            <div class="offcanvas__contact-text"><a target="_blank" href="#">Mon-Fri, 09am -
+                                    05pm</a>
                             </div>
                         </li>
                         <li class="d-flex align-items-center">
@@ -105,11 +107,11 @@
             <div class="header-main">
                 <div class="logo">
                     <a href="{{ url('/') }}" class="header-logo">
-                        <img src="{{ asset('assets/images-user/logo/black-logo.svg') }}" alt="logo-img">
-                    </a>
+                        <img src="{{ asset('assets/images-user/logo/logotravesta.png') }}" alt="Travesta Logo"
+                            class="img-fluid" style="max-width: 100px;"> </a> </a>
                     <a href="{{ url('/') }}" class="header-logo-2">
-                        <img src="{{ asset('assets/images-user/logo/white-logo.svg') }}" alt="logo-img">
-                    </a>
+                        <img src="{{ asset('assets/images-user/logo/logotravesta.png') }}" alt="Travesta Logo"
+                            class="img-fluid" style="max-width: 100px;"> </a> </a> </a>
                 </div>
                 <div class="mean__menu-wrapper">
                     <div class="main-menu">
@@ -123,8 +125,10 @@
                     </div>
                 </div>
                 <div class="header-right d-flex justify-content-end align-items-center">
-                    <a href="#0" class="search-trigger search-icon"><i class="fa-regular fa-magnifying-glass"></i></a>
-                    <a href="#" class="theme-btn">Request A Quote <i class="fa-sharp fa-regular fa-arrow-right"></i></a>
+                    <a href="#0" class="search-trigger search-icon"><i
+                            class="fa-regular fa-magnifying-glass"></i></a>
+                    <a href="#" class="theme-btn">Request A Quote <i
+                            class="fa-sharp fa-regular fa-arrow-right"></i></a>
                     <div class="header__hamburger d-xl-none my-auto">
                         <div class="sidebar__toggle"><i class="fas fa-bars"></i></div>
                     </div>
@@ -140,7 +144,8 @@
         <i class="fas fa-times search-close" id="search-close"></i>
         <div class="search-cell">
             <form method="get">
-                <div class="search-field-holder"><input type="search" class="main-search-input" placeholder="Search...">
+                <div class="search-field-holder"><input type="search" class="main-search-input"
+                        placeholder="Search...">
                 </div>
             </form>
         </div>

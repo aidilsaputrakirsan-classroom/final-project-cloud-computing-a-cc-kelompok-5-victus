@@ -1,49 +1,40 @@
 @extends('layouts.user.app')
 
-@section('title', 'About - Travesta')
+@section('title', 'Tentang Kami - Travesta')
 
 @section('content')
 
-    <!-- breadcrumb-wrappe-Section Start -->
     <section class="breadcrumb-wrapper fix bg-cover"
-        style="background-image: url('{{ asset('assets/images-user/breadcrumb/breadcrumb.jpg') }}');">
+        style="background-image: url('{{ asset('assets/images-user/breadcrumb/breadcrumb1.jpg') }}');">
         <div class="container">
             <div class="row">
                 <div class="page-heading">
-                    <h2>About Us</h2>
+                    <h2>Tentang Kami</h2>
                     <ul class="breadcrumb-list">
                         <li>
-                            <a href="{{ route('landing') }}">Home</a>
+                            <a href="{{ route('landing') }}">Beranda</a>
                         </li>
                         <li><i class="fa-solid fa-chevrons-right"></i></li>
-                        <li>About Us</li>
+                        <li>Tentang Kami</li>
                     </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- About-Section Start -->
     <section class="about-section section-padding fix">
         <div class="container">
             <div class="about-wrapper-2">
                 <div class="row g-4">
                     <div class="col-lg-6">
                         <div class="about-image">
-                            <img src="{{ asset('assets/images-user/about/03.jpg') }}" alt="img">
-                            <div class="shape-image float-bob-y">
-                                <img src="{{ asset('assets/images-user/about/04.png') }}" alt="img">
-                            </div>
-                            <div class="group-image float-bob-x">
-                                <img src="{{ asset('assets/images-user/about/group.png') }}" alt="img">
-                            </div>
+                            <img src="{{ asset('assets/images-user/about/03besar.jpg') }}" alt="img"
+                                style="width: 100%; height: 450px; object-fit: cover; border-radius: 10px;">
                             <div class="about-image-2">
-                                <img src="{{ asset('assets/images-user/about/05.jpg') }}" alt="img">
+                                <img src="{{ asset('assets/images-user/about/05kecil.jpg') }}" alt="img"
+                                    style="width: 250px; height: 300px; object-fit: cover; border-radius: 10px;">
                                 <div class="plane-shape">
                                     <img src="{{ asset('assets/images-user/about/plane-shape2.png') }}" alt="img">
-                                </div>
-                                <div class="circle-image">
-                                    <img src="{{ asset('assets/images-user/about/circle.png') }}" alt="img">
                                 </div>
                             </div>
                         </div>
@@ -52,17 +43,17 @@
                         <div class="about-content">
                             <div class="section-title">
                                 <span class="sub-title wow fadeInUp">
-                                    Get About Us
+                                    Tentang Travesta
                                 </span>
                                 <h2 class="wow fadeInUp wow" data-wow-delay=".3s">
-                                    We're Strived Only For The
-                                    Best In The World
+                                    Platform Rekomendasi Wisata di Indonesia
                                 </h2>
                             </div>
                             <p class="wow fadeInUp wow" data-wow-delay=".5s">
-                                There are many variations of passages of available, but the majority have suffered
-                                alteration in some form, by injected humour words which don't look even slightly
-                                believable injected humour words which
+                                Pariwisata merupakan salah satu sektor penting dalam perekonomian Indonesia, dengan ribuan
+                                destinasi menarik yang tersebar dari Sabang hingga Merauke. Namun, masih banyak
+                                masyarakat yang kesulitan menemukan informasi destinasi wisata yang sesuai dengan minat
+                                mereka.
                             </p>
                             <div class="about-items wow fadeInUp wow" data-wow-delay=".3s">
                                 <div class="about-icon-items">
@@ -71,13 +62,13 @@
                                     </div>
                                     <div class="content">
                                         <h5>
-                                            Easy Booking <br> System
+                                            Informasi Terstruktur
                                         </h5>
                                     </div>
                                 </div>
                                 <div class="text">
                                     <p>
-                                        Our hotel also prides itself on <br> offering exceptional services.
+                                        Temukan destinasi terkurasi dalam satu <br> platform yang mudah diakses.
                                     </p>
                                 </div>
                             </div>
@@ -88,18 +79,18 @@
                                     </div>
                                     <div class="content">
                                         <h5>
-                                            Easy Booking <br> System
+                                            Kategori Beragam
                                         </h5>
                                     </div>
                                 </div>
                                 <div class="text">
                                     <p>
-                                        Our hotel also prides itself on <br> offering exceptional services.
+                                        Mulai dari pantai, pegunungan, budaya, <br> hingga destinasi kuliner terbaik.
                                     </p>
                                 </div>
                             </div>
-                            <a href="{{ route('landing.blog') }}" class="theme-btn wow fadeInUp wow" data-wow-delay=".7s">Discover
-                                More<i class="fa-sharp fa-regular fa-arrow-right"></i></a>
+                            <a href="{{ route('landing.blog') }}" class="theme-btn wow fadeInUp wow"
+                                data-wow-delay=".7s">Lihat Destinasi<i class="fa-sharp fa-regular fa-arrow-right"></i></a>
                         </div>
                     </div>
                 </div>
@@ -107,7 +98,6 @@
         </div>
     </section>
 
-    <!-- Travel-Feature-Section Start -->
     <section class="travel-feature-section section-padding fix section-bg">
         <div class="shape-1">
             <img src="{{ asset('assets/images-user/plane-shape1.png') }}" alt="img">
@@ -122,16 +112,18 @@
                         <div class="feature-content">
                             <div class="section-title">
                                 <span class="sub-title wow fadeInUp">
-                                    Are you ready to travel?
+                                    Siap Menjelajah?
                                 </span>
                                 <h2 class="wow fadeInUp wow" data-wow-delay=".2s">
-                                    World Leading Online Tour Booking Platform
+                                    Platform Rekomendasi Wisata Terstruktur
                                 </h2>
                             </div>
                             <p class="wow fadeInUp wow" data-wow-delay=".3s">
-                                There are many variations of passages of Lorem Ipsum available, but the majority have
-                                suffered alteration in some form, by injected humour, or randomised words which don't
-                                look even slightly believable.
+                                Berdasarkan permasalahan tersebut, dibangunlah Travesta: sebuah aplikasi web berbasis
+                                Laravel
+                                yang berfungsi sebagai platform rekomendasi wisata di Indonesia. Aplikasi ini membantu
+                                pengguna menemukan berbagai destinasi wisata menarik yang dikelompokkan berdasarkan
+                                kategori.
                             </p>
                             <div class="feature-area">
                                 <div class="line-shape">
@@ -144,8 +136,7 @@
                                         </div>
                                         <div class="content">
                                             <h5>
-                                                Most Adventure <Br>
-                                                Tour Ever
+                                                Mudah Diakses
                                             </h5>
                                         </div>
                                     </div>
@@ -154,8 +145,8 @@
                                             <i class="fa-solid fa-badge-check"></i>
                                         </li>
                                         <li>
-                                            There are many variations of <br>
-                                            passages of available,
+                                            Akses informasi wisata kapan saja <br>
+                                            dan di mana saja.
                                         </li>
                                     </ul>
                                 </div>
@@ -166,8 +157,7 @@
                                         </div>
                                         <div class="content">
                                             <h5>
-                                                Real Tour Starts <br>
-                                                from Here
+                                                Deskripsi Jelas
                                             </h5>
                                         </div>
                                     </div>
@@ -176,18 +166,19 @@
                                             <i class="fa-solid fa-badge-check"></i>
                                         </li>
                                         <li>
-                                            There are many variations of <br>
-                                            passages of available,
+                                            Setiap destinasi dilengkapi info <br>
+                                            akurat untuk rencana Anda.
                                         </li>
                                     </ul>
                                 </div>
                             </div>
-                            <a href="{{ route('landing.blog') }}" class="theme-btn wow fadeInUp wow" data-wow-delay=".9s">Contact US<i class="fa-sharp fa-regular fa-arrow-right"></i></a>
+                            <a href="{{ route('landing.blog') }}" class="theme-btn wow fadeInUp wow"
+                                data-wow-delay=".9s">Hubungi Kami<i class="fa-sharp fa-regular fa-arrow-right"></i></a>
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="feature-image wow fadeInUp wow" data-wow-delay=".3s">
-                            <img src="{{ asset('assets/images-user/man-image.png') }}" alt="img">
+                            <img src="{{ asset('assets/images-user/main-image1.jpg') }}" alt="img">
                         </div>
                     </div>
                 </div>
@@ -195,7 +186,6 @@
         </div>
     </section>
 
-    <!-- Counter-Section Start -->
     <section class="counter-section theme-bg fix section-bg-3">
         <div class="container">
             <div class="counter-wrapper-3">
@@ -205,7 +195,7 @@
                     </div>
                     <div class="counter-content">
                         <h2><span class="count">100,000</span>+</h2>
-                        <p>Our Explorers</p>
+                        <p>Pengguna Terdaftar</p>
                     </div>
                 </div>
                 <div class="counter-items wow fadeInUp wow" data-wow-delay=".4s">
@@ -213,8 +203,8 @@
                         <img src="{{ asset('assets/images-user/icon/36.svg') }}" alt="img">
                     </div>
                     <div class="counter-content">
-                        <h2><span class="count">5,000</span>+</h2>
-                        <p>Destinations</p>
+                        <h2><span class="count">1,000</span>+</h2>
+                        <p>Destinasi</p>
                     </div>
                 </div>
                 <div class="counter-items wow fadeInUp wow" data-wow-delay=".6s">
@@ -222,8 +212,8 @@
                         <img src="{{ asset('assets/images-user/icon/37.svg') }}" alt="img">
                     </div>
                     <div class="counter-content">
-                        <h2><span class="count">10,000</span>+</h2>
-                        <p>More Trips</p>
+                        <h2><span class="count">5,000</span>+</h2>
+                        <p>Ulasan Pengguna</p>
                     </div>
                 </div>
                 <div class="counter-items style-2 wow fadeInUp wow" data-wow-delay=".8s">
@@ -231,32 +221,31 @@
                         <img src="{{ asset('assets/images-user/icon/38.svg') }}" alt="img">
                     </div>
                     <div class="counter-content">
-                        <h2><span class="count">2,000</span>+</h2>
-                        <p>Luxary Hotel</p>
+                        <h2><span class="count">5</span>+</h2>
+                        <p>Kategori Pilihan</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Team Section Start -->
     <section class="team-section fix section-padding">
         <div class="container">
             <div class="section-title text-center">
                 <span class="sub-title wow fadeInUp">
-                    Meet with Guide
+                    Tim Pengembang
                 </span>
-                <h2 class="wow fadeInUp wow" data-wow-delay=".2s">Tour Guide</h2>
+                <h2 class="wow fadeInUp wow" data-wow-delay=".2s">Tim Kami</h2>
             </div>
             <div class="row">
                 <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp wow" data-wow-delay=".2s">
                     <div class="team-card-item">
                         <div class="team-image">
-                            <img src="{{ asset('assets/images-user/team/01.jpg') }}" alt="img">
+                            <img src="{{ asset('assets/images-user/team/01hikmah.jpg') }}" alt="img">
                         </div>
                         <div class="team-content">
-                            <h4><a href="#">Darlene Robertson</a></h4>
-                            <p>Tourist Guide</p>
+                            <h4><a>Hikmah Alusmawati</a></h4>
+                            <p>10221015</p>
                             <div class="social-profile">
                                 <ul>
                                     <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
@@ -272,11 +261,11 @@
                 <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp wow" data-wow-delay=".4s">
                     <div class="team-card-item">
                         <div class="team-image">
-                            <img src="{{ asset('assets/images-user/team/02.jpg') }}" alt="img">
+                            <img src="{{ asset('assets/images-user/team/02dillah.jpg') }}" alt="img">
                         </div>
                         <div class="team-content">
-                            <h4><a href="#">Leslie Alexander</a></h4>
-                            <p>Tourist Guide</p>
+                            <h4><a>Nur Fadillah</a></h4>
+                            <p>10221019</p>
                             <div class="social-profile">
                                 <ul>
                                     <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
@@ -292,11 +281,11 @@
                 <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp wow" data-wow-delay=".6s">
                     <div class="team-card-item">
                         <div class="team-image">
-                            <img src="{{ asset('assets/images-user/team/03.jpg') }}" alt="img">
+                            <img src="{{ asset('assets/images-user/team/03fajri.jpg') }}" alt="img">
                         </div>
                         <div class="team-content">
-                            <h4><a href="#">Ralph Edwards</a></h4>
-                            <p>Tourist Guide</p>
+                            <h4><a>M Fajrian Sidiq</a></h4>
+                            <p>10221025</p>
                             <div class="social-profile">
                                 <ul>
                                     <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
@@ -312,11 +301,11 @@
                 <div class="col-xl-3 col-lg-6 col-md-6 wow fadeInUp wow" data-wow-delay=".8s">
                     <div class="team-card-item">
                         <div class="team-image">
-                            <img src="{{ asset('assets/images-user/team/04.jpg') }}" alt="img">
+                            <img src="{{ asset('assets/images-user/team/04adit.jpg') }}" alt="img">
                         </div>
                         <div class="team-content">
-                            <h4><a href="#">Kathryn Murphy</a></h4>
-                            <p>Tourist Guide</p>
+                            <h4><a>Mohammad Adita</a></h4>
+                            <p>10221087</p>
                             <div class="social-profile">
                                 <ul>
                                     <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
@@ -333,7 +322,6 @@
         </div>
     </section>
 
-    <!-- Testimonial-Section Start -->
     <section class="testimonial-section section-padding fix bg-cover"
         style="background-image: url('{{ asset('assets/images-user/testimonial/testimonial-bg.jpg') }}');">
         <div class="container">
@@ -341,17 +329,17 @@
                 <div class="row g-4 align-items-center">
                     <div class="col-lg-6 wow fadeInUp wow" data-wow-delay=".3s">
                         <div class="testimonial-image">
-                            <img src="{{ asset('assets/images-user/testimonial/03.png') }}" alt="img">
+                            <img src="{{ asset('assets/images-user/testimonial/testimonial03.jpg') }}" alt="img">
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="testimonial-content">
                             <div class="section-title">
                                 <span class="sub-title wow fadeInUp">
-                                    Testimonial
+                                    Testimoni
                                 </span>
                                 <h2 class="wow fadeInUp wow" data-wow-delay=".2s">
-                                    Travelers Love Our locals
+                                    Apa Kata Pengguna Kami
                                 </h2>
                             </div>
                             <div class="swiper testimonial-slider3">
@@ -361,14 +349,15 @@
                                             <div class="client-info-items">
                                                 <div class="client-info">
                                                     <div class="client-image">
-                                                        <img src="{{ asset('assets/images-user/testimonial/client-4.png') }}" alt="img">
+                                                        <img src="{{ asset('assets/images-user/testimonial/client-1.jpg') }}"
+                                                            alt="img">
                                                     </div>
                                                     <div class="content">
                                                         <h4>
-                                                            Kathryn Murphy
+                                                            Pengguna Travesta
                                                         </h4>
                                                         <p>
-                                                            Web Designer
+                                                            Travel Enthusiast
                                                         </p>
                                                     </div>
                                                 </div>
@@ -381,13 +370,43 @@
                                                 </div>
                                             </div>
                                             <p>
-                                                There are many variations of passages of the Lorem Ipsum available, but
-                                                the majority have suffered alteration in some form, by injected humour,
-                                                or randomised words which don't look even slightly believable.
+                                                "Aplikasi ini sangat membantu saya menemukan
+                                                destinasi tersembunyi di Indonesia. Informasinya lengkap dan
+                                                terstruktur dengan baik. Sangat direkomendasikan!"
                                             </p>
                                         </div>
                                     </div>
-                                    <!-- additional slides omitted for brevity -->
+                                    <div class="swiper-slide">
+                                        <div class="testimonial-card-items">
+                                            <div class="client-info-items">
+                                                <div class="client-info">
+                                                    <div class="client-image">
+                                                        <img src="{{ asset('assets/images-user/testimonial/client-2.jpg') }}"
+                                                            alt="img">
+                                                    </div>
+                                                    <div class="content">
+                                                        <h4>
+                                                            Pengguna Lain
+                                                        </h4>
+                                                        <p>
+                                                            Backpacker
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                                <div class="icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="37"
+                                                        viewBox="0 0 50 37" fill="none">
+                                                        <path d="M0 0V37L18.75 18.5V0H0ZM31.25 0V37L50 18.5V0H31.25Z"
+                                                            fill="#1CA8CB" />
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            <p>
+                                                "Suka sekali dengan pengelompokan kategorinya. Saya jadi mudah mencari
+                                                referensi wisata kuliner dan budaya di satu tempat."
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="array-button">
@@ -405,15 +424,9 @@
         </div>
     </section>
 
-    <!-- Instagram Banner Section Start (kept minimal) -->
     <div class="instagram-banner fix section-padding">
         <div class="instagram-wrapper">
-            <h2 class="text-center wow fadeInUp" data-wow-delay=".3s">Follow Instagram</h2>
-            <div class="swiper instagram-banner-slider">
-                <div class="swiper-wrapper">
-                    <!-- slides omitted for brevity -->
-                </div>
-            </div>
+            <h2 class="text-center wow fadeInUp" data-wow-delay=".3s">Jelajahi Indonesia bersama kami</h2>
         </div>
     </div>
 

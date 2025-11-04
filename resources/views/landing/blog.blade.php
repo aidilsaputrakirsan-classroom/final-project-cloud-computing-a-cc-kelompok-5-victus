@@ -6,7 +6,7 @@
 
     <!-- breadcrumb-wrappe-Section Start -->
     <section class="breadcrumb-wrapper fix bg-cover"
-        style="background-image: url('{{ asset('assets/images-user/breadcrumb/breadcrumb.jpg') }}');">
+        style="background-image: url('{{ asset('assets/images-user/breadcrumb/breadcrumb2.jpg') }}');">
         <div class="container">
             <div class="row">
                 <div class="page-heading">
@@ -32,7 +32,9 @@
                         <div class="news-card-items-3 mt-0">
                             <div class="news-image">
                                 @php
-                                    $img = $post->featured_image ? \Illuminate\Support\Facades\Storage::url($post->featured_image) : asset('assets/images-user/news/08.jpg');
+                                    $img = $post->featured_image
+                                        ? \Illuminate\Support\Facades\Storage::url($post->featured_image)
+                                        : asset('assets/images-user/news/08.jpg');
                                 @endphp
                                 <img src="{{ $img }}" alt="{{ $post->title }}" class="img-fluid w-100"
                                     style="height:260px; object-fit:cover; border-radius:12px;">

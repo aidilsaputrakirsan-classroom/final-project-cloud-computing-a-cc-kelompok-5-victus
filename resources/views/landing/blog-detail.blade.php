@@ -6,7 +6,7 @@
 
     <!-- breadcrumb-wrappe-Section Start -->
     <section class="breadcrumb-wrapper fix bg-cover"
-        style="background-image: url('{{ asset('assets/images-user/breadcrumb/breadcrumb.jpg') }}');">
+        style="background-image: url('{{ asset('assets/images-user/breadcrumb/breadcrumb3.jpg') }}');">
         <div class="container">
             <div class="row">
                 <div class="page-heading">
@@ -30,7 +30,9 @@
                         <div class="blog-post-details">
                             <div class="single-blog-post">
                                 @php
-                                    $img = $post->featured_image ? \Illuminate\Support\Facades\Storage::url($post->featured_image) : asset('assets/images-user/news/post-4.jpg');
+                                    $img = $post->featured_image
+                                        ? \Illuminate\Support\Facades\Storage::url($post->featured_image)
+                                        : asset('assets/images-user/news/post-4.jpg');
                                     $date = $post->published_at ?? $post->created_at;
                                 @endphp
 
@@ -61,12 +63,13 @@
                                     <!-- show full content on detail page only (removed duplicated truncated preview) -->
                                     {!! $post->content !!}
 
-                                    @if($post->gallery && is_array($post->gallery))
+                                    @if ($post->gallery && is_array($post->gallery))
                                         <div class="row g-4">
-                                            @foreach($post->gallery as $g)
+                                            @foreach ($post->gallery as $g)
                                                 <div class="col-lg-6">
                                                     <div class="details-image"><img
-                                                            src="{{ \Illuminate\Support\Facades\Storage::url($g) }}" alt="img">
+                                                            src="{{ \Illuminate\Support\Facades\Storage::url($g) }}"
+                                                            alt="img">
                                                     </div>
                                                 </div>
                                             @endforeach
@@ -77,7 +80,7 @@
                                         $excerpt = isset($post->excerpt) ? trim(strip_tags($post->excerpt)) : '';
                                         $plainContent = trim(strip_tags($post->content ?? ''));
                                     @endphp
-                                    @if(!empty($excerpt) && $excerpt !== $plainContent)
+                                    @if (!empty($excerpt) && $excerpt !== $plainContent)
                                         <div class="hilight-text mt-4 mb-4">
                                             <p>{{ $post->excerpt }}</p>
                                         </div>
@@ -116,7 +119,8 @@
                                     <div class="content">
                                         <div class="head d-flex flex-wrap gap-2 align-items-center justify-content-between">
                                             <div class="con">
-                                                <h5><a href="#">Leslie Alexander</a></h5><span>February 10, 2024 at 2:37
+                                                <h5><a href="#">Leslie Alexander</a></h5><span>February 10, 2024 at
+                                                    2:37
                                                     pm</span>
                                             </div>
                                             <a href="#" class="reply">Reply</a>
@@ -132,16 +136,17 @@
                                 <form action="#" id="contact-form" method="POST">
                                     <div class="row g-4">
                                         <div class="col-lg-6">
-                                            <div class="form-clt"><span>Your Name*</span><input type="text" name="name"
-                                                    placeholder="Your Name"></div>
+                                            <div class="form-clt"><span>Your Name*</span><input type="text"
+                                                    name="name" placeholder="Your Name"></div>
                                         </div>
                                         <div class="col-lg-6">
-                                            <div class="form-clt"><span>Your Email*</span><input type="text" name="email"
-                                                    placeholder="Your Email"></div>
+                                            <div class="form-clt"><span>Your Email*</span><input type="text"
+                                                    name="email" placeholder="Your Email"></div>
                                         </div>
                                         <div class="col-lg-12">
-                                            <div class="form-clt"><span>Message*</span><textarea name="message"
-                                                    placeholder="Write Message"></textarea></div>
+                                            <div class="form-clt"><span>Message*</span>
+                                                <textarea name="message" placeholder="Write Message"></textarea>
+                                            </div>
                                         </div>
                                         <div class="col-lg-6"><button type="submit" class="theme-btn">post comment<i
                                                     class="fa-solid fa-arrow-right-long"></i></button></div>
@@ -159,8 +164,8 @@
                                     <h4>Search</h4>
                                 </div>
                                 <div class="search-widget">
-                                    <form action="#"><input type="text" placeholder="Search here"><button type="submit"><i
-                                                class="fa-solid fa-magnifying-glass"></i></button></form>
+                                    <form action="#"><input type="text" placeholder="Search here"><button
+                                            type="submit"><i class="fa-solid fa-magnifying-glass"></i></button></form>
                                 </div>
                             </div>
 
@@ -184,19 +189,25 @@
                                 <div class="recent-post-area">
                                     @php
                                         // limit recent posts to 3 and eager load user
-                                        $recent = \App\Models\Post::published()->latest('published_at')->take(3)->with('user')->get();
+                                        $recent = \App\Models\Post::published()
+                                            ->latest('published_at')
+                                            ->take(3)
+                                            ->with('user')
+                                            ->get();
                                     @endphp
-                                    @foreach($recent as $r)
+                                    @foreach ($recent as $r)
                                         <div class="recent-items"
                                             style="display:flex; gap:10px; align-items:center; padding:1px 0;">
                                             <div class="recent-thumb"
                                                 style="width:78px; height:78px; flex:0 0 78px; border-radius:10px; overflow:hidden; background:#e9e9e9;">
                                                 <img src="{{ $r->featured_image ? \Illuminate\Support\Facades\Storage::url($r->featured_image) : asset('assets/images-user/news/pp1.jpg') }}"
-                                                    alt="img" style="width:100%; height:100%; object-fit:cover; display:block;">
+                                                    alt="img"
+                                                    style="width:100%; height:100%; object-fit:cover; display:block;">
                                             </div>
                                             <div class="recent-content" style="flex:1;">
                                                 <ul style="margin:0; padding:0; list-style:none;">
-                                                    <li style="display:flex; align-items:center; gap:8px; margin:0 0 4px 0;">
+                                                    <li
+                                                        style="display:flex; align-items:center; gap:8px; margin:0 0 4px 0;">
                                                         <i class="fa-regular fa-calendar"
                                                             style="color:#ff7a00; font-size:16px;"></i>
                                                         <span

@@ -1,23 +1,43 @@
-<!-- Footer partial generated from user's Bootstrap template -->
-<footer class="footer-section fix bg-cover" style="background-image: url({{ asset('assets/images-user/footer/footer-bg.jpg') }});">
+<footer class="footer-section fix" style="background-color: #1CA8CB;">
+
+    <style>
+        .footer-widget-wrapper-new .list-items li a:hover,
+        .footer-widget-wrapper-new .contact-info a:hover,
+        .footer-bottom .footer-wrapper a:hover,
+        .footer-bottom .footer-wrapper ul li:hover {
+            color: white !important;
+            opacity: 0.8;
+        }
+
+        .footer-widget-wrapper-new .contact-items {
+            align-items: center !important;
+        }
+
+        .footer-widget-wrapper-new .contact-info a[href^="mailto:"] {
+            text-transform: none !important;
+        }
+    </style>
+
     <div class="container">
         <div class="footer-widget-wrapper-new">
             <div class="row">
+
                 <div class="col-xl-4 col-lg-5 col-md-8 col-sm-6">
                     <div class="single-widget-items text-center">
                         <div class="widget-head">
-                                <a href="{{ url('/') }}">
-                                <img src="{{ asset('assets/images-user/logo/white-log.svg') }}" alt="img">
-                                </a>
+                            <a href="{{ url('/') }}">
+                                <img src="{{ asset('assets/images-user/logo/logotravesta.png') }}" alt="Travesta Logo"
+                                    class="img-fluid" style="max-width: 200px;">
+                            </a>
                         </div>
                         <div class="footer-content">
-                            <h3>Subscribe Newsletter</h3>
-                            <p>Get Our Latest Deals and Update</p>
-                            <div class="footer-input">
-                                <input type="email" id="email2" placeholder="Your email address">
-                                <button class="newsletter-btn theme-btn" type="submit">Subscribe <i class="fa-sharp fa-regular fa-arrow-right"></i></button>
-                            </div>
-                            <div class="social-icon d-flex align-items-center justify-content-center">
+                            <p style="color: white; opacity: 0.9; margin-top: 15px;">
+                                Platform rekomendasi wisata di Indonesia, membantu Anda menemukan destinasi menarik
+                                dari pantai, pegunungan, hingga budaya.
+                            </p>
+
+                            <div class="social-icon d-flex align-items-center justify-content-center"
+                                style="margin-top: 20px;">
                                 <a href="#"><i class="fab fa-facebook-f"></i></a>
                                 <a href="#"><i class="fab fa-twitter"></i></a>
                                 <a href="#"><i class="fab fa-linkedin-in"></i></a>
@@ -26,56 +46,68 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 ps-lg-5">
                     <div class="single-widget-items">
-                        <div class="widget-head"><h4>Quick Links</h4></div>
+                        <div class="widget-head">
+                            <h4>Tautan Cepat</h4>
+                        </div>
                         <ul class="list-items">
-                            <li><a href="{{ route('landing') }}">Home</a></li>
-                            <li><a href="{{ route('landing.about') }}">About Us</a></li>
-                            <li><a href="{{ route('landing.blog') }}">Destination</a></li>
+                            <li><a href="{{ route('landing') }}">Beranda</a></li>
+                            <li><a href="{{ route('landing.about') }}">Tentang Kami</a></li>
+                            <li><a href="{{ route('landing.blog') }}">Destinasi</a></li>
                         </ul>
                     </div>
                 </div>
+
                 <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 ps-lg-5">
                     <div class="single-widget-items">
-                        <div class="widget-head"><h4>Services</h4></div>
+                        <div class="widget-head">
+                            <h4>Kategori Populer</h4>
+                        </div>
                         <ul class="list-items">
-                            <li><a href="#">Wanderlust Adventures</a></li>
-                            <li><a href="#">Globe Trotters Travel</a></li>
-                            <li><a href="#">Odyssey Travel Services</a></li>
-                            <li><a href="#">Jet Set Journeys</a></li>
-                            <li><a href="#">Dream Destinations Travel</a></li>
+                            <li><a href="#">Pantai</a></li>
+                            <li><a href="#">Pegunungan</a></li>
+                            <li><a href="#">Candi</a></li>
+                            <li><a href="#">Edukasi</a></li>
+                            <li><a href="#">Kuliner</a></li>
                         </ul>
                     </div>
                 </div>
+
                 <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 ps-xl-5">
                     <div class="single-widget-items">
-                        <div class="widget-head"><h4>Contact Us</h4></div>
+                        <div class="widget-head">
+                            <h4>Kontak Kami</h4>
+                        </div>
                         <div class="contact-info">
                             <div class="contact-items">
                                 <div class="icon"><i class="fa-regular fa-location-dot"></i></div>
-                                <div class="content"><h6>9550 Bolsa Ave #126, United States</h6></div>
+                                <div class="content">
+                                    <h6>Balikpapan</h6>
+                                </div>
                             </div>
                             <div class="contact-items">
                                 <div class="icon"><i class="fa-regular fa-envelope"></i></div>
-                                <div class="content"><h6><a href="mailto:info@touron.com">info@touron.com</a></h6></div>
+                                <div class="content">
+                                    <h6><a href="mailto:travesta@gmail.com">travesta@gmail.com</a></h6>
+                                </div>
                             </div>
                             <div class="contact-items">
                                 <div class="icon"><i class="fa-solid fa-phone"></i></div>
-                                <div class="content"><h6><a href="tel:+256214203215">+256 214 203 215</a><br><a href="tel:+10987654321">+1 098 765 4321</a></h6></div>
+                                <div class="content">
+                                    <h6><a href="tel:+6281234567890">+62 812 3456 7890</a></h6>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
         <div class="footer-bottom">
             <div class="footer-wrapper">
-                <p>Copyright © <span>{{ config('app.name', 'Turmet') }},</span> All Rights Reserved.</p>
-                <ul class="bottom-list">
-                    <li>Terms of use</li>
-                    <li>Privacy Environmental Policy</li>
-                </ul>
+                <p>Copyright © <span>{{ date('Y') }} Travesta,</span> All Rights Reserved.</p>
             </div>
         </div>
     </div>
