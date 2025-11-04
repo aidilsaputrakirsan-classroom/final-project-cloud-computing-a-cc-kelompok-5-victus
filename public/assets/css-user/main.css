@@ -6280,6 +6280,13 @@ span {
   background-color: var(--theme);
   color: var(--white);
 }
+/* Ensure pagination SVG/icons are correctly sized when Tailwind utility classes are not present */
+.page-nav-wrap svg {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  vertical-align: middle;
+}
 
 .custom-container {
   max-width: 1410px;

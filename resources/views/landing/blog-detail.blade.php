@@ -1,6 +1,6 @@
 @extends('layouts.user.app')
 
-@section('title', 'Blog Details - Turmet')
+@section('title', 'Destination Details')
 
 @section('content')
 
@@ -10,11 +10,11 @@
         <div class="container">
             <div class="row">
                 <div class="page-heading">
-                    <h2>Blog Details</h2>
+                    <h2>Destination Details</h2>
                     <ul class="breadcrumb-list">
                         <li><a href="{{ route('landing') }}">Home</a></li>
                         <li><i class="fa-solid fa-chevrons-right"></i></li>
-                        <li>Blog Details</li>
+                        <li>Destination Details</li>
                     </ul>
                 </div>
             </div>
@@ -58,8 +58,7 @@
                                         </li>
                                     </ul>
                                     <h3>{{ $post->title }}</h3>
-                                    <p class="mb-3">{{ \Illuminate\Support\Str::limit(strip_tags($post->content), 180) }}
-                                    </p>
+                                    <!-- show full content on detail page only (removed duplicated truncated preview) -->
                                     {!! $post->content !!}
 
                                     @if($post->gallery && is_array($post->gallery))
@@ -74,9 +73,15 @@
                                         </div>
                                     @endif
 
-                                    <div class="hilight-text mt-4 mb-4">
-                                        <p>{{ $post->excerpt ?? '' }}</p>
-                                    </div>
+                                    @php
+                                        $excerpt = isset($post->excerpt) ? trim(strip_tags($post->excerpt)) : '';
+                                        $plainContent = trim(strip_tags($post->content ?? ''));
+                                    @endphp
+                                    @if(!empty($excerpt) && $excerpt !== $plainContent)
+                                        <div class="hilight-text mt-4 mb-4">
+                                            <p>{{ $post->excerpt }}</p>
+                                        </div>
+                                    @endif
 
                                 </div>
                             </div>

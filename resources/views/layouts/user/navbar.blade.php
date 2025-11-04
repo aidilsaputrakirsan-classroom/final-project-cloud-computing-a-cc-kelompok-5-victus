@@ -4,20 +4,30 @@
         <div class="spinner"></div>
         <div class="txt-loading">
             <span data-text-preloader="T" class="letters-loading">T</span>
-            <span data-text-preloader="U" class="letters-loading">U</span>
             <span data-text-preloader="R" class="letters-loading">R</span>
-            <span data-text-preloader="M" class="letters-loading">M</span>
+            <span data-text-preloader="A" class="letters-loading">A</span>
+            <span data-text-preloader="V" class="letters-loading">V</span>
             <span data-text-preloader="E" class="letters-loading">E</span>
+            <span data-text-preloader="S" class="letters-loading">S</span>
             <span data-text-preloader="T" class="letters-loading">T</span>
+            <span data-text-preloader="A" class="letters-loading">A</span>
         </div>
         <p class="text-center">Loading</p>
     </div>
     <div class="loader">
         <div class="row">
-            <div class="col-3 loader-section section-left"><div class="bg"></div></div>
-            <div class="col-3 loader-section section-left"><div class="bg"></div></div>
-            <div class="col-3 loader-section section-right"><div class="bg"></div></div>
-            <div class="col-3 loader-section section-right"><div class="bg"></div></div>
+            <div class="col-3 loader-section section-left">
+                <div class="bg"></div>
+            </div>
+            <div class="col-3 loader-section section-left">
+                <div class="bg"></div>
+            </div>
+            <div class="col-3 loader-section section-right">
+                <div class="bg"></div>
+            </div>
+            <div class="col-3 loader-section section-right">
+                <div class="bg"></div>
+            </div>
         </div>
     </div>
 </div>
@@ -53,15 +63,18 @@
                     <ul>
                         <li class="d-flex align-items-center">
                             <div class="offcanvas__contact-icon"><i class="fal fa-map-marker-alt"></i></div>
-                            <div class="offcanvas__contact-text"><a target="_blank" href="#">Main Street, Melbourne, Australia</a></div>
+                            <div class="offcanvas__contact-text"><a target="_blank" href="#">Main Street, Melbourne,
+                                    Australia</a></div>
                         </li>
                         <li class="d-flex align-items-center">
                             <div class="offcanvas__contact-icon mr-15"><i class="fal fa-envelope"></i></div>
-                            <div class="offcanvas__contact-text"><a href="mailto:info@example.com">info@example.com</a></div>
+                            <div class="offcanvas__contact-text"><a href="mailto:info@example.com">info@example.com</a>
+                            </div>
                         </li>
                         <li class="d-flex align-items-center">
                             <div class="offcanvas__contact-icon mr-15"><i class="fal fa-clock"></i></div>
-                            <div class="offcanvas__contact-text"><a target="_blank" href="#">Mon-Fri, 09am - 05pm</a></div>
+                            <div class="offcanvas__contact-text"><a target="_blank" href="#">Mon-Fri, 09am - 05pm</a>
+                            </div>
                         </li>
                         <li class="d-flex align-items-center">
                             <div class="offcanvas__contact-icon mr-15"><i class="far fa-phone"></i></div>
@@ -69,7 +82,8 @@
                         </li>
                     </ul>
                     <div class="header-button mt-4">
-                        <a href="#" class="theme-btn">Request A Quote <i class="fa-sharp fa-regular fa-arrow-right"></i></a>
+                        <a href="#" class="theme-btn">Request A Quote <i
+                                class="fa-sharp fa-regular fa-arrow-right"></i></a>
                     </div>
                     <div class="social-icon d-flex align-items-center">
                         <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -101,13 +115,9 @@
                     <div class="main-menu">
                         <nav id="mobile-menu">
                             <ul>
-                                <li class="has-dropdown active menu-thumb"><a href="{{ url('/') }}">Home <i class="fa-solid fa-chevron-down"></i></a></li>
-                                <li><a href="#">About Us</a></li>
-                                <li><a href="#">Destinations <i class="fa-solid fa-chevron-down"></i></a></li>
-                                <li><a href="#">Tour <i class="fa-solid fa-chevron-down"></i></a></li>
-                                <li><a href="#">Pages <i class="fa-solid fa-chevron-down"></i></a></li>
-                                <li><a href="{{ route('landing.blog') }}">Blog</a></li>
-                                <li><a href="#">Contact Us</a></li>
+                                <li class="active menu-thumb"><a href="{{ url('/') }}">Home</a></li>
+                                <li><a href="{{ route('landing.about') }}">About</a></li>
+                                <li><a href="{{ route('landing.blog') }}">Destination</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -130,7 +140,8 @@
         <i class="fas fa-times search-close" id="search-close"></i>
         <div class="search-cell">
             <form method="get">
-                <div class="search-field-holder"><input type="search" class="main-search-input" placeholder="Search..."></div>
+                <div class="search-field-holder"><input type="search" class="main-search-input" placeholder="Search...">
+                </div>
             </form>
         </div>
     </div>

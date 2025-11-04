@@ -30,11 +30,9 @@
                     <div class="single-widget-items">
                         <div class="widget-head"><h4>Quick Links</h4></div>
                         <ul class="list-items">
-                            <li><a href="{{ url('/') }}">Home</a></li>
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">Blog</a></li>
-                            <li><a href="#">Services</a></li>
-                            <li><a href="#">Tour</a></li>
+                            <li><a href="{{ route('landing') }}">Home</a></li>
+                            <li><a href="{{ route('landing.about') }}">About Us</a></li>
+                            <li><a href="{{ route('landing.blog') }}">Destination</a></li>
                         </ul>
                     </div>
                 </div>

@@ -32,3 +32,6 @@ use App\Http\Controllers\LandingBlogController;
 
 Route::get('/blog', [LandingBlogController::class, 'index'])->name('landing.blog');
 Route::get('/blog/{slug}', [LandingBlogController::class, 'show'])->name('landing.blog.show');
+
+// About page (static)
+Route::view('/about', 'landing.about')->name('landing.about');
