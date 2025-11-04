@@ -1,6 +1,6 @@
 @extends('layouts.user.app')
 
-@section('title', 'Turmet - Travel & Tour Agency')
+@section('title', 'Home')
 
 @section('content')
 
