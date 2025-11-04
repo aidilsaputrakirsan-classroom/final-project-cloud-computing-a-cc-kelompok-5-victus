@@ -186,49 +186,6 @@
         </div>
     </section>
 
-    <section class="counter-section theme-bg fix section-bg-3">
-        <div class="container">
-            <div class="counter-wrapper-3">
-                <div class="counter-items wow fadeInUp wow" data-wow-delay=".2s">
-                    <div class="icon">
-                        <img src="{{ asset('assets/images-user/icon/35.svg') }}" alt="img">
-                    </div>
-                    <div class="counter-content">
-                        <h2><span class="count">100,000</span>+</h2>
-                        <p>Pengguna Terdaftar</p>
-                    </div>
-                </div>
-                <div class="counter-items wow fadeInUp wow" data-wow-delay=".4s">
-                    <div class="icon">
-                        <img src="{{ asset('assets/images-user/icon/36.svg') }}" alt="img">
-                    </div>
-                    <div class="counter-content">
-                        <h2><span class="count">1,000</span>+</h2>
-                        <p>Destinasi</p>
-                    </div>
-                </div>
-                <div class="counter-items wow fadeInUp wow" data-wow-delay=".6s">
-                    <div class="icon">
-                        <img src="{{ asset('assets/images-user/icon/37.svg') }}" alt="img">
-                    </div>
-                    <div class="counter-content">
-                        <h2><span class="count">5,000</span>+</h2>
-                        <p>Ulasan Pengguna</p>
-                    </div>
-                </div>
-                <div class="counter-items style-2 wow fadeInUp wow" data-wow-delay=".8s">
-                    <div class="icon">
-                        <img src="{{ asset('assets/images-user/icon/38.svg') }}" alt="img">
-                    </div>
-                    <div class="counter-content">
-                        <h2><span class="count">5</span>+</h2>
-                        <p>Kategori Pilihan</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <section class="team-section fix section-padding">
         <div class="container">
             <div class="section-title text-center">

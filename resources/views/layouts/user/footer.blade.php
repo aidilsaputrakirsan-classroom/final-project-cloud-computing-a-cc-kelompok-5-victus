@@ -1,22 +1,4 @@
-<footer class="footer-section fix" style="background-color: #1CA8CB;">
-
-    <style>
-        .footer-widget-wrapper-new .list-items li a:hover,
-        .footer-widget-wrapper-new .contact-info a:hover,
-        .footer-bottom .footer-wrapper a:hover,
-        .footer-bottom .footer-wrapper ul li:hover {
-            color: white !important;
-            opacity: 0.8;
-        }
-
-        .footer-widget-wrapper-new .contact-items {
-            align-items: center !important;
-        }
-
-        .footer-widget-wrapper-new .contact-info a[href^="mailto:"] {
-            text-transform: none !important;
-        }
-    </style>
+<footer class="footer-section fix" style="background-color: #1CA8CB; background-image: url('{{ asset('assets/images-user/footer/footer-bg.jpg') }}'); background-size: cover; background-position: center;">
 
     <div class="container">
         <div class="footer-widget-wrapper-new">
