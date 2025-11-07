@@ -23,7 +23,7 @@ class PostController extends Controller
     {
         // Show all posts (published and drafts) in the admin table view.
         // Support column sorting via query params: sort and direction.
-    $allowedSorts = ['id', 'title', 'category', 'status', 'author', 'published'];
+        $allowedSorts = ['id', 'title', 'category', 'status', 'author', 'published'];
         $sort = $request->get('sort');
         $direction = strtolower($request->get('direction', 'asc')) === 'desc' ? 'desc' : 'asc';
 
@@ -34,9 +34,9 @@ class PostController extends Controller
                 case 'id':
                     $query = $query->orderBy('id', $direction);
                     break;
-                    case 'title':
-                        $query = $query->orderBy('title', $direction);
-                        break;
+                case 'title':
+                    $query = $query->orderBy('title', $direction);
+                    break;
                 case 'category':
                     // Order by related category name (use subquery to avoid join)
                     $query = $query->orderBy(

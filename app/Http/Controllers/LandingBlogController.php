@@ -31,12 +31,24 @@ class LandingBlogController extends Controller
 
     public function show($slug)
     {
-        $post = Post::where('slug', $slug)->published()->with('user', 'category')->firstOrFail();
+        // eager load comments (latest first) so the view can render them
+        $post = Post::where('slug', $slug)
+            ->published()
+            ->with([
+                'user',
+                'category',
+                'comments' => function ($q) {
+                    $q->latest();
+                }
+            ])
+            ->firstOrFail();
 
         // top 3 categories by published posts count
-        $topCategories = \App\Models\Category::withCount(['posts' => function ($q) {
-            $q->whereNotNull('published_at');
-        }])->orderByDesc('posts_count')->take(3)->get();
+        $topCategories = \App\Models\Category::withCount([
+            'posts' => function ($q) {
+                $q->whereNotNull('published_at');
+            }
+        ])->orderByDesc('posts_count')->take(3)->get();
 
         return view('landing.blog-detail', compact('post', 'topCategories'));
     }

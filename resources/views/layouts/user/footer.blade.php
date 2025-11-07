@@ -33,7 +33,7 @@
                 <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6 ps-lg-5">
                     <div class="single-widget-items">
                         <div class="widget-head">
-                            <h4>Tautan Cepat</h4>
+                            <h4>Quick Links</h4>
                         </div>
                         <ul class="list-items">
                             <li><a href="{{ route('landing') }}">Home</a></li>
@@ -48,12 +48,19 @@
                         <div class="widget-head">
                             <h4>Kategori Populer</h4>
                         </div>
+                        @php
+                            $popularCategories = \App\Models\Category::withCount([
+                                'posts' => function ($q) {
+                                    $q->whereNotNull('published_at');
+                                }
+                            ])->orderByDesc('posts_count')->take(5)->get();
+                        @endphp
                         <ul class="list-items">
-                            <li><a href="#">Pantai</a></li>
-                            <li><a href="#">Pegunungan</a></li>
-                            <li><a href="#">Candi</a></li>
-                            <li><a href="#">Edukasi</a></li>
-                            <li><a href="#">Kuliner</a></li>
+                            @forelse($popularCategories as $cat)
+                                <li><a href="{{ route('landing.blog', ['category' => $cat->slug]) }}">{{ $cat->name }} <span style="opacity:0.8">({{ $cat->posts_count }})</span></a></li>
+                            @empty
+                                <li>No categories</li>
+                            @endforelse
                         </ul>
                     </div>
                 </div>

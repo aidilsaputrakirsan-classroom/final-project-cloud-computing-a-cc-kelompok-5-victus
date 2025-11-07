@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CommentController;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -40,6 +41,12 @@ use App\Http\Controllers\LandingBlogController;
 
 Route::get('/blog', [LandingBlogController::class, 'index'])->name('landing.blog');
 Route::get('/blog/{slug}', [LandingBlogController::class, 'show'])->name('landing.blog.show');
+
+// Comments (public: create, edit/update/destroy restricted via owner token cookie)
+Route::post('posts/{post}/comments', [CommentController::class, 'store'])->name('comments.store');
+Route::get('comments/{comment}/edit', [CommentController::class, 'edit'])->name('comments.edit');
+Route::put('comments/{comment}', [CommentController::class, 'update'])->name('comments.update');
+Route::delete('comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 
 // About page (static)
 Route::view('/about', 'landing.about')->name('landing.about');

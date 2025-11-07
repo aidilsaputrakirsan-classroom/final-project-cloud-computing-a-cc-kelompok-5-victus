@@ -35,6 +35,11 @@ class Post extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function comments()
+    {
+        return $this->hasMany(\App\Models\Comment::class);
+    }
+
     /**
      * Scope a query to only published posts.
      */

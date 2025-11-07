@@ -25,24 +25,27 @@
                   $currentSort = request()->get('sort', 'id');
                   $currentDir = strtolower(request()->get('direction', 'asc')) === 'desc' ? 'desc' : 'asc';
                   $buildSortLink = function ($column, $label) use ($currentSort, $currentDir) {
-                      $newDir = ($currentSort === $column && $currentDir === 'asc') ? 'desc' : 'asc';
-                      $params = array_merge(request()->except('page'), ['sort' => $column, 'direction' => $newDir]);
-                      $url = route('categories.index', $params);
-                      $indicator = '';
-                      if ($currentSort === $column) {
-                          $indicator = $currentDir === 'asc' ? '▲' : '▼';
-                      }
-                      $inner = '<span style="display:inline-flex;align-items:center;gap:6px;white-space:nowrap;">' . htmlentities($label) . ($indicator ? '<span class="sort-indicator" style="font-size:12px;line-height:1;">' . $indicator . '</span>' : '') . '</span>';
-                      return '<a href="' . $url . '" class="hover:underline">' . $inner . '</a>';
+                    $newDir = ($currentSort === $column && $currentDir === 'asc') ? 'desc' : 'asc';
+                    $params = array_merge(request()->except('page'), ['sort' => $column, 'direction' => $newDir]);
+                    $url = route('categories.index', $params);
+                    $indicator = '';
+                    if ($currentSort === $column) {
+                      $indicator = $currentDir === 'asc' ? '▲' : '▼';
+                    }
+                    $inner = '<span style="display:inline-flex;align-items:center;gap:6px;white-space:nowrap;">' . htmlentities($label) . ($indicator ? '<span class="sort-indicator" style="font-size:12px;line-height:1;">' . $indicator . '</span>' : '') . '</span>';
+                    return '<a href="' . $url . '" class="hover:underline">' . $inner . '</a>';
                   };
                 @endphp
                 <tr>
                   <th class="px-6 py-3 text-start text-sm text-default-500">{!! ($buildSortLink)('id', '#') !!}</th>
                   <th class="px-6 py-3 text-start text-sm text-default-500">{!! ($buildSortLink)('name', 'Name') !!}</th>
                   <th class="px-6 py-3 text-start text-sm text-default-500">{!! ($buildSortLink)('slug', 'Slug') !!}</th>
-                  <th class="px-6 py-3 text-start text-sm text-default-500">{!! ($buildSortLink)('parent', 'Parent') !!}</th>
-                  <th class="px-6 py-3 text-start text-sm text-default-500">{!! ($buildSortLink)('active', 'Active') !!}</th>
-                  <th class="px-6 py-3 text-start text-sm text-default-500">{!! ($buildSortLink)('posts', 'Posts') !!}</th>
+                  <th class="px-6 py-3 text-start text-sm text-default-500">{!! ($buildSortLink)('parent', 'Parent') !!}
+                  </th>
+                  <th class="px-6 py-3 text-start text-sm text-default-500">{!! ($buildSortLink)('active', 'Active') !!}
+                  </th>
+                  <th class="px-6 py-3 text-start text-sm text-default-500">{!! ($buildSortLink)('posts', 'Posts') !!}
+                  </th>
                   <th class="px-6 py-3 text-end text-sm text-default-500">Action</th>
                 </tr>
               </thead>
