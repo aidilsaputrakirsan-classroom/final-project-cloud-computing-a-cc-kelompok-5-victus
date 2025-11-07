@@ -50,7 +50,8 @@
                 @foreach($posts as $post)
                   <tr>
                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-800">{{ $post->id }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-default-800">{{ \Illuminate\Support\Str::limit($post->title, 60) }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-default-800">
+                      {{ \Illuminate\Support\Str::limit($post->title, 60) }}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-default-800">
                       @php $catName = optional($post->category)->name ?? 'Uncategorized'; @endphp
                       <span

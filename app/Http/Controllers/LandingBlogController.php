@@ -37,8 +37,9 @@ class LandingBlogController extends Controller
             ->with([
                 'user',
                 'category',
+                // order comments so admin comments appear first, then by latest
                 'comments' => function ($q) {
-                    $q->latest();
+                    $q->orderByDesc('is_admin')->latest();
                 }
             ])
             ->firstOrFail();

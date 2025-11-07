@@ -6,6 +6,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>@yield('title', 'Admin') - Travesta</title>
 
+  <!-- Favicon for admin pages -->
+  <link rel="shortcut icon" href="{{ asset('assets/images/favicon.svg') }}">
+
   <!-- Icons css  (Mandatory in All Pages) -->
   <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css">
 

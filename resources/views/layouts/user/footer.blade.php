@@ -46,7 +46,7 @@
                 <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 ps-lg-5">
                     <div class="single-widget-items">
                         <div class="widget-head">
-                            <h4>Kategori Populer</h4>
+                            <h4>Popular Categories</h4>
                         </div>
                         @php
                             $popularCategories = \App\Models\Category::withCount([
@@ -57,7 +57,8 @@
                         @endphp
                         <ul class="list-items">
                             @forelse($popularCategories as $cat)
-                                <li><a href="{{ route('landing.blog', ['category' => $cat->slug]) }}">{{ $cat->name }} <span style="opacity:0.8">({{ $cat->posts_count }})</span></a></li>
+                                <li><a href="{{ route('landing.blog', ['category' => $cat->slug]) }}">{{ $cat->name }} <span
+                                            style="opacity:0.8">({{ $cat->posts_count }})</span></a></li>
                             @empty
                                 <li>No categories</li>
                             @endforelse
@@ -68,7 +69,7 @@
                 <div class="col-xl-3 col-lg-4 col-md-6 col-sm-6 ps-xl-5">
                     <div class="single-widget-items">
                         <div class="widget-head">
-                            <h4>Kontak Kami</h4>
+                            <h4>Contact Us</h4>
                         </div>
                         <div class="contact-info">
                             <div class="contact-items">

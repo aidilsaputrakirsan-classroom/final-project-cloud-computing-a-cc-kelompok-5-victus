@@ -142,20 +142,25 @@
                                                             <div class="content" style="flex:1;">
                                                                 <div class="head d-flex flex-wrap gap-2 align-items-center justify-content-between">
                                                                     <div class="con">
-                                                                        <h5><a href="#">{{ $comment->name }}</a></h5>
+                                                                        <h5>
+                                                                            <a href="#">{{ $comment->name }}</a>
+                                                                            @if(!empty($comment->is_admin) && $comment->is_admin)
+                                                                                <span class="ms-2 inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-semibold bg-primary text-white" style="font-size:11px;">Admin</span>
+                                                                            @endif
+                                                                        </h5>
                                                                         <span>{{ $comment->created_at->format('F d, Y \a\t H:i') }}</span>
                                                                     </div>
 
                                                                     @if(request()->cookie('comment_owner_token') && request()->cookie('comment_owner_token') === $comment->owner_token)
-                                                                        <div class="comment-actions">
-                                                                            <button type="button" class="btn btn-link btn-sm comment-edit-toggle"
-                                                                                data-id="{{ $comment->id }}">Edit</button>
+                                                                        <div class="comment-actions d-flex align-items-center" style="gap:8px;">
+                                                                            <button type="button" class="btn btn-sm btn-primary comment-edit-toggle px-2 py-1"
+                                                                                data-id="{{ $comment->id }}" style="border-radius:6px; color:#fff;">Edit</button>
                                                                             <form action="{{ route('comments.destroy', $comment) }}" method="POST"
-                                                                                style="display:inline;" class="comment-delete-form">
+                                                                                style="display:inline; margin:0;" class="comment-delete-form">
                                                                                 @csrf
                                                                                 @method('DELETE')
                                                                                 <button type="submit"
-                                                                                    class="btn btn-link btn-sm text-danger">Delete</button>
+                                                                                    class="btn btn-sm btn-danger px-2 py-1" style="border-radius:6px; color:#fff;">Delete</button>
                                                                             </form>
                                                                         </div>
                                                                     @endif

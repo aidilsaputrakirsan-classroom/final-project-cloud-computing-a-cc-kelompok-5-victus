@@ -49,8 +49,8 @@ class CommentController extends Controller
     // Show comments for a specific post
     public function show(Post $post)
     {
-    $comments = $post->comments()->latest()->get();
-    return view('comments.show', compact('post', 'comments'));
+        $comments = $post->comments()->latest()->get();
+        return view('comments.show', compact('post', 'comments'));
     }
 
     // Show create form for admin comment for a post
@@ -68,19 +68,19 @@ class CommentController extends Controller
 
         $user = $request->user();
 
-    $comment = new Comment();
+        $comment = new Comment();
         $comment->post_id = $post->id;
         $comment->name = $user ? $user->name : 'Admin';
         $comment->email = $user ? $user->email : null;
         $comment->content = $data['content'];
-    // owner_token is non-nullable in the schema — give admin comments a random token
-    $comment->owner_token = (string) Str::uuid(); // non-null placeholder for admin
-    $comment->is_admin = true;
+        // owner_token is non-nullable in the schema — give admin comments a random token
+        $comment->owner_token = (string) Str::uuid(); // non-null placeholder for admin
+        $comment->is_admin = true;
         $comment->ip_address = $request->ip();
         $comment->user_agent = $request->userAgent();
         $comment->save();
 
-    return redirect()->route('admin.comments.show', $post)->with('success', 'Comment created.');
+        return redirect()->route('admin.comments.show', $post)->with('success', 'Comment created.');
     }
 
     // Edit only allowed for admin-created comments (name === Admin or belongs to current user)
@@ -88,17 +88,17 @@ class CommentController extends Controller
     {
         // Only allow editing comments created by admin (name matches 'Admin' or current user)
         // Only allow editing comments that were created by admin
-        if (! $comment->is_admin) {
+        if (!$comment->is_admin) {
             abort(403);
         }
 
-    return view('comments.edit', compact('comment'));
+        return view('comments.edit', compact('comment'));
     }
 
     public function update(Request $request, Comment $comment)
     {
         // Only allow updating comments that were created by admin
-        if (! $comment->is_admin) {
+        if (!$comment->is_admin) {
             abort(403);
         }
 

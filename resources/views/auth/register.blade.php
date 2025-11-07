@@ -5,6 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Register — {{ config('app.name', 'Travesta') }}</title>
+    <!-- Favicon for auth pages -->
+    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.svg') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/app.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/icons.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/auth-register.css') }}">

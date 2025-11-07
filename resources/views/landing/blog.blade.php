@@ -56,7 +56,8 @@
                                     <li>
                                         <i class="fa-regular fa-tag"></i>
                                         @if($post->category)
-                                            <a href="{{ route('landing.blog', ['category' => $post->category->slug]) }}">{{ $post->category->name }}</a>
+                                            <a
+                                                href="{{ route('landing.blog', ['category' => $post->category->slug]) }}">{{ $post->category->name }}</a>
                                         @else
                                             Uncategorized
                                         @endif

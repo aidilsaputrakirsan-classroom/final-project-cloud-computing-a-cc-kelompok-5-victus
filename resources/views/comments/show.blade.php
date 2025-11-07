@@ -34,12 +34,13 @@
               <tbody class="divide-y divide-gray-200">
                 @foreach($comments as $comment)
                   <tr>
-                      <td class="px-6 py-4 whitespace-nowrap text-sm text-default-800">
-                        {{ $comment->name }}
-                        @if($comment->is_admin || strtolower($comment->name) === 'admin')
-                          <span class="inline-flex items-center ml-2 px-2 py-0.5 rounded-full bg-primary/25 text-primary text-xs font-medium">Admin</span>
-                        @endif
-                      </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-default-800">
+                      {{ $comment->name }}
+                      @if($comment->is_admin || strtolower($comment->name) === 'admin')
+                        <span
+                          class="inline-flex items-center ml-2 px-2 py-0.5 rounded-full bg-primary/25 text-primary text-xs font-medium">Admin</span>
+                      @endif
+                    </td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-default-800">{{ $comment->content }}</td>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-default-800">
                       {{ $comment->created_at->format('Y-m-d H:i') }}
