@@ -16,7 +16,7 @@
     <main class="auth-hero">
         <div class="auth-card">
             <div class="mb-4">
-                <h1 class="text-2xl font-semibold">Travesta</h1>
+                <h1 class="text-2xl font-semibold">Travesta.</h1>
                 <p class="text-sm text-default-700">Create your account to manage destination.</p>
             </div>
 

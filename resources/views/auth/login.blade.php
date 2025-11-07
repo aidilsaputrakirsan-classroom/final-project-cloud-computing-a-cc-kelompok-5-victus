@@ -26,7 +26,7 @@
                 @endif
 
                 <div class="mb-6">
-                    <h1 class="text-4xl font-bold text-center">Travesta</h1>
+                    <h1 class="text-4xl font-bold text-center">Travesta.</h1>
                 </div>
 
                 <h3 class="text-xl font-semibold mb-4">Sign in to your account</h3>
