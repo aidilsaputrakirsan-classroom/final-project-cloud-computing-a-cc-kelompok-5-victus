@@ -56,7 +56,13 @@
                                         <li><i class="fa-regular fa-user"></i> By {{ $post->user->name ?? 'Admin' }}</li>
                                         <li><i class="fa-regular fa-comment"></i> {{ $post->comments_count ?? '0' }}
                                             Comments</li>
-                                        <li><i class="fa-solid fa-tag"></i> {{ $post->category->name ?? 'Uncategorized' }}
+                                        <li>
+                                            <i class="fa-solid fa-tag"></i>
+                                            @if($post->category)
+                                                <a href="{{ route('landing.blog', ['category' => $post->category->slug]) }}">{{ $post->category->name }}</a>
+                                            @else
+                                                Uncategorized
+                                            @endif
                                         </li>
                                     </ul>
                                     <h3>{{ $post->title }}</h3>
@@ -171,13 +177,28 @@
 
                             <div class="single-sidebar-widget">
                                 <div class="wid-title">
-                                    <h4>Services</h4>
+                                    <h4>Categories</h4>
                                 </div>
                                 <div class="news-widget-categories">
                                     <ul>
-                                        <li><a href="#">Travel</a><span>04</span></li>
-                                        <li><a href="#">System</a><span>03</span></li>
-                                        <li><a href="#">Agency</a><span>02</span></li>
+                                        @if(isset($topCategories) && $topCategories->count())
+                                            @foreach($topCategories as $cat)
+                                                <li>
+                                                    <a href="{{ route('landing.blog', ['category' => $cat->slug]) }}">{{ $cat->name }}</a>
+                                                    <span>{{ $cat->posts_count }}</span>
+                                                </li>
+                                            @endforeach
+                                        @else
+                                            @php
+                                                $topCategoriesFallback = \App\Models\Category::withCount(['posts' => function($q){ $q->whereNotNull('published_at'); }])->orderByDesc('posts_count')->take(3)->get();
+                                            @endphp
+                                            @foreach($topCategoriesFallback as $cat)
+                                                <li>
+                                                    <a href="{{ route('landing.blog', ['category' => $cat->slug]) }}">{{ $cat->name }}</a>
+                                                    <span>{{ $cat->posts_count }}</span>
+                                                </li>
+                                            @endforeach
+                                        @endif
                                     </ul>
                                 </div>
                             </div>

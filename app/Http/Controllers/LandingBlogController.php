@@ -7,20 +7,37 @@ use Illuminate\Http\Request;
 
 class LandingBlogController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::published()
-            ->with('user', 'category')
-            ->orderByDesc('published_at')
-            ->paginate(9);
+        $query = Post::published()->with('user', 'category');
 
-        return view('landing.blog', compact('posts'));
+        $activeCategory = null;
+        $activeCategoryName = null;
+        if ($request->filled('category')) {
+            $slug = $request->get('category');
+            // filter by category slug
+            $query->whereHas('category', function ($q) use ($slug) {
+                $q->where('slug', $slug);
+            });
+            $activeCategory = $slug;
+            // resolve name for display
+            $activeCategoryName = \App\Models\Category::where('slug', $slug)->value('name');
+        }
+
+        $posts = $query->orderByDesc('published_at')->paginate(9)->appends($request->except('page'));
+
+        return view('landing.blog', compact('posts', 'activeCategory', 'activeCategoryName'));
     }
 
     public function show($slug)
     {
         $post = Post::where('slug', $slug)->published()->with('user', 'category')->firstOrFail();
 
-        return view('landing.blog-detail', compact('post'));
+        // top 3 categories by published posts count
+        $topCategories = \App\Models\Category::withCount(['posts' => function ($q) {
+            $q->whereNotNull('published_at');
+        }])->orderByDesc('posts_count')->take(3)->get();
+
+        return view('landing.blog-detail', compact('post', 'topCategories'));
     }
 }

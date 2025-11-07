@@ -26,6 +26,11 @@
     <!-- News-Section Start -->
     <section class="news-section section-padding fix">
         <div class="container">
+            @if(!empty($activeCategoryName))
+                <div class="mb-4">
+                    <h3>Category: {{ $activeCategoryName }}</h3>
+                </div>
+            @endif
             <div class="row g-4">
                 @forelse ($posts as $post)
                     <div class="col-xl-4 col-md-6 col-lg-6 wow fadeInUp">
