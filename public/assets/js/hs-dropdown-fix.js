@@ -54,4 +54,41 @@
             console && console.error && console.error('Dropdown helper error', e);
         }
     }, true);
+
+    // Ensure dropdown menus don't intercept clicks when they are hidden.
+    function updateMenuPointerEvents() {
+        try {
+            var menus = document.querySelectorAll('.hs-dropdown-menu');
+            menus.forEach(function (menu) {
+                // If menu has class 'hidden' or computed display is 'none' or opacity is 0, disable pointer events
+                var isHidden = menu.classList.contains('hidden');
+                var style = window.getComputedStyle(menu);
+                if (isHidden || style.display === 'none' || style.opacity === '0') {
+                    menu.style.pointerEvents = 'none';
+                } else {
+                    menu.style.pointerEvents = 'auto';
+                }
+            });
+        } catch (e) {
+            /* ignore */
+        }
+    }
+
+    // Run on load and after short delays when dropdown state may change
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function () {
+            updateMenuPointerEvents();
+            // Observe DOM mutations to keep pointer-events in sync
+            try {
+                var observer = new MutationObserver(function () { updateMenuPointerEvents(); });
+                observer.observe(document.body, { attributes: true, childList: true, subtree: true });
+            } catch (e) { /* ignore */ }
+        });
+    } else {
+        updateMenuPointerEvents();
+        try {
+            var observer = new MutationObserver(function () { updateMenuPointerEvents(); });
+            observer.observe(document.body, { attributes: true, childList: true, subtree: true });
+        } catch (e) { /* ignore */ }
+    }
 })();

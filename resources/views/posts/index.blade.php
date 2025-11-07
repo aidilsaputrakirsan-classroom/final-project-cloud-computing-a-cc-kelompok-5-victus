@@ -26,14 +26,31 @@
           <div class="overflow-hidden">
             <table class="min-w-full divide-y divide-gray-200">
               <thead class="bg-gray-50">
+                @php
+                  // default to id asc for initial view so UI indicates the base ordering
+                  $currentSort = request()->get('sort', 'id');
+                  $currentDir = strtolower(request()->get('direction', 'asc')) === 'desc' ? 'desc' : 'asc';
+          $buildSortLink = function ($column, $label) use ($currentSort, $currentDir) {
+            $newDir = ($currentSort === $column && $currentDir === 'asc') ? 'desc' : 'asc';
+            $params = array_merge(request()->except('page'), ['sort' => $column, 'direction' => $newDir]);
+            $url = route('posts.index', $params);
+            $indicator = '';
+            if ($currentSort === $column) {
+              $indicator = $currentDir === 'asc' ? '▲' : '▼';
+            }
+            // Render label + indicator inline and prevent wrapping so indicator stays beside the title
+            $inner = '<span style="display:inline-flex;align-items:center;gap:6px;white-space:nowrap;">' . htmlentities($label) . ($indicator ? '<span class="sort-indicator" style="font-size:12px;line-height:1;">' . $indicator . '</span>' : '') . '</span>';
+            return '<a href="' . $url . '" class="hover:underline">' . $inner . '</a>';
+          };
+                @endphp
                 <tr>
-                  <th class="px-6 py-3 text-start text-sm text-default-500">#</th>
+                  <th class="px-6 py-3 text-start text-sm text-default-500">{!! ($buildSortLink)('id', '#') !!}</th>
                   <th class="px-6 py-3 text-start text-sm text-default-500">Image</th>
-                  <th class="px-6 py-3 text-start text-sm text-default-500">Title</th>
-                  <th class="px-6 py-3 text-start text-sm text-default-500">Category</th>
-                  <th class="px-6 py-3 text-start text-sm text-default-500">Status</th>
-                  <th class="px-6 py-3 text-start text-sm text-default-500">Author</th>
-                  <th class="px-6 py-3 text-start text-sm text-default-500">Published</th>
+                  <th class="px-6 py-3 text-start text-sm text-default-500">{!! ($buildSortLink)('title', 'Title') !!}</th>
+                  <th class="px-6 py-3 text-start text-sm text-default-500">{!! ($buildSortLink)('category', 'Category') !!}</th>
+                  <th class="px-6 py-3 text-start text-sm text-default-500">{!! ($buildSortLink)('status', 'Status') !!}</th>
+                  <th class="px-6 py-3 text-start text-sm text-default-500">{!! ($buildSortLink)('author', 'Author') !!}</th>
+                  <th class="px-6 py-3 text-start text-sm text-default-500">{!! ($buildSortLink)('published', 'Published') !!}</th>
                   <th class="px-6 py-3 text-end text-sm text-default-500">Action</th>
                 </tr>
               </thead>

@@ -11,3 +11,5 @@
 <script src="{{ asset('assets/js/hs-dropdown-fix.js') }}"></script>
 <script src="{{ asset('assets/js/layout-adjust.js') }}"></script>
 <script src="{{ asset('assets/js/logout-confirm.js') }}"></script>
+<script src="{{ asset('assets/js/profile-edit.js') }}"></script>
+<script src="{{ asset('assets/js/profile-delete.js') }}"></script>

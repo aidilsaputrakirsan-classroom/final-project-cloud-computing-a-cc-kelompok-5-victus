@@ -12,10 +12,10 @@
                     <h2>Tentang Kami</h2>
                     <ul class="breadcrumb-list">
                         <li>
-                            <a href="{{ route('landing') }}">Beranda</a>
+                            <a href="{{ route('landing') }}">Home</a>
                         </li>
                         <li><i class="fa-solid fa-chevrons-right"></i></li>
-                        <li>Tentang Kami</li>
+                        <li>About</li>
                     </ul>
                 </div>
             </div>

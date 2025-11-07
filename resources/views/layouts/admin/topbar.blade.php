@@ -54,9 +54,7 @@
                 <div
                     class="hs-dropdown-menu mt-2 min-w-48 rounded-lg border border-default-200 bg-white p-2 opacity-0 shadow-md transition-none hs-dropdown-open:opacity-100 hidden">
                     <a class="flex items-center py-2 px-3 rounded-md text-sm text-default-800 hover:bg-gray-100"
-                        href="#">Profile</a>
-                    <a class="flex items-center py-2 px-3 rounded-md text-sm text-default-800 hover:bg-gray-100"
-                        href="#">Settings</a>
+                        href="{{ route('profile.edit') }}">Profile</a>
                     <hr class="my-2">
                     @auth
                         <form method="POST" action="{{ route('logout') }}" data-logout-form>

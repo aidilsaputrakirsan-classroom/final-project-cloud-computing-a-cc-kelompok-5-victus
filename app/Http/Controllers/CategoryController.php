@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
@@ -12,9 +13,46 @@ class CategoryController extends Controller
         // require authentication for create/store/edit/update/destroy actions
         $this->middleware('auth')->except(['index']);
     }
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::withCount('posts')->latest()->paginate(15);
+        // support sorting via ?sort=column&direction=asc|desc
+        $allowedSorts = ['id', 'name', 'slug', 'parent', 'active', 'posts'];
+        $sort = $request->get('sort');
+        $direction = strtolower($request->get('direction', 'asc')) === 'desc' ? 'desc' : 'asc';
+
+        $query = Category::withCount('posts');
+
+        if (in_array($sort, $allowedSorts, true)) {
+            switch ($sort) {
+                case 'id':
+                    $query = $query->orderBy('id', $direction);
+                    break;
+                case 'name':
+                    $query = $query->orderBy('name', $direction);
+                    break;
+                case 'slug':
+                    $query = $query->orderBy('slug', $direction);
+                    break;
+                case 'parent':
+                    // order by parent category name using a subquery on aliased table
+                    $query = $query->orderBy(
+                        DB::table('categories as p')->select('p.name')->whereColumn('p.id', 'categories.parent_id'),
+                        $direction
+                    );
+                    break;
+                case 'active':
+                    $query = $query->orderBy('is_active', $direction);
+                    break;
+                case 'posts':
+                    $query = $query->orderBy('posts_count', $direction);
+                    break;
+            }
+        } else {
+            // default ordering by id ascending
+            $query = $query->orderBy('id', 'asc');
+        }
+
+        $categories = $query->paginate(15)->appends($request->except('page'));
         return view('categories.index', compact('categories'));
     }
 

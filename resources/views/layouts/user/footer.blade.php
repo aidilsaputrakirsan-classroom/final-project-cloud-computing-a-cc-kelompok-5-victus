@@ -1,4 +1,5 @@
-<footer class="footer-section fix" style="background-color: #1CA8CB; background-image: url('{{ asset('assets/images-user/footer/footer-bg.jpg') }}'); background-size: cover; background-position: center;">
+<footer class="footer-section fix"
+    style="background-color: #1CA8CB; background-image: url('{{ asset('assets/images-user/footer/footer-bg.jpg') }}'); background-size: cover; background-position: center;">
 
     <div class="container">
         <div class="footer-widget-wrapper-new">
@@ -35,9 +36,9 @@
                             <h4>Tautan Cepat</h4>
                         </div>
                         <ul class="list-items">
-                            <li><a href="{{ route('landing') }}">Beranda</a></li>
-                            <li><a href="{{ route('landing.about') }}">Tentang Kami</a></li>
-                            <li><a href="{{ route('landing.blog') }}">Destinasi</a></li>
+                            <li><a href="{{ route('landing') }}">Home</a></li>
+                            <li><a href="{{ route('landing.about') }}">About</a></li>
+                            <li><a href="{{ route('landing.blog') }}">Destination</a></li>
                         </ul>
                     </div>
                 </div>

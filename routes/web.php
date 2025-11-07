@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ProfileController;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -21,6 +22,13 @@ Route::post('login', [AuthController::class, 'login'])->name('login.post');
 Route::get('register', [AuthController::class, 'showRegister'])->name('register');
 Route::post('register', [AuthController::class, 'register'])->name('register.post');
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+
+// Profile management (edit/update/delete) for authenticated user
+Route::middleware('auth')->group(function () {
+    Route::get('profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
 // Landing page (user-facing template)
 Route::get('/landing', function () {

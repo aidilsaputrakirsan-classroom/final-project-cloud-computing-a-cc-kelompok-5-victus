@@ -19,14 +19,52 @@ class PostController extends Controller
         $this->middleware('auth')->except(['index', 'show']);
     }
 
-    public function index()
+    public function index(Request $request)
     {
         // Show all posts (published and drafts) in the admin table view.
-        // Order by published_at desc (nulls last) then created_at desc so recent items appear.
-        $posts = Post::with('category', 'user')
-            ->orderByDesc('published_at')
-            ->orderByDesc('created_at')
-            ->paginate(10);
+        // Support column sorting via query params: sort and direction.
+    $allowedSorts = ['id', 'title', 'category', 'status', 'author', 'published'];
+        $sort = $request->get('sort');
+        $direction = strtolower($request->get('direction', 'asc')) === 'desc' ? 'desc' : 'asc';
+
+        $query = Post::with('category', 'user');
+
+        if (in_array($sort, $allowedSorts, true)) {
+            switch ($sort) {
+                case 'id':
+                    $query = $query->orderBy('id', $direction);
+                    break;
+                    case 'title':
+                        $query = $query->orderBy('title', $direction);
+                        break;
+                case 'category':
+                    // Order by related category name (use subquery to avoid join)
+                    $query = $query->orderBy(
+                        Category::select('name')->whereColumn('categories.id', 'posts.category_id'),
+                        $direction
+                    );
+                    break;
+                case 'status':
+                    $query = $query->orderBy('status', $direction);
+                    break;
+                case 'author':
+                    // Order by related user's name
+                    $query = $query->orderBy(
+                        User::select('name')->whereColumn('users.id', 'posts.user_id'),
+                        $direction
+                    );
+                    break;
+                case 'published':
+                    $query = $query->orderBy('published_at', $direction)->orderBy('created_at', $direction);
+                    break;
+            }
+        } else {
+            // default ordering: by id ascending (1,2,3...)
+            $query = $query->orderBy('id', 'asc');
+        }
+
+        $posts = $query->paginate(10)->appends($request->except('page'));
+
         return view('posts.index', compact('posts'));
     }
 
