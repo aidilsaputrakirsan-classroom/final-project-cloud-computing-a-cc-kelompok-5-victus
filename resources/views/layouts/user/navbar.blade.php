@@ -83,10 +83,6 @@
                             <div class="offcanvas__contact-text"><a href="tel:+11002345909">+1 100 234 5909</a></div>
                         </li>
                     </ul>
-                    <div class="header-button mt-4">
-                        <a href="#" class="theme-btn">Request A Quote <i
-                                class="fa-sharp fa-regular fa-arrow-right"></i></a>
-                    </div>
                     <div class="social-icon d-flex align-items-center">
                         <a href="#"><i class="fab fa-facebook-f"></i></a>
                         <a href="#"><i class="fab fa-twitter"></i></a>
@@ -126,8 +122,6 @@
                 </div>
                 <div class="header-right d-flex justify-content-end align-items-center">
                     <a href="#0" class="search-trigger search-icon"><i class="fa-regular fa-magnifying-glass"></i></a>
-                    <a href="#" class="theme-btn">Request A Destination<i
-                            class="fa-sharp fa-regular fa-arrow-right"></i></a>
                     <div class="header__hamburger d-xl-none my-auto">
                         <div class="sidebar__toggle"><i class="fas fa-bars"></i></div>
                     </div>

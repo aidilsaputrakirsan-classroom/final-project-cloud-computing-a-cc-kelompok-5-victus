@@ -22,6 +22,7 @@ return new class extends Migration {
             $table->string('owner_token', 80)->index();
             $table->string('ip_address')->nullable();
             $table->string('user_agent')->nullable();
+            $table->boolean('is_admin')->default(false);
             $table->timestamps();
         });
     }

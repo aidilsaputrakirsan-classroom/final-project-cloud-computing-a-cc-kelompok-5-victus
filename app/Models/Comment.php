@@ -16,7 +16,12 @@ class Comment extends Model
         'content',
         'owner_token',
         'ip_address',
-        'user_agent'
+        'user_agent',
+        'is_admin',
+    ];
+
+    protected $casts = [
+        'is_admin' => 'boolean',
     ];
 
     public function post()

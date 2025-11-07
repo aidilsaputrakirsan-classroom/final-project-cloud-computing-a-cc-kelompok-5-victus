@@ -48,5 +48,20 @@ Route::get('comments/{comment}/edit', [CommentController::class, 'edit'])->name(
 Route::put('comments/{comment}', [CommentController::class, 'update'])->name('comments.update');
 Route::delete('comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 
+// Admin comments management (requires auth)
+use App\Http\Controllers\Admin\CommentController as AdminCommentController;
+Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
+    // index: list posts that have comments
+    Route::get('comments', [AdminCommentController::class, 'index'])->name('comments.index');
+    // manage comments for a post
+    Route::get('posts/{post}/comments', [AdminCommentController::class, 'show'])->name('comments.show');
+    Route::get('posts/{post}/comments/create', [AdminCommentController::class, 'create'])->name('comments.create');
+    Route::post('posts/{post}/comments', [AdminCommentController::class, 'store'])->name('comments.store');
+    // edit/update/delete comment
+    Route::get('comments/{comment}/edit', [AdminCommentController::class, 'edit'])->name('comments.edit');
+    Route::put('comments/{comment}', [AdminCommentController::class, 'update'])->name('comments.update');
+    Route::delete('comments/{comment}', [AdminCommentController::class, 'destroy'])->name('comments.destroy');
+});
+
 // About page (static)
 Route::view('/about', 'landing.about')->name('landing.about');

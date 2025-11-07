@@ -35,6 +35,16 @@
                 </a>
             </li>
 
+            <li class="menu-item">
+                <a href="{{ route('admin.comments.index') }}"
+                    class="group flex items-center gap-x-3.5 rounded-md px-3 py-2 text-sm font-medium transition-none {{ request()->routeIs('admin.comments.*') ? 'bg-default-100/5 text-primary is-active' : 'text-default-300 hover:bg-default-100/5' }}">
+                    <span class="icon-wrap inline-flex items-center justify-center rounded-md h-9 w-9 bg-transparent">
+                        <i class="material-symbols-rounded font-light text-2xl transition-none group-hover:fill-1">chat</i>
+                    </span>
+                    <span class="menu-text"> Comments </span>
+                </a>
+            </li>
+
             <!-- more items from template can be left as static placeholders -->
         </ul>
     </div>
