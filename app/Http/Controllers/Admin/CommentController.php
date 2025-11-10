@@ -18,10 +18,11 @@ class CommentController extends Controller
     // Index: list posts that have comments
     public function index(Request $request)
     {
-        $query = Post::published()->with('user', 'category')->withCount('comments');
-
-        // only include posts that have comments
-        $query->having('comments_count', '>', 0);
+        // Ambil postingan yang published, punya komentar, dan hitung jumlah komentar
+        $query = Post::published()
+            ->with(['user', 'category'])
+            ->whereHas('comments') // ✅ Ganti having() dengan ini
+            ->withCount('comments'); // tetap hitung komentar
 
         // sorting
         $sort = $request->get('sort', 'comments_count');
@@ -30,7 +31,7 @@ class CommentController extends Controller
         $allowed = ['id', 'title', 'comments_count', 'category'];
         if (in_array($sort, $allowed)) {
             if ($sort === 'category') {
-                // join categories for ordering by category name
+                // join categories untuk urutan berdasarkan nama kategori
                 $query = $query->leftJoin('categories', 'posts.category_id', '=', 'categories.id')
                     ->select('posts.*')
                     ->orderBy('categories.name', $direction);
@@ -45,6 +46,7 @@ class CommentController extends Controller
 
         return view('comments.index', compact('posts'));
     }
+
 
     // Show comments for a specific post
     public function show(Post $post)
