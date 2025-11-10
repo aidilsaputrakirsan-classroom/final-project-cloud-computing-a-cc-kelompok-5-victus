@@ -26,7 +26,7 @@
     <!-- News-Section Start -->
     <section class="news-section section-padding fix">
         <div class="container">
-            @if(!empty($activeCategoryName))
+            @if (!empty($activeCategoryName))
                 <div class="mb-4">
                     <h3>Category: {{ $activeCategoryName }}</h3>
                 </div>
@@ -37,8 +37,12 @@
                         <div class="news-card-items-3 mt-0">
                             <div class="news-image">
                                 @php
+                                    use Illuminate\Support\Str;
+
                                     $img = $post->featured_image
-                                        ? \Illuminate\Support\Facades\Storage::url($post->featured_image)
+                                        ? (Str::startsWith($post->featured_image, 'http')
+                                            ? $post->featured_image
+                                            : asset('storage/' . $post->featured_image))
                                         : asset('assets/images-user/news/08.jpg');
                                 @endphp
                                 <img src="{{ $img }}" alt="{{ $post->title }}" class="img-fluid w-100"
@@ -55,7 +59,7 @@
                                     </li>
                                     <li>
                                         <i class="fa-regular fa-tag"></i>
-                                        @if($post->category)
+                                        @if ($post->category)
                                             <a
                                                 href="{{ route('landing.blog', ['category' => $post->category->slug]) }}">{{ $post->category->name }}</a>
                                         @else
