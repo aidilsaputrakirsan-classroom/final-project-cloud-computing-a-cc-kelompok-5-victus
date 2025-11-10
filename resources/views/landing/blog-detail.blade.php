@@ -30,6 +30,8 @@
                         <div class="blog-post-details">
                             <div class="single-blog-post">
                                 @php
+                                    use Illuminate\Support\Str;
+
                                     $img = $post->featured_image
                                         ? (Str::startsWith($post->featured_image, ['http://', 'https://'])
                                             ? $post->featured_image
