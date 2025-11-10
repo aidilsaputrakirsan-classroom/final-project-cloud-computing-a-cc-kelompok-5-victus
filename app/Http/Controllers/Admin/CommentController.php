@@ -18,21 +18,25 @@ class CommentController extends Controller
     // Index: list posts that have comments
     public function index(Request $request)
     {
-        $query = Post::published()->with('user', 'category')->withCount('comments');
+        // Ambil postingan yang published dan memiliki komentar
+        $query = Post::published()
+            ->with(['user', 'category'])
+            ->whereHas('comments') // Ganti HAVING → WHERE EXISTS
+            ->withCount('comments'); // Tambahkan kolom hitung komentar
 
-        // only include posts that have comments
-        $query->havingRaw('(select count(*) from "comments" where "posts"."id" = "comments"."post_id") > 0');
-
-        // sorting
+        // Sorting logic
         $sort = $request->get('sort', 'comments_count');
         $direction = strtolower($request->get('direction', 'desc')) === 'desc' ? 'desc' : 'asc';
 
         $allowed = ['id', 'title', 'comments_count', 'category'];
+
         if (in_array($sort, $allowed)) {
             if ($sort === 'category') {
-                // join categories for ordering by category name
-                $query = $query->leftJoin('categories', 'posts.category_id', '=', 'categories.id')
-                    ->select('posts.*')
+                // Join ke tabel categories, tapi pastikan SELECT tetap ambil posts.* + kolom count
+                $query = $query
+                    ->leftJoin('categories', 'posts.category_id', '=', 'categories.id')
+                    ->select('posts.*') // ambil semua kolom posts
+                    ->selectRaw('(select count(*) from comments where comments.post_id = posts.id) as comments_count') // ✅ tambahkan manual kolom comments_count
                     ->orderBy('categories.name', $direction);
             } else {
                 $query = $query->orderBy($sort, $direction);
