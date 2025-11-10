@@ -40,11 +40,12 @@
                                     use Illuminate\Support\Str;
 
                                     $img = $post->featured_image
-                                        ? (Str::startsWith($post->featured_image, 'http')
+                                        ? (Str::startsWith($post->featured_image, ['http://', 'https://'])
                                             ? $post->featured_image
-                                            : asset('storage/' . $post->featured_image))
+                                            : asset('storage/' . ltrim($post->featured_image, '/')))
                                         : asset('assets/images-user/news/08.jpg');
                                 @endphp
+
                                 <img src="{{ $img }}" alt="{{ $post->title }}" class="img-fluid w-100"
                                     style="height:260px; object-fit:cover; border-radius:12px;">
                             </div>

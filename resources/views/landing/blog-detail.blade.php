@@ -30,17 +30,14 @@
                         <div class="blog-post-details">
                             <div class="single-blog-post">
                                 @php
-                                    use Illuminate\Support\Str;
-
                                     $img = $post->featured_image
-                                        ? (Str::startsWith($post->featured_image, 'http')
+                                        ? (Str::startsWith($post->featured_image, ['http://', 'https://'])
                                             ? $post->featured_image
-                                            : asset('storage/' . $post->featured_image))
+                                            : asset('storage/' . ltrim($post->featured_image, '/')))
                                         : asset('assets/images-user/news/post-4.jpg');
 
                                     $date = $post->published_at ?? $post->created_at;
                                 @endphp
-
                                 <div class="post-featured-thumb"
                                     style="position:relative; border-radius:12px; overflow:hidden;">
                                     <img src="{{ $img }}" alt="{{ $post->title }}" class="img-fluid w-100"
@@ -314,31 +311,41 @@
                                             ->get();
                                     @endphp
                                     @foreach ($recent as $r)
+                                        @php
+                                            use Illuminate\Support\Str;
+
+                                            $recentImg = $r->featured_image
+                                                ? (Str::startsWith($r->featured_image, ['http://', 'https://'])
+                                                    ? $r->featured_image
+                                                    : asset('storage/' . ltrim($r->featured_image, '/')))
+                                                : asset('assets/images-user/news/pp1.jpg');
+                                        @endphp
+
                                         <div class="recent-items"
                                             style="display:flex; gap:10px; align-items:center; padding:1px 0;">
                                             <div class="recent-thumb"
                                                 style="width:78px; height:78px; flex:0 0 78px; border-radius:10px; overflow:hidden; background:#e9e9e9;">
-                                                <img src="{{ $r->featured_image
-                                                    ? (Str::startsWith($r->featured_image, 'http')
-                                                        ? $r->featured_image
-                                                        : asset('storage/' . $r->featured_image))
-                                                    : asset('assets/images-user/news/pp1.jpg') }}"
-                                                    alt="img"
+                                                <img src="{{ $recentImg }}" alt="img"
                                                     style="width:100%; height:100%; object-fit:cover; display:block;">
                                             </div>
+
                                             <div class="recent-content" style="flex:1;">
                                                 <ul style="margin:0; padding:0; list-style:none;">
                                                     <li
                                                         style="display:flex; align-items:center; gap:8px; margin:0 0 4px 0;">
                                                         <i class="fa-regular fa-calendar"
                                                             style="color:#ff7a00; font-size:16px;"></i>
-                                                        <span
-                                                            style="color:#15b6c8; font-weight:600; font-size:16px;">{{ $r->published_at ? $r->published_at->format('d M, Y') : $r->created_at->format('d M, Y') }}</span>
+                                                        <span style="color:#15b6c8; font-weight:600; font-size:16px;">
+                                                            {{ $r->published_at ? $r->published_at->format('d M, Y') : $r->created_at->format('d M, Y') }}
+                                                        </span>
                                                     </li>
                                                 </ul>
-                                                <h6 style="margin:0; font-size:18px; line-height:1.2;"><a
-                                                        href="{{ route('landing.blog.show', $r->slug) }}"
-                                                        style="color:#0b2b2f;">{{ $r->title }}</a></h6>
+                                                <h6 style="margin:0; font-size:18px; line-height:1.2;">
+                                                    <a href="{{ route('landing.blog.show', $r->slug) }}"
+                                                        style="color:#0b2b2f;">
+                                                        {{ $r->title }}
+                                                    </a>
+                                                </h6>
                                             </div>
                                         </div>
                                     @endforeach
