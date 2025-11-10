@@ -21,7 +21,7 @@ class CommentController extends Controller
         $query = Post::published()->with('user', 'category')->withCount('comments');
 
         // only include posts that have comments
-        $query->having('comments_count', '>', 0);
+        $query->havingRaw('(select count(*) from "comments" where "posts"."id" = "comments"."post_id") > 0');
 
         // sorting
         $sort = $request->get('sort', 'comments_count');
