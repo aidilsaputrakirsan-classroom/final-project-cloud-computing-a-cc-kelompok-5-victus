@@ -30,12 +30,10 @@
                         <div class="blog-post-details">
                             <div class="single-blog-post">
                                 @php
-                                    use Illuminate\Support\Str;
-
+                                    // Jika gambar ada, langsung pakai URL dari Supabase
                                     $img = $post->featured_image
-                                        ? (Str::startsWith($post->featured_image, ['http://', 'https://'])
-                                            ? $post->featured_image
-                                            : asset('storage/' . ltrim($post->featured_image, '/')))
+                                        ? 'https://vdynxiqtxltaayjewtrz.supabase.co/storage/v1/object/public/upload/' .
+                                            ltrim($post->featured_image, '/')
                                         : asset('assets/images-user/news/post-4.jpg');
 
                                     $date = $post->published_at ?? $post->created_at;
