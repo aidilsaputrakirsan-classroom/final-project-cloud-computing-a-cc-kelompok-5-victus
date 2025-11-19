@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Tag;
 
 class PostController extends Controller
 {
@@ -75,42 +76,39 @@ class PostController extends Controller
 
     public function create()
     {
-        $categories = Category::where('is_active', true)->get();
-        return view('posts.create', compact('categories'));
+        return view('posts.create', [
+            'categories' => \App\Models\Category::all(),
+            'tags' => Tag::all() // Kirim data tags ke view
+        ]);
     }
 
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'title' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:posts,slug',
-            'content' => 'required|string',
-            'featured_image' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
-            'status' => 'required|in:draft,published,archived',
-            'category_id' => 'nullable|exists:categories,id',
+        $validatedData = $request->validate([
+            'title' => 'required|max:255',
+            'category_id' => 'required',
+            'image' => 'image|file|max:2048',
+            'body' => 'required',
+            'tags' => 'array', // Validasi input tags harus array
         ]);
 
-        if (empty($data['slug'])) {
-            $data['slug'] = $this->uniqueSlug($data['title']);
+        // ... proses upload image ...
+        if ($request->file('image')) {
+            $validatedData['image'] = $request->file('image')->store('post-images');
         }
 
-        // If no authenticated user, assign to first user as fallback
-        $data['user_id'] = Auth::id() ?? User::first()->id;
+        $validatedData['user_id'] = auth()->id;
+        $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 200);
+        // Slug logic...
 
+        $post = Post::create($validatedData);
 
-        if ($data['status'] === 'published') {
-            $data['published_at'] = now();
+        // ATTACH TAGS YANG DIPILIH
+        if ($request->has('tags')) {
+            $post->tags()->attach($request->tags);
         }
 
-        // handle featured image upload
-        if ($request->hasFile('featured_image')) {
-            $path = $request->file('featured_image')->store('featured_images', 'public');
-            $data['featured_image'] = $path;
-        }
-
-        $post = Post::create($data);
-
-        return redirect()->route('posts.show', $post)->with('success', 'Post created');
+        return redirect('/dashboard/posts')->with('success', 'New post has been added!');
     }
 
     public function edit(Post $post)
