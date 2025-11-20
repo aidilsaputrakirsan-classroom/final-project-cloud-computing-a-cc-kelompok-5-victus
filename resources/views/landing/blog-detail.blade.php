@@ -4,7 +4,6 @@
 
 @section('content')
 
-    <!-- breadcrumb-wrappe-Section Start -->
     <section class="breadcrumb-wrapper fix bg-cover"
         style="background-image: url('{{ asset('assets/images-user/breadcrumb/breadcrumb3.jpg') }}');">
         <div class="container">
@@ -21,7 +20,6 @@
         </div>
     </section>
 
-    <!-- News-details-Section Start -->
     <section class="news-details fix section-padding">
         <div class="container">
             <div class="news-details-area">
@@ -41,7 +39,6 @@
                                     <img src="{{ $img }}" alt="{{ $post->title }}" class="img-fluid w-100"
                                         style="height:460px; object-fit:cover; display:block;">
 
-                                    <!-- date badge: match listing style (blue rounded box) -->
                                     <div class="post" style="position:absolute; left:24px; top:24px; z-index:5;">
                                         <h3
                                             style="background:#15b6c8; color:#fff; display:inline-block; padding:12px 14px; border-radius:8px; margin:0; font-size:18px; line-height:1; text-align:center;">
@@ -67,7 +64,6 @@
                                         </li>
                                     </ul>
                                     <h3>{{ $post->title }}</h3>
-                                    <!-- show full content on detail page only (removed duplicated truncated preview) -->
                                     {!! $post->content !!}
 
                                     @if ($post->gallery && is_array($post->gallery))
@@ -98,11 +94,16 @@
 
                             <div class="row tag-share-wrap mt-4 mb-5">
                                 <div class="col-lg-8 col-12">
-                                    <div class="tagcloud">
-                                        <a href="#">Wisata</a>
-                                        <a href="#">Pariwisata</a>
-                                        <a href="#">Destinasi</a>
-                                    </div>
+                                    {{-- PERBAIKAN DISINI: Menampilkan Tags Secara Dinamis --}}
+                                    @if ($post->tags->count() > 0)
+                                        <div class="tagcloud">
+                                            @foreach ($post->tags as $tag)
+                                                <a href="#">{{ $tag->name }}</a>
+                                            @endforeach
+                                        </div>
+                                    @else
+                                        <span class="text-muted">No tags.</span>
+                                    @endif
                                 </div>
                                 <div class="col-lg-4 col-12 mt-3 mt-lg-0 text-lg-end">
                                     <div class="social-share">
@@ -115,7 +116,6 @@
                                 </div>
                             </div>
 
-                            <!-- comments & form -->
                             <div class="comments-area">
                                 <div class="comments-heading">
                                     <h3>{{ $post->comments->count() }}
@@ -178,7 +178,6 @@
                                                 {{ $comment->content }}
                                             </p>
 
-                                            {{-- inline edit form (hidden) --}}
                                             @if (request()->cookie('comment_owner_token') && request()->cookie('comment_owner_token') === $comment->owner_token)
                                                 <div class="comment-edit-form" id="comment-edit-{{ $comment->id }}"
                                                     style="display:none;">
@@ -238,7 +237,6 @@
                                 </form>
                             </div>
 
-                            {{-- Load external comment actions JS (handles edit toggles + SweetAlert2 delete) --}}
                             @push('scripts')
                                 <script src="{{ asset('assets/js-user/comment-actions.js') }}"></script>
                             @endpush
@@ -336,13 +334,21 @@
                                 </div>
                             </div>
 
+                            {{-- WIDGET TAGS DINAMIS DI SIDEBAR --}}
                             <div class="single-sidebar-widget">
                                 <div class="wid-title">
                                     <h4>Tags</h4>
                                 </div>
                                 <div class="news-widget-categories">
-                                    <div class="tagcloud"><a href="#">Wisata</a><a href="#">Pariwisata</a><a
-                                            href="#">Destinasi</a></div>
+                                    @if ($post->tags->count() > 0)
+                                        <div class="tagcloud">
+                                            @foreach ($post->tags as $tag)
+                                                <a href="#">{{ $tag->name }}</a>
+                                            @endforeach
+                                        </div>
+                                    @else
+                                        <p class="text-muted small">No tags available.</p>
+                                    @endif
                                 </div>
                             </div>
 
@@ -351,22 +357,6 @@
 
                 </div>
             </div>
-        </div>
-
-        <div class="mt-4">
-            @if ($post->tags->count() > 0)
-                <h5 class="mb-3">Tags:</h5>
-                <ul class="list-inline">
-                    @foreach ($post->tags as $tag)
-                        <li class="list-inline-item">
-                            <a href="#"
-                                class="badge bg-light text-dark border rounded-pill px-3 py-2 text-decoration-none">
-                                {{ $tag->name }}
-                            </a>
-                        </li>
-                    @endforeach
-                </ul>
-            @endif
         </div>
     </section>
 
