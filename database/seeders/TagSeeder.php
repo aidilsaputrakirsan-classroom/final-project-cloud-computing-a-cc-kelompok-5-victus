@@ -11,7 +11,6 @@ class TagSeeder extends Seeder
 {
     public function run(): void
     {
-        // Daftar Tags Khusus Tema "Travesta" (Wisata Indonesia)
         $tags = [
             // Destinasi Populer
             'Bali',
@@ -32,8 +31,6 @@ class TagSeeder extends Seeder
 
             // Gaya Traveling
             'Backpacker',
-            'Staycation',
-            'Honeymoon',
             'Family Trip',
             'Solo Traveler',
             'Luxury Trip',
@@ -41,7 +38,6 @@ class TagSeeder extends Seeder
             // Lainnya
             'Hidden Gem',
             'Tips Traveler',
-            'Oleh-oleh',
             'Hotel & Resort'
         ];
 

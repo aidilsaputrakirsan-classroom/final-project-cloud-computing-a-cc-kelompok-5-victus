@@ -94,7 +94,7 @@ class PostController extends Controller
         ]);
 
         if ($request->file('image')) {
-            $validatedData['image'] = $request->file('image')->store('post-images');
+            $validatedData['featured_image'] = $request->file('image')->store('post-images');
         }
 
         $validatedData['user_id'] = Auth::id();
