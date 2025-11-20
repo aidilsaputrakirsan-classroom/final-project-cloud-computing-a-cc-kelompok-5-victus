@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\Category;
+use App\Models\Tag; // Tambahkan Import Model Tag
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
@@ -15,18 +16,19 @@ class PostSeeder extends Seeder
 
     public function run(): void
     {
-        // Pastikan ada user
+        // 1. Pastikan ada user
         $user = User::first() ?? User::factory()->create([
             'name' => 'Admin',
             'email' => 'admin@travesta.id',
+            'password' => bcrypt('password'),
+            'role' => 'admin',
         ]);
 
-        // Ambil kategori berdasarkan slug agar sesuai
-        $pantai = Category::where('slug', 'pantai')->first();
-        $pegunungan = Category::where('slug', 'pegunungan')->first();
-        $kota = Category::where('slug', 'kota')->first();
-        $sejarah = Category::where('slug', 'sejarah')->first();
-        $kuliner = Category::where('slug', 'kuliner')->first();
+        if (Tag::count() == 0) {
+            $this->call(TagSeeder::class);
+        }
+
+        $allTags = Tag::all();
 
         $posts = [
             [
@@ -160,16 +162,21 @@ class PostSeeder extends Seeder
             // Ambil kategori berdasarkan slug
             $category = Category::where('slug', $data['category'])->first();
 
-            Post::create([
+            // Simpan Post
+            $post = Post::create([
                 'title' => $data['title'],
                 'slug' => Str::slug($data['title']),
                 'content' => $data['content'],
                 'status' => 'published',
                 'user_id' => $user->id,
-                'category_id' => $category ? $category->id : null, // ✅ gunakan id dari kategori hasil query
-                'published_at' => now()->subDays(rand(1, 30)),
+                'category_id' => $category ? $category->id : null,
+                'published_at' => now()->subDays(rand(1, 30)), // Random tanggal 1 bulan terakhir
             ]);
-        }
 
+            if ($allTags->count() > 0) {
+                $randomTags = $allTags->random(rand(2, 4))->pluck('id');
+                $post->tags()->attach($randomTags);
+            }
+        }
     }
 }

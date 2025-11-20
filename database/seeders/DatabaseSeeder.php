@@ -2,27 +2,25 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\User;
+use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Buat user admin jika belum ada
-        User::firstOrCreate(
-            ['email' => 'admin@travesta.id'],
-            [
-                'name' => 'Admin',
-                'password' => bcrypt('password'),
-                'email_verified_at' => now(),
-            ]
-        );
+        // 1. Buat User Admin
+        User::factory()->create([
+            'name' => 'Admin',
+            'email' => 'admin@travesta.id',
+            'password' => bcrypt('password'),
+        ]);
 
-        // Jalankan seeder lainnya
+        // 2. Panggil Seeder Berurutan
         $this->call([
-            \Database\Seeders\CategorySeeder::class,
-            \Database\Seeders\PostSeeder::class,
+            CategorySeeder::class, // Kategori dulu
+            TagSeeder::class,      // Tags dulu (WAJIB sebelum Post)
+            PostSeeder::class,     // Baru Post (karena Post butuh Tag dan Kategori)
         ]);
     }
 }
