@@ -1,130 +1,57 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Comment;
+use App\Http\Controllers\Controller;
 use App\Models\Post;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
 {
-    /**
-     * Store a newly created comment for a post.
-     */
-    public function store(Request $request, Post $post)
+    public function index(Request $request)
     {
-        $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'nullable|email|max:255',
-            'content' => 'required|string|max:5000',
-        ]);
+        // PERBAIKAN: 
+        // Gunakan has('comments') untuk mengambil post yang punya komentar.
+        // Ini menggantikan logic having('comments_count', '>', 0) yang error di Postgres.
+        $query = Post::withCount('comments')->has('comments');
 
-        // create owner token for this browser/user if not present
-        $ownerToken = $request->cookie('comment_owner_token') ?: bin2hex(random_bytes(30));
+        // Logika Sorting
+        if ($request->has('sort') && $request->has('direction')) {
+            $query->orderBy($request->get('sort'), $request->get('direction'));
+        } else {
+            // Default sorting
+            $query->orderByDesc('comments_count');
+        }
 
-        // ensure we have a post id (route-model binding or numeric id)
-        $postId = $post->id ?? $request->route('post');
+        $posts = $query->get();
 
-        $comment = Comment::create([
-            'post_id' => $postId,
-            'name' => $data['name'],
-            'email' => $data['email'] ?? null,
-            'content' => $data['content'],
-            'owner_token' => $ownerToken,
-            'ip_address' => $request->ip(),
-            'user_agent' => $request->userAgent(),
-        ]);
-
-        // set cookie so this browser can edit/delete this comment in future (5 years)
-        $minutes = 60 * 24 * 365 * 5;
-        return redirect()->back()->with('success', 'Comment posted.')->cookie('comment_owner_token', $ownerToken, $minutes);
+        return view('comments.index', compact('posts'));
     }
 
-    /**
-     * Show the form for editing the specified comment.
-     */
-    public function edit(Request $request, Comment $comment)
+    public function show(Post $post)
     {
-        // allow tests to bypass strict cookie parsing when running in the testing environment
-        if (!app()->environment('testing')) {
-            $token = $this->getOwnerTokenFromRequest($request);
-            if (!$token || $token !== $comment->owner_token) {
-                abort(403);
-            }
-        }
+        // Ambil komentar terbaru dari post tersebut
+        $comments = $post->comments()->with('user')->latest()->get();
+        return view('comments.show', compact('post', 'comments'));
+    }
 
-        // return an edit view if you create one, otherwise return the comment data
-        if ($request->wantsJson()) {
-            return response()->json($comment);
-        }
+    public function destroy(Comment $comment)
+    {
+        $comment->delete();
+        return back()->with('success', 'Comment deleted successfully');
+    }
+
+    // Tambahkan method edit/update jika diperlukan
+    public function edit(Comment $comment)
+    {
         return view('comments.edit', compact('comment'));
     }
 
-    /**
-     * Update the specified comment.
-     */
     public function update(Request $request, Comment $comment)
     {
-        if (!app()->environment('testing')) {
-            $token = $this->getOwnerTokenFromRequest($request);
-            if (!$token || $token !== $comment->owner_token) {
-                abort(403);
-            }
-        }
-
-        $data = $request->validate([
-            'content' => 'required|string|max:5000',
-            'name' => 'required|string|max:255',
-        ]);
-
-        $comment->update($data);
-
-        return redirect()->back()->with('success', 'Comment updated.');
-    }
-
-    /**
-     * Remove the specified comment.
-     */
-    public function destroy(Request $request, Comment $comment)
-    {
-        if (!app()->environment('testing')) {
-            $token = $this->getOwnerTokenFromRequest($request);
-            if (!$token || $token !== $comment->owner_token) {
-                abort(403);
-            }
-        }
-
-        $comment->delete();
-
-        return redirect()->back()->with('success', 'Comment deleted.');
-    }
-
-    /**
-     * Try to extract the comment owner token from the request.
-     * Checks cookie, explicit header, and Cookie header as fallback (useful for tests).
-     */
-    private function getOwnerTokenFromRequest(Request $request)
-    {
-        // first check regular cookie access
-        $token = $request->cookie('comment_owner_token');
-        if ($token) {
-            return $token;
-        }
-
-        // then check explicit header (X-Comment-Owner-Token)
-        $header = $request->header('X-Comment-Owner-Token');
-        if ($header) {
-            return $header;
-        }
-
-        // finally try to parse the Cookie header (tests may set this)
-        $cookieHeader = $request->header('Cookie');
-        if ($cookieHeader) {
-            if (preg_match('/comment_owner_token=([^;\s]+)/', $cookieHeader, $m)) {
-                return $m[1];
-            }
-        }
-
-        return null;
+        $request->validate(['content' => 'required']);
+        $comment->update(['content' => $request->content()]);
+        return redirect()->route('admin.comments.index')->with('success', 'Comment updated');
     }
 }

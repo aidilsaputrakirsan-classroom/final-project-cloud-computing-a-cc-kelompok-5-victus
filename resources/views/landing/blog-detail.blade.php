@@ -334,16 +334,27 @@
                                 </div>
                             </div>
 
-                            {{-- WIDGET TAGS DINAMIS DI SIDEBAR --}}
                             <div class="single-sidebar-widget">
                                 <div class="wid-title">
                                     <h4>Tags</h4>
                                 </div>
                                 <div class="news-widget-categories">
-                                    @if ($post->tags->count() > 0)
+                                    {{-- Cek apakah ada variable tags dari controller --}}
+                                    @if (isset($tags) && $tags->count() > 0)
                                         <div class="tagcloud">
-                                            @foreach ($post->tags as $tag)
-                                                <a href="#">{{ $tag->name }}</a>
+                                            @foreach ($tags as $tag)
+                                                {{-- Link menuju halaman blog dengan filter ?tag=slug --}}
+                                                <a href="{{ route('landing.blog', ['tag' => $tag->slug]) }}"
+                                                    class="d-inline-flex align-items-center text-decoration-none">
+
+                                                    {{ $tag->name }}
+
+                                                    {{-- Badge Jumlah Post --}}
+                                                    <span class="ms-2 badge bg-secondary text-white rounded-pill"
+                                                        style="font-size: 10px;">
+                                                        {{ $tag->posts_count }}
+                                                    </span>
+                                                </a>
                                             @endforeach
                                         </div>
                                     @else
