@@ -8,7 +8,6 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\LandingBlogController;
 use App\Http\Controllers\Admin\CommentController as AdminCommentController;
-use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('landing.index');

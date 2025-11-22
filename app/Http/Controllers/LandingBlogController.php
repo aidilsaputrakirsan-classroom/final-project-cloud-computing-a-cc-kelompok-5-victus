@@ -4,76 +4,116 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use App\Models\Category;
-use App\Models\Tag; // Jangan lupa import Model Tag
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class LandingBlogController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Post::published()->with('category', 'user', 'tags');
+        $query = Post::published()->with(['user', 'category', 'tags']);
 
-        // 1. Filter Category
-        if ($request->has('category')) {
-            $category = Category::where('slug', $request->category)->first();
-            if ($category) {
-                $query->where('category_id', $category->id);
-            }
-        }
+        $activeCategory = null;
+        $activeCategoryName = null;
 
-        // 2. Filter Tag
-        if ($request->has('tag')) {
-            $query->whereHas('tags', function ($q) use ($request) {
-                $q->where('slug', $request->tag);
+        if ($request->filled('category')) {
+            $slug = $request->get('category');
+
+            $query->whereHas('category', function ($q) use ($slug) {
+                $q->where('slug', $slug);
             });
+
+            $activeCategory = $slug;
+            $activeCategoryName = Category::where('slug', $slug)->value('name');
         }
 
-        // 3. Search
-        if ($request->has('search')) {
-            $query->where('title', 'like', '%' . $request->search . '%')
-                ->orWhere('content', 'like', '%' . $request->search . '%');
+        $activeTag = null;
+        $activeTagName = null;
+
+        if ($request->filled('tag')) {
+            $tagSlug = $request->get('tag');
+
+            $query->whereHas('tags', function ($q) use ($tagSlug) {
+                $q->where('slug', $tagSlug);
+            });
+
+            $activeTag = $tagSlug;
+            $activeTagName = Tag::where('slug', $tagSlug)->value('name');
         }
 
-        $posts = $query->latest('published_at')->paginate(6)->withQueryString();
+        $posts = $query->orderByDesc('published_at')
+            ->paginate(9)
+            ->appends($request->except('page'));
 
-        // PERBAIKAN: Gunakan 'has' untuk memfilter category yang punya post
-        $categories = Category::withCount(['posts' => function ($q) {
-            $q->whereNotNull('published_at');
-        }])->has('posts')->get(); // 'has' otomatis cek count > 0
+        $categories = Category::withCount([
+            'posts' => function ($q) {
+                $q->whereNotNull('published_at');
+            }
+        ])
+            ->orderByDesc('posts_count')
+            ->take(3)
+            ->get();
 
-        // PERBAIKAN: Gunakan 'has' untuk memfilter tag yang punya post
-        $tags = Tag::withCount(['posts' => function ($q) {
-            $q->whereNotNull('published_at');
-        }])->has('posts')->get();
+        $tags = Tag::withCount([
+            'posts' => function ($q) {
+                $q->whereNotNull('published_at');
+            }
+        ])
+            ->having('posts_count', '>', 0)
+            ->orderByDesc('posts_count')
+            ->limit(10)
+            ->get();
 
         return view('landing.blog', [
             'posts' => $posts,
+            'activeCategory' => $activeCategory,
+            'activeCategoryName' => $activeCategoryName,
+            'activeTag' => $activeTag,
+            'activeTagName' => $activeTagName,
             'categories' => $categories,
-            'tags' => $tags
+            'tags' => $tags,
         ]);
     }
 
     public function show($slug)
     {
-        $post = Post::published()
-            ->with(['category', 'user', 'comments.user', 'tags'])
-            ->where('slug', $slug)
+
+        $post = Post::where('slug', $slug)
+            ->published()
+            ->with([
+                'user',
+                'category',
+                'tags',  // tambahan: tags
+                'comments' => function ($q) {
+                    $q->orderByDesc('is_admin')->latest();
+                },
+                'comments.user'
+            ])
             ->firstOrFail();
 
-        // Sidebar Categories
-        $topCategories = Category::withCount(['posts' => function ($q) {
-            $q->whereNotNull('published_at');
-        }])->has('posts')->orderByDesc('posts_count')->take(5)->get();
+        $topCategories = Category::withCount([
+            'posts' => function ($q) {
+                $q->whereNotNull('published_at');
+            }
+        ])
+            ->orderByDesc('posts_count')
+            ->take(3)
+            ->get();
 
-        // Sidebar Tags (PERBAIKAN)
-        $allTags = Tag::withCount(['posts' => function ($q) {
-            $q->whereNotNull('published_at');
-        }])->has('posts')->get();
+        $tags = Tag::withCount([
+            'posts' => function ($q) {
+                $q->whereNotNull('published_at');
+            }
+        ])
+            ->having('posts_count', '>', 0)
+            ->orderByDesc('posts_count')
+            ->limit(10)
+            ->get();
 
         return view('landing.blog-detail', [
             'post' => $post,
             'topCategories' => $topCategories,
-            'tags' => $allTags
+            'tags' => $tags,
         ]);
     }
 }

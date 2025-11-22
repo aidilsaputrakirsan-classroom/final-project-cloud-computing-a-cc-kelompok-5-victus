@@ -43,8 +43,8 @@
     </div>
 
     <div class="lg:col-span-2">
-        <label class="text-default-800 text-sm font-medium inline-block mb-2">Body</label>
-        <textarea name="body" class="form-input h-28" required>{{ old('body', $post->body ?? '') }}</textarea>
+        <label class="text-default-800 text-sm font-medium inline-block mb-2">Content</label>
+        <textarea name="content" class="form-input h-28">{{ old('content', $post->content ?? '') }}</textarea>
 
         @error('body')
             <p class="text-danger text-xs mt-1">{{ $message }}</p>
