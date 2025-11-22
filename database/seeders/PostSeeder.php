@@ -21,7 +21,6 @@ class PostSeeder extends Seeder
             'name' => 'Admin',
             'email' => 'admin@travesta.id',
             'password' => bcrypt('password'),
-            'role' => 'admin',
         ]);
 
         if (Tag::count() == 0) {

@@ -5,51 +5,41 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\Category;
 use App\Models\User;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use App\Models\Tag;
 
 class PostController extends Controller
 {
-    // For now allow CRUD without auth (auth will be added later).
     public function __construct()
     {
-        // require authentication for create/store/edit/update/destroy actions
         $this->middleware('auth')->except(['index', 'show']);
     }
 
     public function index(Request $request)
     {
-        // Show all posts (published and drafts) in the admin table view.
-        // Support column sorting via query params: sort and direction.
         $allowedSorts = ['id', 'title', 'category', 'status', 'author', 'published'];
         $sort = $request->get('sort');
         $direction = strtolower($request->get('direction', 'asc')) === 'desc' ? 'desc' : 'asc';
 
-        $query = Post::with('category', 'user');
+        $query = Post::with(['category', 'user', 'tags']);
 
         if (in_array($sort, $allowedSorts, true)) {
             switch ($sort) {
                 case 'id':
-                    $query = $query->orderBy('id', $direction);
-                    break;
                 case 'title':
-                    $query = $query->orderBy('title', $direction);
+                case 'status':
+                    $query = $query->orderBy($sort, $direction);
                     break;
                 case 'category':
-                    // Order by related category name (use subquery to avoid join)
                     $query = $query->orderBy(
                         Category::select('name')->whereColumn('categories.id', 'posts.category_id'),
                         $direction
                     );
                     break;
-                case 'status':
-                    $query = $query->orderBy('status', $direction);
-                    break;
                 case 'author':
-                    // Order by related user's name
                     $query = $query->orderBy(
                         User::select('name')->whereColumn('users.id', 'posts.user_id'),
                         $direction
@@ -60,7 +50,6 @@ class PostController extends Controller
                     break;
             }
         } else {
-            // default ordering: by id ascending (1,2,3...)
             $query = $query->orderBy('id', 'asc');
         }
 
@@ -77,104 +66,99 @@ class PostController extends Controller
     public function create()
     {
         return view('posts.create', [
-            'categories' => \App\Models\Category::all(),
-            'tags' => Tag::all() // Kirim data tags ke view
+            'categories' => Category::where('is_active', true)->get(),
+            'tags' => Tag::all(),
         ]);
     }
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
-            'title' => 'required|max:255',
-            'category_id' => 'required',
-            'image' => 'image|file|max:2048',
-            'body' => 'required',
-            'tags' => 'array',
+        $data = $request->validate([
+            'title' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255|unique:posts,slug',
+            'content' => 'required|string',
+            'featured_image' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
             'status' => 'required|in:draft,published,archived',
+            'category_id' => 'nullable|exists:categories,id',
+            'tags' => 'array',
         ]);
 
-        if ($request->file('image')) {
-            $validatedData['featured_image'] = $request->file('image')->store('post-images');
+        if (empty($data['slug'])) {
+            $data['slug'] = $this->uniqueSlug($data['title']);
         }
 
-        $validatedData['user_id'] = Auth::id();
+        $data['user_id'] = Auth::id() ?? User::first()->id;
 
-        $validatedData['content'] = $request->body;
-        unset($validatedData['body']);
-
-        $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 200);
-        $validatedData['slug'] = $request->slug ? Str::slug($request->slug) : Str::slug($request->title);
-
-        if ($request->status === 'published') {
-            $validatedData['published_at'] = now();
+        if ($data['status'] === 'published') {
+            $data['published_at'] = now();
         }
 
-        $post = Post::create($validatedData);
+        if ($request->hasFile('featured_image')) {
+            $path = $request->file('featured_image')->store('featured_images', 'public');
+            $data['featured_image'] = $path;
+        }
 
+        $post = Post::create($data);
+
+        // 🔥 Tambahkan tags
         if ($request->has('tags')) {
             $post->tags()->attach($request->tags);
         }
 
-        return redirect()->route('posts.index')->with('success', 'New post has been added!');
+        return redirect()->route('posts.show', $post)->with('success', 'Post created');
     }
 
     public function edit(Post $post)
     {
         return view('posts.edit', [
             'post' => $post,
-            'categories' => Category::all(),
-            'tags' => Tag::all()
+            'categories' => Category::where('is_active', true)->get(),
+            'tags' => Tag::all(),
         ]);
     }
 
     public function update(Request $request, Post $post)
     {
-        $rules = [
-            'title' => 'required|max:255',
-            'category_id' => 'required',
-            'image' => 'image|file|max:2048',
-            'body' => 'required',
-            'tags' => 'array',
+        $data = $request->validate([
+            'title' => 'required|string|max:255',
+            'slug' => 'nullable|string|max:255|unique:posts,slug,' . $post->id,
+            'content' => 'required|string',
+            'featured_image' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
             'status' => 'required|in:draft,published,archived',
-        ];
+            'category_id' => 'nullable|exists:categories,id',
+            'tags' => 'array',
+        ]);
 
-        if ($request->slug != $post->slug) {
-            $rules['slug'] = 'required|unique:posts';
+        if (empty($data['slug'])) {
+            $data['slug'] = $this->uniqueSlug($data['title'], $post->id);
         }
 
-        $validatedData = $request->validate($rules);
+        if ($data['status'] === 'published' && !$post->published_at) {
+            $data['published_at'] = now();
+        }
 
-        if ($request->file('image')) {
-            if ($request->oldImage) {
-                \Illuminate\Support\Facades\Storage::delete($request->oldImage);
+        if ($data['status'] !== 'published') {
+            $data['published_at'] = null;
+        }
+
+        if ($request->hasFile('featured_image')) {
+            if ($post->featured_image) {
+                Storage::disk('public')->delete($post->featured_image);
             }
-            $validatedData['image'] = $request->file('image')->store('post-images');
+            $path = $request->file('featured_image')->store('featured_images', 'public');
+            $data['featured_image'] = $path;
         }
 
-        $validatedData['user_id'] = Auth::id();
+        $post->update($data);
 
-        $validatedData['content'] = $request->body;
-        unset($validatedData['body']);
-
-        $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 200);
-
-        if ($request->status === 'published') {
-            if (!$post->published_at) {
-                $validatedData['published_at'] = now();
-            }
-        } else {
-            $validatedData['published_at'] = null;
-        }
-
-        $post->update($validatedData);
-
+        // 🔥 Update tags (sync)
         if ($request->has('tags')) {
             $post->tags()->sync($request->tags);
         } else {
             $post->tags()->detach();
         }
 
-        return redirect()->route('posts.index')->with('success', 'Post has been updated!');
+        return redirect()->route('posts.show', $post)->with('success', 'Post updated');
     }
 
     public function destroy(Post $post)

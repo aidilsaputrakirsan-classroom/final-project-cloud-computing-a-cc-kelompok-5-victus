@@ -9,12 +9,15 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. Buat User Admin
-        User::factory()->create([
-            'name' => 'Admin',
-            'email' => 'admin@travesta.id',
-            'password' => bcrypt('password'),
-        ]);
+        // Buat user admin jika belum ada
+        User::firstOrCreate(
+            ['email' => 'admin@travesta.id'],
+            [
+                'name' => 'Admin',
+                'password' => bcrypt('password'),
+                'email_verified_at' => now(),
+            ]
+        );
 
         // 2. Panggil Seeder Berurutan
         $this->call([
