@@ -2,129 +2,110 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use App\Models\Comment;
 use App\Models\Post;
-use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class CommentController extends Controller
 {
-    /**
-     * Store a newly created comment for a post.
-     */
-    public function store(Request $request, Post $post)
+    public function index(Request $request)
     {
-        $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'nullable|email|max:255',
-            'content' => 'required|string|max:5000',
-        ]);
+        $query = Post::published()->with('user', 'category')->withCount('comments');
+        $query->having('comments_count', '>', 0);
 
-        // create owner token for this browser/user if not present
-        $ownerToken = $request->cookie('comment_owner_token') ?: bin2hex(random_bytes(30));
+        $sort = $request->get('sort', 'comments_count');
+        $direction = strtolower($request->get('direction', 'desc')) === 'desc' ? 'desc' : 'asc';
+        $allowed = ['id', 'title', 'comments_count', 'category'];
 
-        // ensure we have a post id (route-model binding or numeric id)
-        $postId = $post->id ?? $request->route('post');
-
-        $comment = Comment::create([
-            'post_id' => $postId,
-            'name' => $data['name'],
-            'email' => $data['email'] ?? null,
-            'content' => $data['content'],
-            'owner_token' => $ownerToken,
-            'ip_address' => $request->ip(),
-            'user_agent' => $request->userAgent(),
-        ]);
-
-        // set cookie so this browser can edit/delete this comment in future (5 years)
-        $minutes = 60 * 24 * 365 * 5;
-        return redirect()->back()->with('success', 'Comment posted.')->cookie('comment_owner_token', $ownerToken, $minutes);
-    }
-
-    /**
-     * Show the form for editing the specified comment.
-     */
-    public function edit(Request $request, Comment $comment)
-    {
-        // allow tests to bypass strict cookie parsing when running in the testing environment
-        if (!app()->environment('testing')) {
-            $token = $this->getOwnerTokenFromRequest($request);
-            if (!$token || $token !== $comment->owner_token) {
-                abort(403);
+        if (in_array($sort, $allowed)) {
+            if ($sort === 'category') {
+                $query = $query->leftJoin('categories', 'posts.category_id', '=', 'categories.id')
+                    ->select('posts.*')
+                    ->orderBy('categories.name', $direction);
+            } else {
+                $query = $query->orderBy($sort, $direction);
             }
+        } else {
+            $query = $query->orderByDesc('comments_count');
         }
 
-        // return an edit view if you create one, otherwise return the comment data
-        if ($request->wantsJson()) {
-            return response()->json($comment);
+        $posts = $query->get();
+        return view('comments.index', compact('posts'));
+    }
+
+    public function show(Post $post)
+    {
+        $comments = $post->comments()->latest()->get();
+        return view('comments.show', compact('post', 'comments'));
+    }
+
+    public function create(Post $post)
+    {
+        return view('comments.create', compact('post'));
+    }
+
+    public function store(Request $request, Post $post)
+    {
+        $request->validate([
+            'content' => 'required|string',
+            'name'    => 'nullable|string|max:255',
+            'email'   => 'nullable|email|max:255',
+        ]);
+
+        $comment = new Comment();
+        $comment->post_id = $post->id;
+        $comment->content = $request->input('content');
+        $comment->owner_token = (string) Str::uuid();
+
+        if (Auth::check()) {
+            $user = Auth::user();
+            $comment->name = $user->name;
+            $comment->email = $user->email;
+            $comment->is_admin = false;
+        } else {
+            $comment->name = $request->name ?? 'Guest';
+            $comment->email = $request->email;
+            $comment->is_admin = false;
+        }        // 4. Data Teknis
+        $comment->ip_address = $request->ip();
+        $comment->user_agent = $request->userAgent();
+
+        $comment->save();
+
+        return back()->with('success', 'Komentar berhasil dikirim.');
+    }
+    public function edit(Comment $comment)
+    {
+        if (!$comment->is_admin) {
+            abort(403);
         }
         return view('comments.edit', compact('comment'));
     }
 
-    /**
-     * Update the specified comment.
-     */
     public function update(Request $request, Comment $comment)
     {
-        if (!app()->environment('testing')) {
-            $token = $this->getOwnerTokenFromRequest($request);
-            if (!$token || $token !== $comment->owner_token) {
-                abort(403);
-            }
+        if (!$comment->is_admin) {
+            abort(403);
         }
-
         $data = $request->validate([
-            'content' => 'required|string|max:5000',
-            'name' => 'required|string|max:255',
+            'content' => 'required|string',
         ]);
+        $comment->content = $data['content'];
+        $comment->save();
 
-        $comment->update($data);
-
-        return redirect()->back()->with('success', 'Comment updated.');
+        return redirect()->route('admin.comments.show', $comment->post_id)->with('success', 'Comment updated.');
     }
 
-    /**
-     * Remove the specified comment.
-     */
-    public function destroy(Request $request, Comment $comment)
+    public function destroy(Comment $comment)
     {
-        if (!app()->environment('testing')) {
-            $token = $this->getOwnerTokenFromRequest($request);
-            if (!$token || $token !== $comment->owner_token) {
-                abort(403);
-            }
+        if (Auth::check() && $comment->user_id == Auth::id()) {
+            $comment->delete();
+            return back()->with('success', 'Komentar berhasil dihapus.');
         }
 
-        $comment->delete();
-
-        return redirect()->back()->with('success', 'Comment deleted.');
-    }
-
-    /**
-     * Try to extract the comment owner token from the request.
-     * Checks cookie, explicit header, and Cookie header as fallback (useful for tests).
-     */
-    private function getOwnerTokenFromRequest(Request $request)
-    {
-        // first check regular cookie access
-        $token = $request->cookie('comment_owner_token');
-        if ($token) {
-            return $token;
-        }
-
-        // then check explicit header (X-Comment-Owner-Token)
-        $header = $request->header('X-Comment-Owner-Token');
-        if ($header) {
-            return $header;
-        }
-
-        // finally try to parse the Cookie header (tests may set this)
-        $cookieHeader = $request->header('Cookie');
-        if ($cookieHeader) {
-            if (preg_match('/comment_owner_token=([^;\s]+)/', $cookieHeader, $m)) {
-                return $m[1];
-            }
-        }
-
-        return null;
+        return back()->with('error', 'Anda tidak berhak menghapus komentar ini.');
     }
 }

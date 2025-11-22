@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Tag;
 
 class PostController extends Controller
 {
@@ -75,87 +76,105 @@ class PostController extends Controller
 
     public function create()
     {
-        $categories = Category::where('is_active', true)->get();
-        return view('posts.create', compact('categories'));
+        return view('posts.create', [
+            'categories' => \App\Models\Category::all(),
+            'tags' => Tag::all() // Kirim data tags ke view
+        ]);
     }
 
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'title' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:posts,slug',
-            'content' => 'required|string',
-            'featured_image' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
+        $validatedData = $request->validate([
+            'title' => 'required|max:255',
+            'category_id' => 'required',
+            'image' => 'image|file|max:2048',
+            'body' => 'required',
+            'tags' => 'array',
             'status' => 'required|in:draft,published,archived',
-            'category_id' => 'nullable|exists:categories,id',
         ]);
 
-        if (empty($data['slug'])) {
-            $data['slug'] = $this->uniqueSlug($data['title']);
+        if ($request->file('image')) {
+            $validatedData['featured_image'] = $request->file('image')->store('post-images');
         }
 
-        // If no authenticated user, assign to first user as fallback
-        $data['user_id'] = Auth::id() ?? User::first()->id;
+        $validatedData['user_id'] = Auth::id();
 
+        $validatedData['content'] = $request->body;
+        unset($validatedData['body']);
 
-        if ($data['status'] === 'published') {
-            $data['published_at'] = now();
+        $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 200);
+        $validatedData['slug'] = $request->slug ? Str::slug($request->slug) : Str::slug($request->title);
+
+        if ($request->status === 'published') {
+            $validatedData['published_at'] = now();
         }
 
-        // handle featured image upload
-        if ($request->hasFile('featured_image')) {
-            $path = $request->file('featured_image')->store('featured_images', 'public');
-            $data['featured_image'] = $path;
+        $post = Post::create($validatedData);
+
+        if ($request->has('tags')) {
+            $post->tags()->attach($request->tags);
         }
 
-        $post = Post::create($data);
-
-        return redirect()->route('posts.show', $post)->with('success', 'Post created');
+        return redirect()->route('posts.index')->with('success', 'New post has been added!');
     }
 
     public function edit(Post $post)
     {
-        $categories = Category::where('is_active', true)->get();
-        return view('posts.edit', compact('post', 'categories'));
+        return view('posts.edit', [
+            'post' => $post,
+            'categories' => Category::all(),
+            'tags' => Tag::all()
+        ]);
     }
 
     public function update(Request $request, Post $post)
     {
-        $data = $request->validate([
-            'title' => 'required|string|max:255',
-            'slug' => 'nullable|string|max:255|unique:posts,slug,' . $post->id,
-            'content' => 'required|string',
-            'featured_image' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
+        $rules = [
+            'title' => 'required|max:255',
+            'category_id' => 'required',
+            'image' => 'image|file|max:2048',
+            'body' => 'required',
+            'tags' => 'array',
             'status' => 'required|in:draft,published,archived',
-            'category_id' => 'nullable|exists:categories,id',
-        ]);
+        ];
 
-        if (empty($data['slug'])) {
-            $data['slug'] = $this->uniqueSlug($data['title'], $post->id);
+        if ($request->slug != $post->slug) {
+            $rules['slug'] = 'required|unique:posts';
         }
 
+        $validatedData = $request->validate($rules);
 
-        if ($data['status'] === 'published' && !$post->published_at) {
-            $data['published_at'] = now();
-        }
-
-        if ($data['status'] !== 'published') {
-            $data['published_at'] = null;
-        }
-
-        // handle featured image replacement
-        if ($request->hasFile('featured_image')) {
-            // delete old file if exists
-            if ($post->featured_image) {
-                Storage::disk('public')->delete($post->featured_image);
+        if ($request->file('image')) {
+            if ($request->oldImage) {
+                \Illuminate\Support\Facades\Storage::delete($request->oldImage);
             }
-            $path = $request->file('featured_image')->store('featured_images', 'public');
-            $data['featured_image'] = $path;
+            $validatedData['image'] = $request->file('image')->store('post-images');
         }
 
-        $post->update($data);
+        $validatedData['user_id'] = Auth::id();
 
-        return redirect()->route('posts.show', $post)->with('success', 'Post updated');
+        $validatedData['content'] = $request->body;
+        unset($validatedData['body']);
+
+        $validatedData['excerpt'] = Str::limit(strip_tags($request->body), 200);
+
+        if ($request->status === 'published') {
+            if (!$post->published_at) {
+                $validatedData['published_at'] = now();
+            }
+        } else {
+            $validatedData['published_at'] = null;
+        }
+
+        $post->update($validatedData);
+
+        if ($request->has('tags')) {
+            $post->tags()->sync($request->tags);
+        } else {
+            $post->tags()->detach();
+        }
+
+        return redirect()->route('posts.index')->with('success', 'Post has been updated!');
     }
 
     public function destroy(Post $post)

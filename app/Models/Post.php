@@ -47,4 +47,9 @@ class Post extends Model
     {
         return $query->where('status', 'published');
     }
+
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
 }

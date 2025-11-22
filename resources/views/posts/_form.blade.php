@@ -15,21 +15,46 @@
         <label class="text-default-800 text-sm font-medium inline-block mb-2">Category</label>
         <select name="category_id" class="form-select">
             <option value="">- None -</option>
-            @foreach($categories as $cat)
-                <option value="{{ $cat->id }}" {{ (old('category_id', $post->category_id ?? '') == $cat->id) ? 'selected' : '' }}>{{ $cat->name }}</option>
+            @foreach ($categories as $cat)
+                <option value="{{ $cat->id }}"
+                    {{ old('category_id', $post->category_id ?? '') == $cat->id ? 'selected' : '' }}>
+                    {{ $cat->name }}</option>
             @endforeach
         </select>
     </div>
+    {{-- Input Tags (Multiselect Checkbox) --}}
+    <div class="mb-4">
+        <label class="block text-sm font-medium text-default-700 mb-2">Tags</label>
+        <div class="flex flex-wrap gap-3 p-3 border border-default-200 rounded-lg bg-white">
+            @foreach ($tags as $tag)
+                <div class="flex items-center">
+                    <input type="checkbox" name="tags[]" id="tag-{{ $tag->id }}" value="{{ $tag->id }}"
+                        class="form-checkbox rounded text-primary border-default-200 focus:ring-primary"
+                        {{-- LOGIKA PENTING: Cek old input ATAU data database (jika edit) --}} @if (in_array($tag->id, old('tags', isset($post) ? $post->tags->pluck('id')->toArray() : []))) checked @endif>
+                    <label for="tag-{{ $tag->id }}" class="ml-2 text-sm text-default-700 cursor-pointer">
+                        {{ $tag->name }}
+                    </label>
+                </div>
+            @endforeach
+        </div>
+        @error('tags')
+            <p class="text-danger text-xs mt-1">{{ $message }}</p>
+        @enderror
+    </div>
 
     <div class="lg:col-span-2">
-        <label class="text-default-800 text-sm font-medium inline-block mb-2">Content</label>
-        <textarea name="content" class="form-input h-28">{{ old('content', $post->content ?? '') }}</textarea>
+        <label class="text-default-800 text-sm font-medium inline-block mb-2">Body</label>
+        <textarea name="body" class="form-input h-28" required>{{ old('body', $post->body ?? '') }}</textarea>
+
+        @error('body')
+            <p class="text-danger text-xs mt-1">{{ $message }}</p>
+        @enderror
     </div>
 
     <div>
         <label class="text-default-800 text-sm font-medium inline-block mb-2">Featured image (optional)</label>
         <input type="file" name="featured_image" class="form-input">
-        @if(!empty($post->featured_image))
+        @if (!empty($post->featured_image))
             <div class="mt-2">
                 <img src="{{ \Illuminate\Support\Facades\Storage::url($post->featured_image) }}" alt=""
                     class="h-28 object-cover">

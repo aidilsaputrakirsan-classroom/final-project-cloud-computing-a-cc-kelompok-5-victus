@@ -26,7 +26,7 @@
     <!-- News-Section Start -->
     <section class="news-section section-padding fix">
         <div class="container">
-            @if(!empty($activeCategoryName))
+            @if (!empty($activeCategoryName))
                 <div class="mb-4">
                     <h3>Category: {{ $activeCategoryName }}</h3>
                 </div>
@@ -55,7 +55,7 @@
                                     </li>
                                     <li>
                                         <i class="fa-regular fa-tag"></i>
-                                        @if($post->category)
+                                        @if ($post->category)
                                             <a
                                                 href="{{ route('landing.blog', ['category' => $post->category->slug]) }}">{{ $post->category->name }}</a>
                                         @else
