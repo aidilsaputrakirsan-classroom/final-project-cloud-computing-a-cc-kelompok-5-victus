@@ -52,6 +52,10 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('comments/{comment}/edit', [AdminCommentController::class, 'edit'])->name('comments.edit');
     Route::put('comments/{comment}', [AdminCommentController::class, 'update'])->name('comments.update');
     Route::delete('comments/{comment}', [AdminCommentController::class, 'destroy'])->name('comments.destroy');
+    Route::get('/tags/{id}/edit', [TagController::class, 'edit'])->name('admin.tags.edit');
+    Route::put('/tags/{id}', [TagController::class, 'update'])->name('admin.tags.update');
+    Route::delete('/tags/{id}', [TagController::class, 'destroy'])->name('admin.tags.destroy');
+
 });
 
 Route::view('/about', 'landing.about')->name('landing.about');

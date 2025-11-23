@@ -61,4 +61,46 @@ class TagController extends Controller
 
         return redirect()->route('admin.tags.index')->with('success', 'New tag has been added!');
     }
+
+    public function edit($id)
+{
+    $tag = Tag::findOrFail($id);
+    return view('tags.edit', compact('tag'));
+}
+
+public function update(Request $request, $id)
+{
+    $tag = Tag::findOrFail($id);
+
+    $validated = $request->validate([
+        'name' => 'required|max:255|unique:tags,name,' . $tag->id,
+    ]);
+
+    $validated['slug'] = Str::slug($request->name);
+
+    $tag->update($validated);
+
+    return redirect()
+        ->route('admin.tags.index')
+        ->with('success', 'Tag has been updated!');
+}
+
+public function destroy($id)
+{
+    $tag = Tag::findOrFail($id);
+
+    // Optional: Cek apakah tag sedang dipakai post
+    $usedInPosts = Post::whereJsonContains('tags', $tag->id)->count();
+    if ($usedInPosts > 0) {
+        return redirect()->route('admin.tags.index')
+            ->with('error', 'Tag cannot be deleted because it is used by posts.');
+    }
+
+    $tag->delete();
+
+    return redirect()
+        ->route('admin.tags.index')
+        ->with('success', 'Tag has been deleted!');
+}
+
 }
