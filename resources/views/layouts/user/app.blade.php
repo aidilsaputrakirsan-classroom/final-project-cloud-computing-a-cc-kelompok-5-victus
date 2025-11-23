@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="{{ asset('assets/css-user/nice-select.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/css-user/color.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/css-user/main.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/css-user/dark.css') }}">
     @stack('styles')
   </head>
   <body>
@@ -42,6 +43,7 @@
   <script src="{{ asset('assets/js-user/jquery.magnific-popup.min.js') }}"></script>
   <script src="{{ asset('assets/js-user/wow.min.js') }}"></script>
   <script src="{{ asset('assets/js-user/main.js') }}"></script>
+  <script src="{{ asset('assets/js-user/darkmode.js') }}"></script>
     @stack('scripts')
   </body>
 </html>

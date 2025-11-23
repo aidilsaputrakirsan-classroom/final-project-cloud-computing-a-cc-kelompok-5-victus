@@ -172,8 +172,6 @@
                                     </ul>
                                 </div>
                             </div>
-                            <a href="{{ route('landing.blog') }}" class="theme-btn wow fadeInUp wow"
-                                data-wow-delay=".9s">Hubungi Kami<i class="fa-sharp fa-regular fa-arrow-right"></i></a>
                         </div>
                     </div>
                     <div class="col-lg-6">

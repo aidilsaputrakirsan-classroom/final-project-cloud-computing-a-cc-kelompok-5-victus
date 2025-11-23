@@ -90,6 +90,10 @@
                 </div>
                 <div class="header-right d-flex justify-content-end align-items-center">
                     <a href="#0" class="search-trigger search-icon"><i class="fa-regular fa-magnifying-glass"></i></a>
+                    <!-- Dark mode toggle -->
+                    <button id="dark-mode-toggle" aria-pressed="false" title="Toggle dark mode" class="btn btn-sm mx-2" style="min-width:40px;"> 
+                        <i class="fa-regular fa-moon"></i>
+                    </button>
                     <div class="header__hamburger d-xl-none my-auto">
                         <div class="sidebar__toggle"><i class="fas fa-bars"></i></div>
                     </div>

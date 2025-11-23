@@ -7631,7 +7631,7 @@ span {
 .news-details-area .blog-post-details .tag-share-wrap {
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
-  padding: 30px 0;
+  padding: 18px 0; /* reduced vertical padding to tighten spacing around tags */
 }
 .news-details-area .blog-post-details .tag-share-wrap .tagcloud a {
   display: inline-block;
@@ -7639,6 +7639,7 @@ span {
   line-height: 1;
   background: transparent;
   margin-right: 8px;
+  margin-bottom: 8px; /* allow tighter rows when tags wrap */
   text-transform: capitalize;
   font-weight: 500;
   -webkit-transition: all 0.4s ease-in-out;
@@ -7648,7 +7649,7 @@ span {
 }
 @media (max-width: 575px) {
   .news-details-area .blog-post-details .tag-share-wrap .tagcloud a {
-    margin-bottom: 5px;
+    margin-bottom: 6px;
     padding: 12px 23px;
   }
 }

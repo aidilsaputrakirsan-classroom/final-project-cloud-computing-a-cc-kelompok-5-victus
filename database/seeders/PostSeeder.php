@@ -178,5 +178,5 @@ class PostSeeder extends Seeder
                 $post->save();
             }
         }
-    }
+       }
 }
