@@ -11,7 +11,7 @@ class LandingBlogController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Post::published()->with(['user', 'category', 'tags']);
+        $query = Post::published()->with(['user', 'category']);
 
         $activeCategory = null;
         $activeCategoryName = null;
@@ -33,9 +33,11 @@ class LandingBlogController extends Controller
         if ($request->filled('tag')) {
             $tagSlug = $request->get('tag');
 
-            $query->whereHas('tags', function ($q) use ($tagSlug) {
-                $q->where('slug', $tagSlug);
-            });
+            // Find tag id by slug then filter posts whose JSON `tags` contains that id
+            $tagId = Tag::where('slug', $tagSlug)->value('id');
+            if ($tagId) {
+                $query->whereJsonContains('tags', $tagId);
+            }
 
             $activeTag = $tagSlug;
             $activeTagName = Tag::where('slug', $tagSlug)->value('name');
@@ -54,15 +56,17 @@ class LandingBlogController extends Controller
             ->take(3)
             ->get();
 
-        $tags = Tag::withCount([
-            'posts' => function ($q) {
-                $q->whereNotNull('published_at');
-            }
-        ])
-            ->having('posts_count', '>', 0)
-            ->orderByDesc('posts_count')
-            ->limit(10)
-            ->get();
+        // Build tag list with post counts using JSON `tags` on posts
+        $tags = Tag::all()->map(function ($tag) {
+            $tag->posts_count = Post::whereJsonContains('tags', $tag->id)
+                ->whereNotNull('published_at')
+                ->count();
+            return $tag;
+        })->filter(function ($tag) {
+            return $tag->posts_count > 0;
+        })->sortByDesc('posts_count')
+            ->take(10)
+            ->values();
 
         return view('landing.blog', [
             'posts' => $posts,
@@ -83,7 +87,6 @@ class LandingBlogController extends Controller
             ->with([
                 'user',
                 'category',
-                'tags',  // tambahan: tags
                 'comments' => function ($q) {
                     $q->orderByDesc('is_admin')->latest();
                 },
@@ -100,15 +103,17 @@ class LandingBlogController extends Controller
             ->take(3)
             ->get();
 
-        $tags = Tag::withCount([
-            'posts' => function ($q) {
-                $q->whereNotNull('published_at');
-            }
-        ])
-            ->having('posts_count', '>', 0)
-            ->orderByDesc('posts_count')
-            ->limit(10)
-            ->get();
+        // Build tag list with post counts using JSON `tags` on posts
+        $tags = Tag::all()->map(function ($tag) {
+            $tag->posts_count = Post::whereJsonContains('tags', $tag->id)
+                ->whereNotNull('published_at')
+                ->count();
+            return $tag;
+        })->filter(function ($tag) {
+            return $tag->posts_count > 0;
+        })->sortByDesc('posts_count')
+            ->take(10)
+            ->values();
 
         return view('landing.blog-detail', [
             'post' => $post,

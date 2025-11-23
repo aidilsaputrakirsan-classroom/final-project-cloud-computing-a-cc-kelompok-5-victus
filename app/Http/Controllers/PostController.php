@@ -24,7 +24,7 @@ class PostController extends Controller
         $sort = $request->get('sort');
         $direction = strtolower($request->get('direction', 'asc')) === 'desc' ? 'desc' : 'asc';
 
-        $query = Post::with(['category', 'user', 'tags']);
+        $query = Post::with(['category', 'user']);
 
         if (in_array($sort, $allowedSorts, true)) {
             switch ($sort) {
@@ -100,11 +100,6 @@ class PostController extends Controller
 
         $post = Post::create($data);
 
-        // 🔥 Tambahkan tags
-        if ($request->has('tags')) {
-            $post->tags()->attach($request->tags);
-        }
-
         return redirect()->route('posts.show', $post)->with('success', 'Post created');
     }
 
@@ -150,13 +145,6 @@ class PostController extends Controller
         }
 
         $post->update($data);
-
-        // 🔥 Update tags (sync)
-        if ($request->has('tags')) {
-            $post->tags()->sync($request->tags);
-        } else {
-            $post->tags()->detach();
-        }
 
         return redirect()->route('posts.show', $post)->with('success', 'Post updated');
     }

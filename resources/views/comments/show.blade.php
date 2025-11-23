@@ -36,7 +36,7 @@
                   <tr>
                     <td class="px-6 py-4 whitespace-nowrap text-sm text-default-800">
                       {{ $comment->name }}
-                      @if($comment->is_admin || strtolower($comment->name) === 'admin')
+                      @if(!empty($comment->is_admin) && $comment->is_admin)
                         <span
                           class="inline-flex items-center ml-2 px-2 py-0.5 rounded-full bg-primary/25 text-primary text-xs font-medium">Admin</span>
                       @endif
@@ -47,7 +47,7 @@
                     </td>
                     <td class="px-6 py-4 whitespace-nowrap text-end text-sm font-medium">
                       <div class="flex items-center justify-end gap-2">
-                        @if(strtolower($comment->name) === 'admin' || $comment->name === auth()->user()->name)
+                        @if(!empty($comment->is_admin) && $comment->is_admin)
                           <a href="{{ route('admin.comments.edit', $comment) }}"
                             class="btn btn-sm bg-info text-white">Edit</a>
                         @endif
