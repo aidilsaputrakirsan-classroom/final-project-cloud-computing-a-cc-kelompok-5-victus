@@ -56,17 +56,15 @@ class LandingBlogController extends Controller
             ->take(3)
             ->get();
 
-        // Build tag list with post counts using JSON `tags` on posts
-        $tags = Tag::all()->map(function ($tag) {
-            $tag->posts_count = Post::whereJsonContains('tags', $tag->id)
-                ->whereNotNull('published_at')
-                ->count();
-            return $tag;
-        })->filter(function ($tag) {
-            return $tag->posts_count > 0;
-        })->sortByDesc('posts_count')
-            ->take(10)
-            ->values();
+        $tags = Tag::latest()
+            ->take(10) // Batasi hanya 10
+            ->get()
+            ->map(function ($tag) {
+                $tag->posts_count = Post::whereJsonContains('tags', $tag->id)
+                    ->whereNotNull('published_at')
+                    ->count();
+                return $tag;
+            });
 
         return view('landing.blog', [
             'posts' => $posts,
@@ -81,7 +79,6 @@ class LandingBlogController extends Controller
 
     public function show($slug)
     {
-
         $post = Post::where('slug', $slug)
             ->published()
             ->with([
@@ -103,17 +100,15 @@ class LandingBlogController extends Controller
             ->take(3)
             ->get();
 
-        // Build tag list with post counts using JSON `tags` on posts
-        $tags = Tag::all()->map(function ($tag) {
-            $tag->posts_count = Post::whereJsonContains('tags', $tag->id)
-                ->whereNotNull('published_at')
-                ->count();
-            return $tag;
-        })->filter(function ($tag) {
-            return $tag->posts_count > 0;
-        })->sortByDesc('posts_count')
+        $tags = Tag::latest()
             ->take(10)
-            ->values();
+            ->get()
+            ->map(function ($tag) {
+                $tag->posts_count = Post::whereJsonContains('tags', $tag->id)
+                    ->whereNotNull('published_at')
+                    ->count();
+                return $tag;
+            });
 
         return view('landing.blog-detail', [
             'post' => $post,
