@@ -105,11 +105,11 @@
 
 <!-- Search area placeholder (template) -->
 <div class="search-wrap">
-    <div class="search-inner">
+        <div class="search-inner">
         <i class="fas fa-times search-close" id="search-close"></i>
         <div class="search-cell">
-            <form method="get">
-                <div class="search-field-holder"><input type="search" class="main-search-input" placeholder="Search...">
+            <form method="get" action="{{ route('landing.blog') }}">
+                <div class="search-field-holder"><input type="search" name="q" class="main-search-input" placeholder="Search posts..." value="{{ request('q') }}">
                 </div>
             </form>
         </div>

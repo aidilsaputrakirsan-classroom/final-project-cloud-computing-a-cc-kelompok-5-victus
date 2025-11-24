@@ -43,6 +43,15 @@ class LandingBlogController extends Controller
             $activeTagName = Tag::where('slug', $tagSlug)->value('name');
         }
 
+        // Fulltext-ish search across title and content
+        if ($request->filled('q')) {
+            $term = $request->get('q');
+            $query->where(function ($q) use ($term) {
+                $q->where('title', 'like', '%' . $term . '%')
+                  ->orWhere('content', 'like', '%' . $term . '%');
+            });
+        }
+
         $posts = $query->orderByDesc('published_at')
             ->paginate(9)
             ->appends($request->except('page'));
