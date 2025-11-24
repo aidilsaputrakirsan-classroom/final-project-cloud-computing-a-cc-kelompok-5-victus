@@ -1,0 +1,175 @@
+/* Dark mode overrides — only colors, do not change sizes or layout */
+/* Uses [data-theme="dark"] on the documentElement (html) to enable dark mode */
+
+[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+[data-theme="dark"] body {
+  background-color: #0b1221 !important;
+}
+
+/* Keep spacing / sizing untouched: only override colors/backgrounds/borders/text */
+[data-theme="dark"] .bg-white {
+  background-color: #0f1724 !important;
+}
+
+[data-theme="dark"] .border-default-200,
+[data-theme="dark"] .border-gray-200 {
+  border-color: #22313f !important;
+}
+
+
+
+[data-theme="dark"] .app-header,
+[data-theme="dark"] header.app-header,
+[data-theme="dark"] .footer {
+  /* Use solid dark background in topbar/footer to avoid transparency */
+  background-color: #0f1724 !important;
+  border-color: #22313f !important;
+}
+
+[data-theme="dark"] .hs-dropdown-menu,
+[data-theme="dark"] .card,
+[data-theme="dark"] .container .bg-white,
+[data-theme="dark"] .bg-white.rounded-md,
+[data-theme="dark"] .bg-white.rounded-md.shadow-sm {
+  background-color: #0f1724 !important;
+  /* Do not override text color here to preserve font colors */
+}
+
+/* Profile / topbar dropdown: ensure menu items are visible in dark mode */
+[data-theme="dark"] .hs-dropdown-menu,
+[data-theme="dark"] .hs-dropdown-menu * {
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .hs-dropdown-menu a,
+[data-theme="dark"] .hs-dropdown-menu button {
+  color: #ffffff !important;
+}
+
+/* Dark hover for profile/topbar dropdown items */
+[data-theme="dark"] .hs-dropdown-menu a:hover,
+[data-theme="dark"] .hs-dropdown-menu button:hover,
+[data-theme="dark"] .hs-dropdown-menu li:hover,
+[data-theme="dark"] .hs-dropdown-menu .dropdown-item:hover {
+  background-color: #071021 !important; /* slightly darker than menu bg */
+  color: #ffffff !important;
+}
+
+/* Focus states should match hover for keyboard navigation */
+[data-theme="dark"] .hs-dropdown-menu a:focus,
+[data-theme="dark"] .hs-dropdown-menu button:focus,
+[data-theme="dark"] .hs-dropdown-menu li:focus {
+  outline: none !important;
+  background-color: #071021 !important;
+  color: #ffffff !important;
+}
+
+
+
+/* Buttons: keep background buttons as-is but ensure text is visible */
+
+
+/* Forms / inputs */
+[data-theme="dark"] input,
+[data-theme="dark"] textarea,
+[data-theme="dark"] select,
+[data-theme="dark"] .form-control {
+  background-color: #071021 !important;
+  border-color: #22313f !important;
+  /* Do not set text color so font colors remain the same */
+}
+
+/* Make sure icons that rely on currentColor adapt */
+
+
+/* Keep images and logos unchanged to avoid layout shifts */
+
+/* Minimal, targeted overrides to avoid interfering with responsive sizes */
+
+/* Make content text white in dark mode (but avoid changing elements with explicit `text-primary` style) */
+[data-theme="dark"] main .container,
+[data-theme="dark"] main .container * {
+  color: #ffffff !important;
+}
+
+/* Make footer text white but preserve the 'Group Victus' primary link color */
+[data-theme="dark"] .footer,
+[data-theme="dark"] .footer * {
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .footer .text-primary,
+[data-theme="dark"] .footer a.text-primary {
+  /* restore primary blue used in app.min.css */
+  color: rgb(59 130 246) !important;
+}
+
+/* Normalize table header / rows / borders in dark mode inside content area
+   - force thead background to dark, keep text white
+   - ensure table borders use the dark border color
+   - do not change padding/sizing so layout remains consistent */
+[data-theme="dark"] main .container table thead,
+[data-theme="dark"] main .container table thead th,
+[data-theme="dark"] .container .bg-white table thead,
+[data-theme="dark"] .container table thead {
+  background-color: #0b1221 !important;
+  color: #ffffff !important;
+}
+
+  /* Status column badges: make dark variants in dark mode
+     Scoped to the 5th column (Status) to avoid affecting badges elsewhere */
+  [data-theme="dark"] table.min-w-full tbody tr td:nth-child(5) .inline-flex {
+    background-color: #0b1221 !important;
+    color: #ffffff !important;
+    border-color: transparent !important;
+  }
+
+  /* Preserve color accents where meaningful (dark variants per status) */
+  [data-theme="dark"] table.min-w-full tbody tr td:nth-child(5) .bg-green-100.text-green-800 {
+    background-color: #064e3b !important; /* dark emerald */
+    color: #ffffff !important;
+  }
+
+  [data-theme="dark"] table.min-w-full tbody tr td:nth-child(5) .bg-yellow-100.text-yellow-800 {
+    background-color: #7c2d12 !important; /* dark amber */
+    color: #ffffff !important;
+  }
+
+  [data-theme="dark"] table.min-w-full tbody tr td:nth-child(5) .bg-white\/10.text-default-600,
+  [data-theme="dark"] table.min-w-full tbody tr td:nth-child(5) .bg-gray-100.text-default-800 {
+    background-color: #111827 !important; /* deep slate */
+    color: #e5e7eb !important;
+  }
+
+[data-theme="dark"] main .container table,
+[data-theme="dark"] main .container table th,
+[data-theme="dark"] main .container table td,
+[data-theme="dark"] .container .bg-white table,
+[data-theme="dark"] .container .bg-white table th,
+[data-theme="dark"] .container .bg-white table td {
+  border-color: #22313f !important;
+}
+
+[data-theme="dark"] main .container table tbody tr,
+[data-theme="dark"] .container .bg-white table tbody tr {
+  /* keep the row background matching surrounding container */
+  background-color: transparent !important;
+}
+
+/* Brighten icons in dark mode: Iconify components, Tabler icon-font, and inline SVGs
+   Use a light color and ensure fill/stroke follow currentColor. Targets only icon elements. */
+[data-theme="dark"] iconify-icon,
+[data-theme="dark"] .iconify,
+[data-theme="dark"] svg.iconify,
+[data-theme="dark"] .i-tabler,
+[data-theme="dark"] [class*="i-tabler-"],
+[data-theme="dark"] .nav-link i,
+[data-theme="dark"] .nav-link svg {
+  color: #e6eef8 !important;
+  fill: currentColor !important;
+  stroke: currentColor !important;
+  opacity: 1 !important;
+}
