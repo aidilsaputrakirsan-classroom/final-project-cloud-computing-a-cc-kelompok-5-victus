@@ -49,7 +49,7 @@
                 <div class="offcanvas__top mb-5 d-flex justify-content-between align-items-center">
                     <div class="offcanvas__logo">
                         <a href="{{ url('/') }}">
-                            <img src="{{ asset('assets/images-user/logo/black-logo.svg') }}" alt="logo-img">
+                            <img src="{{ asset('assets/images-user/logo/black-logo.png') }}" alt="logo-img">
                         </a>
                     </div>
                     <div class="offcanvas__close">
@@ -91,7 +91,8 @@
                 <div class="header-right d-flex justify-content-end align-items-center">
                     <a href="#0" class="search-trigger search-icon"><i class="fa-regular fa-magnifying-glass"></i></a>
                     <!-- Dark mode toggle -->
-                    <button id="dark-mode-toggle" aria-pressed="false" title="Toggle dark mode" class="btn btn-sm mx-2" style="min-width:40px;"> 
+                    <button id="dark-mode-toggle" aria-pressed="false" title="Toggle dark mode" class="btn btn-sm mx-2"
+                        style="min-width:40px;">
                         <i class="fa-regular fa-moon"></i>
                     </button>
                     <div class="header__hamburger d-xl-none my-auto">
@@ -105,11 +106,12 @@
 
 <!-- Search area placeholder (template) -->
 <div class="search-wrap">
-        <div class="search-inner">
+    <div class="search-inner">
         <i class="fas fa-times search-close" id="search-close"></i>
         <div class="search-cell">
             <form method="get" action="{{ route('landing.blog') }}">
-                <div class="search-field-holder"><input type="search" name="q" class="main-search-input" placeholder="Search posts..." value="{{ request('q') }}">
+                <div class="search-field-holder"><input type="search" name="q" class="main-search-input"
+                        placeholder="Search posts..." value="{{ request('q') }}">
                 </div>
             </form>
         </div>
