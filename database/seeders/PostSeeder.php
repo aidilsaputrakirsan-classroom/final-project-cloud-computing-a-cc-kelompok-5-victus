@@ -173,8 +173,9 @@ class PostSeeder extends Seeder
             ]);
 
             if ($allTags->count() > 0) {
-                $randomTags = $allTags->random(rand(2, 4))->pluck('id');
-                $post->tags()->attach($randomTags);
+                $randomTags = $allTags->random(rand(2, 4))->pluck('id')->toArray();
+                $post->tags = $randomTags;
+                $post->save();
             }
         }
     }

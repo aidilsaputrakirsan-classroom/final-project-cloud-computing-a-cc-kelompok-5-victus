@@ -17,6 +17,7 @@ return new class extends Migration {
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('category_id')->nullable();
             $table->timestamp('published_at')->nullable();
+            $table->json('tags')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

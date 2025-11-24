@@ -53,7 +53,7 @@
                                     <th class="px-6 py-3 text-start text-sm text-default-500">{!! $buildSortLink('id', '#') !!}</th>
                                     <th class="px-6 py-3 text-start text-sm text-default-500">{!! $buildSortLink('name', 'Name') !!}</th>
                                     <th class="px-6 py-3 text-start text-sm text-default-500">{!! $buildSortLink('slug', 'Slug') !!}</th>
-                                    <th class="px-6 py-3 text-start text-sm text-default-500">Posts Count</th>
+                                    <th class="px-6 py-3 text-start text-sm text-default-500">{!! $buildSortLink('posts_count', 'Posts Count') !!}</th>
                                     <th class="px-6 py-3 text-end text-sm text-default-500">Action</th>
                                 </tr>
                             </thead>
@@ -61,7 +61,8 @@
                                 @forelse($tags as $tag)
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-800">
-                                            {{ $loop->iteration }}</td>
+                                            {{ $tag->id }}
+                                        </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-default-800">{{ $tag->name }}
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-default-800">{{ $tag->slug }}

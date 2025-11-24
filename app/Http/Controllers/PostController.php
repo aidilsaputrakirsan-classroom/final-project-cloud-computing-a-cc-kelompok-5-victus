@@ -24,7 +24,7 @@ class PostController extends Controller
         $sort = $request->get('sort');
         $direction = strtolower($request->get('direction', 'asc')) === 'desc' ? 'desc' : 'asc';
 
-        $query = Post::with(['category', 'user', 'tags']);
+        $query = Post::with(['category', 'user']);
 
         if (in_array($sort, $allowedSorts, true)) {
             switch ($sort) {
@@ -97,13 +97,11 @@ class PostController extends Controller
             $path = $request->file('featured_image')->store('featured_images', 'public');
             $data['featured_image'] = $path;
         }
+        if (!empty($data['tags'])) {
+            $data['tags'] = array_map('intval', $data['tags']);
+        }
 
         $post = Post::create($data);
-
-        // 🔥 Tambahkan tags
-        if ($request->has('tags')) {
-            $post->tags()->attach($request->tags);
-        }
 
         return redirect()->route('posts.show', $post)->with('success', 'Post created');
     }
@@ -149,14 +147,11 @@ class PostController extends Controller
             $data['featured_image'] = $path;
         }
 
-        $post->update($data);
-
-        // 🔥 Update tags (sync)
-        if ($request->has('tags')) {
-            $post->tags()->sync($request->tags);
-        } else {
-            $post->tags()->detach();
+        if (!empty($data['tags'])) {
+            $data['tags'] = array_map('intval', $data['tags']);
         }
+
+        $post->update($data);
 
         return redirect()->route('posts.show', $post)->with('success', 'Post updated');
     }
