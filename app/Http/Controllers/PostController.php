@@ -97,6 +97,9 @@ class PostController extends Controller
             $path = $request->file('featured_image')->store('featured_images', 'public');
             $data['featured_image'] = $path;
         }
+        if (!empty($data['tags'])) {
+            $data['tags'] = array_map('intval', $data['tags']);
+        }
 
         $post = Post::create($data);
 
@@ -142,6 +145,10 @@ class PostController extends Controller
             }
             $path = $request->file('featured_image')->store('featured_images', 'public');
             $data['featured_image'] = $path;
+        }
+
+        if (!empty($data['tags'])) {
+            $data['tags'] = array_map('intval', $data['tags']);
         }
 
         $post->update($data);
