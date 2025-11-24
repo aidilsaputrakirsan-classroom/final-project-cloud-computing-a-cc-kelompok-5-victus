@@ -27,14 +27,16 @@
 
             <!-- Dark Mode Toggle Button -->
             <div class="md:flex hidden">
-                <button id="dark-mode-toggle" type="button" class="nav-link p-2" title="Toggle Dark Mode" aria-pressed="false">
+                <button id="dark-mode-toggle" type="button" class="nav-link p-2" title="Toggle Dark Mode"
+                    aria-pressed="false">
                     <span class="sr-only">Toggle dark mode</span>
-                      <span class="flex items-center justify-center size-6">
+                    <span class="flex items-center justify-center size-6">
                         <!-- Moon icon (visible when light mode) - Iconify -->
                         <iconify-icon icon="tabler:moon" class="dm-moon text-2xl" aria-hidden="true"></iconify-icon>
 
                         <!-- Sun icon (visible when dark mode is active) - Iconify -->
-                        <iconify-icon icon="tabler:sun" class="dm-sun text-2xl hidden" aria-hidden="true"></iconify-icon>
+                        <iconify-icon icon="tabler:sun" class="dm-sun text-2xl hidden"
+                            aria-hidden="true"></iconify-icon>
                     </span>
                 </button>
             </div>

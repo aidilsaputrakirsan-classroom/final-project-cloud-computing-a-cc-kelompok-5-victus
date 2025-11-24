@@ -6,22 +6,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>@yield('title', 'Admin') - Travesta</title>
 
-  <!-- Early dark-mode initializer: set `data-theme="dark"` before styles load to avoid white flash -->
-  <script>
-    (function(){
-      try {
-        var key = 'dark-mode-enabled';
-        var saved = localStorage.getItem(key);
-        var prefers = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        var dark = (saved === null) ? prefers : (saved === 'true');
-        if (dark) document.documentElement.setAttribute('data-theme','dark');
-      } catch(e) {}
-    })();
-  </script>
+  <!-- Early dark-mode initializer loaded from external JS to keep markup clean -->
+  <script src="{{ asset('assets/js/darkmode-head.js') }}"></script>
 
   <style>
     /* Immediate inline fallback so initial paint uses dark background when data-theme is set */
-    html[data-theme="dark"] body { background-color: #0b1221; color: #ffffff; }
+    html[data-theme="dark"] body {
+      background-color: #0b1221;
+      color: #ffffff;
+    }
   </style>
 
   <!-- Favicon for admin pages -->
