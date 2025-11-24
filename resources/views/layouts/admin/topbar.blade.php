@@ -11,63 +11,62 @@
 
         <!-- Sidenav Menu Toggle Button removed per layout preference -->
 
-        <!-- quick area -->
-        <div class="ms-auto hs-dropdown relative inline-flex [--placement:bottom-right]">
-            <button type="button" class="hs-dropdown-toggle inline-flex items-center">
-                <img src="{{ asset('assets/images/flags/us.jpg') }}" alt="user-image" class="h-4 w-6">
-            </button>
+        <!-- quick area (language menu removed) -->
 
-            <div
-                class="hs-dropdown-menu mt-2 min-w-48 rounded-lg border border-default-200 bg-white p-2 opacity-0 shadow-md transition-none hs-dropdown-open:opacity-100 hidden">
-                <a href="#"
-                    class="flex items-center gap-2.5 py-2 px-3 rounded-md text-sm text-default-800 hover:bg-gray-100">
-                    <img src="{{ asset('assets/images/flags/germany.jpg') }}" alt="user-image" class="h-4">
-                    <span class="align-middle">German</span>
-                </a>
-                <a href="#"
-                    class="flex items-center gap-2.5 py-2 px-3 rounded-md text-sm text-default-800 hover:bg-gray-100">
-                    <img src="{{ asset('assets/images/flags/italy.jpg') }}" alt="user-image" class="h-4">
-                    <span class="align-middle">Italian</span>
-                </a>
-            </div>
-        </div>
-
-        <!-- Fullscreen Toggle Button -->
-        <div class="md:flex hidden">
-            <button data-toggle="fullscreen" type="button" class="nav-link p-2">
-                <span class="sr-only">Fullscreen Mode</span>
-                <span class="flex items-center justify-center size-6">
-                    <i class="i-tabler-maximize text-2xl flex group-[-fullscreen]:hidden"></i>
-                    <i class="i-tabler-minimize text-2xl hidden group-[-fullscreen]:flex"></i>
-                </span>
-            </button>
-        </div>
-
-        <!-- Profile Dropdown Button -->
-        <div class="relative">
-            <div class="hs-dropdown relative inline-flex [--placement:bottom-right]">
-                <button type="button" class="hs-dropdown-toggle nav-link flex items-center gap-2">
-                    <img src="{{ asset('assets/images/users/avatar-4.jpg') }}" alt="user-image"
-                        class="rounded-full h-10">
-                    <i class="i-tabler-chevron-down text-sm ms-2"></i>
+        <div class="ms-auto flex items-center gap-4">
+            <!-- Fullscreen Toggle Button -->
+            <div class="md:flex hidden">
+                <button data-toggle="fullscreen" type="button" class="nav-link p-2">
+                    <span class="sr-only">Fullscreen Mode</span>
+                    <span class="flex items-center justify-center size-6">
+                        <i class="i-tabler-maximize text-2xl flex group-[-fullscreen]:hidden"></i>
+                        <i class="i-tabler-minimize text-2xl hidden group-[-fullscreen]:flex"></i>
+                    </span>
                 </button>
-                <div
-                    class="hs-dropdown-menu mt-2 min-w-48 rounded-lg border border-default-200 bg-white p-2 opacity-0 shadow-md transition-none hs-dropdown-open:opacity-100 hidden">
-                    <a class="flex items-center py-2 px-3 rounded-md text-sm text-default-800 hover:bg-gray-100"
-                        href="{{ route('profile.edit') }}">Profile</a>
-                    <hr class="my-2">
-                    @auth
-                        <form method="POST" action="{{ route('logout') }}" data-logout-form>
-                            @csrf
-                            <button type="submit"
-                                class="w-full text-start flex items-center py-2 px-3 rounded-md text-sm text-default-800 hover:bg-gray-100">
-                                Log Out
-                            </button>
-                        </form>
-                    @else
+            </div>
+
+            <!-- Dark Mode Toggle Button -->
+            <div class="md:flex hidden">
+                <button id="dark-mode-toggle" type="button" class="nav-link p-2" title="Toggle Dark Mode"
+                    aria-pressed="false">
+                    <span class="sr-only">Toggle dark mode</span>
+                    <span class="flex items-center justify-center size-6">
+                        <!-- Moon icon (visible when light mode) - Iconify -->
+                        <iconify-icon icon="tabler:moon" class="dm-moon text-2xl" aria-hidden="true"></iconify-icon>
+
+                        <!-- Sun icon (visible when dark mode is active) - Iconify -->
+                        <iconify-icon icon="tabler:sun" class="dm-sun text-2xl hidden"
+                            aria-hidden="true"></iconify-icon>
+                    </span>
+                </button>
+            </div>
+
+            <!-- Profile Dropdown Button -->
+            <div class="relative">
+                <div class="hs-dropdown relative inline-flex [--placement:bottom-right]">
+                    <button type="button" class="hs-dropdown-toggle nav-link flex items-center gap-2">
+                        <img src="{{ asset('assets/images/users/avatar-4.jpg') }}" alt="user-image"
+                            class="rounded-full h-10">
+                        <i class="i-tabler-chevron-down text-sm ms-2"></i>
+                    </button>
+                    <div
+                        class="hs-dropdown-menu mt-2 min-w-48 rounded-lg border border-default-200 bg-white p-2 opacity-0 shadow-md transition-none hs-dropdown-open:opacity-100 hidden">
                         <a class="flex items-center py-2 px-3 rounded-md text-sm text-default-800 hover:bg-gray-100"
-                            href="{{ route('login') }}">Log Out</a>
-                    @endauth
+                            href="{{ route('profile.edit') }}">Profile</a>
+                        <hr class="my-2">
+                        @auth
+                            <form method="POST" action="{{ route('logout') }}" data-logout-form>
+                                @csrf
+                                <button type="submit"
+                                    class="w-full text-start flex items-center py-2 px-3 rounded-md text-sm text-default-800 hover:bg-gray-100">
+                                    Log Out
+                                </button>
+                            </form>
+                        @else
+                            <a class="flex items-center py-2 px-3 rounded-md text-sm text-default-800 hover:bg-gray-100"
+                                href="{{ route('login') }}">Log Out</a>
+                        @endauth
+                    </div>
                 </div>
             </div>
         </div>

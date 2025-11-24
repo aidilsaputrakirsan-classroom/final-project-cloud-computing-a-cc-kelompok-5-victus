@@ -98,8 +98,8 @@
 
         <div class="footer-bottom">
             <div class="footer-wrapper">
-                <p>Copyright © <span>{{ date('Y') }} Travesta,</span> All Rights Reserved.</p>
-            </div>
+                    <p>Copyright © <span>{{ date('Y') }} <span class="brand-name">Travesta</span>,</span> All Rights Reserved.</p>
+                </div>
         </div>
     </div>
 </footer>

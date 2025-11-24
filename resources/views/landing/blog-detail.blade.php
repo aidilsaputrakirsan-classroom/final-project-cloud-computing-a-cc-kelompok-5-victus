@@ -91,10 +91,10 @@
                                     </div>
                                 </div>
 
-                                <div class="row tag-share-wrap mt-4 mb-5">
-                                    <div class="col-lg-8 col-12">
+                                <div class="row tag-share-wrap align-items-center mt-4 mb-5">
+                                    <div class="col-lg-8 col-12 d-flex align-items-center">
                                     @if ($post->tags->count() > 0)
-                                        <div class="tagcloud">
+                                        <div class="tagcloud mb-0">
                                             @foreach ($post->tags as $tag)
                                                 <a href="{{ route('landing.blog', ['tag' => $tag->slug]) }}">
                                                     {{ $tag->name }}
@@ -105,13 +105,24 @@
                                             <span class="text-muted">No tags.</span>
                                         @endif
                                     </div>
-                                    <div class="col-lg-4 col-12 mt-3 mt-lg-0 text-lg-end">
-                                        <div class="social-share">
+                                    <div class="col-lg-4 col-12 d-flex align-items-center justify-content-lg-end justify-content-start">
+                                        <div class="social-share d-flex align-items-center">
                                             <span class="me-3">Share:</span>
-                                            <a href="#"><i class="fab fa-facebook-f"></i></a>
-                                            <a href="#"><i class="fab fa-twitter"></i></a>
-                                            <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                            <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                                            <button type="button" class="btn btn-sm me-1" data-share="copy" data-url="{{ request()->fullUrl() }}" title="Copy link">
+                                                <i class="fa-regular fa-copy"></i>
+                                            </button>
+
+                                            <button type="button" class="btn btn-sm me-1" data-share="whatsapp" data-url="{{ request()->fullUrl() }}" data-title="{{ $post->title }}" title="Share to WhatsApp">
+                                                <i class="fab fa-whatsapp"></i>
+                                            </button>
+
+                                            <button type="button" class="btn btn-sm me-1" data-share="instagram" data-url="{{ request()->fullUrl() }}" data-title="{{ $post->title }}" title="Share to Instagram">
+                                                <i class="fab fa-instagram"></i>
+                                            </button>
+
+                                            <button type="button" class="btn btn-sm me-1" data-share="facebook" data-url="{{ request()->fullUrl() }}" title="Share to Facebook">
+                                                <i class="fab fa-facebook-f"></i>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -235,6 +246,7 @@
 
                                 @push('scripts')
                                     <script src="{{ asset('assets/js-user/comment-actions.js') }}"></script>
+                                    <script src="{{ asset('assets/js-user/share.js') }}"></script>
                                 @endpush
 
                             </div>
@@ -247,8 +259,10 @@
                                         <h4>Search</h4>
                                     </div>
                                     <div class="search-widget">
-                                        <form action="#"><input type="text" placeholder="Search here"><button type="submit"><i
-                                                    class="fa-solid fa-magnifying-glass"></i></button></form>
+                                        <form action="{{ route('landing.blog') }}" method="get" aria-label="Search posts">
+                                            <input type="text" name="q" placeholder="Search posts..." value="{{ request('q') }}">
+                                            <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                                        </form>
                                     </div>
                                 </div>
 
