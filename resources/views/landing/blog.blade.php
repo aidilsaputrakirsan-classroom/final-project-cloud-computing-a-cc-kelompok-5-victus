@@ -31,6 +31,17 @@
                     <h3>Category: {{ $activeCategoryName }}</h3>
                 </div>
             @endif
+
+            @if (!empty($activeTagName))
+                <div class="mb-4">
+                    <h3>Tags: {{ $activeTagName }}</h3>
+                </div>
+            @endif
+            @if (!empty($activeSearchName))
+                <div class="mb-4">
+                    <h3>Search: {{ $activeSearchName }}</h3>
+                </div>
+            @endif
             <div class="row g-4">
                 @forelse ($posts as $post)
                     <div class="col-xl-4 col-md-6 col-lg-6 wow fadeInUp">
@@ -81,7 +92,32 @@
             </div>
 
             <div class="page-nav-wrap text-center mt-4">
-                {{ $posts->links() }}
+                <ul>
+                    {{-- Previous page arrow --}}
+                    @if ($posts->onFirstPage())
+                        <li><span class="page-numbers"><i class="fal fa-long-arrow-left"></i></span></li>
+                    @else
+                        <li><a class="page-numbers" href="{{ $posts->previousPageUrl() }}"><i
+                                    class="fal fa-long-arrow-left"></i></a></li>
+                    @endif
+
+                    {{-- Page numbers --}}
+                    @foreach (range(1, $posts->lastPage()) as $i)
+                        @if ($i == $posts->currentPage())
+                            <li><span class="page-numbers current">{{ sprintf('%02d', $i) }}</span></li>
+                        @else
+                            <li><a class="page-numbers" href="{{ $posts->url($i) }}">{{ sprintf('%02d', $i) }}</a></li>
+                        @endif
+                    @endforeach
+
+                    {{-- Next page arrow --}}
+                    @if ($posts->hasMorePages())
+                        <li><a class="page-numbers" href="{{ $posts->nextPageUrl() }}"><i
+                                    class="fal fa-long-arrow-right"></i></a></li>
+                    @else
+                        <li><span class="page-numbers"><i class="fal fa-long-arrow-right"></i></span></li>
+                    @endif
+                </ul>
             </div>
         </div>
     </section>
