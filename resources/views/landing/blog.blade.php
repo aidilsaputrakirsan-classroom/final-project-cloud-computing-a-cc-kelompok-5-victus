@@ -31,6 +31,17 @@
                     <h3>Category: {{ $activeCategoryName }}</h3>
                 </div>
             @endif
+
+            @if (!empty($activeTagName))
+                <div class="mb-4">
+                    <h3>Tags: {{ $activeTagName }}</h3>
+                </div>
+            @endif
+            @if (!empty($activeSearchName))
+                <div class="mb-4">
+                    <h3>Search: {{ $activeSearchName }}</h3>
+                </div>
+            @endif
             <div class="row g-4">
                 @forelse ($posts as $post)
                     <div class="col-xl-4 col-md-6 col-lg-6 wow fadeInUp">

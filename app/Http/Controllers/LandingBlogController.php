@@ -29,6 +29,7 @@ class LandingBlogController extends Controller
 
         $activeTag = null;
         $activeTagName = null;
+        $activeSearchName = null;
 
         if ($request->filled('tag')) {
             $tagSlug = $request->get('tag');
@@ -46,6 +47,7 @@ class LandingBlogController extends Controller
         // Fulltext-ish search across title and content
         if ($request->filled('q')) {
             $term = $request->get('q');
+            $activeSearchName = $term;
             $query->where(function ($q) use ($term) {
                 $q->where('title', 'like', '%' . $term . '%')
                   ->orWhere('content', 'like', '%' . $term . '%');
@@ -65,15 +67,16 @@ class LandingBlogController extends Controller
             ->take(3)
             ->get();
 
-        $tags = Tag::latest()
-            ->take(10) // Batasi hanya 10
-            ->get()
+        $tags = Tag::get()
             ->map(function ($tag) {
                 $tag->posts_count = Post::whereJsonContains('tags', $tag->id)
                     ->whereNotNull('published_at')
                     ->count();
                 return $tag;
-            });
+            })
+            ->sortByDesc('posts_count')
+            ->take(10)
+            ->values();
 
         return view('landing.blog', [
             'posts' => $posts,
@@ -81,6 +84,7 @@ class LandingBlogController extends Controller
             'activeCategoryName' => $activeCategoryName,
             'activeTag' => $activeTag,
             'activeTagName' => $activeTagName,
+            'activeSearchName' => $activeSearchName,
             'categories' => $categories,
             'tags' => $tags,
         ]);
@@ -109,15 +113,16 @@ class LandingBlogController extends Controller
             ->take(3)
             ->get();
 
-        $tags = Tag::latest()
-            ->take(10)
-            ->get()
+        $tags = Tag::get()
             ->map(function ($tag) {
                 $tag->posts_count = Post::whereJsonContains('tags', $tag->id)
                     ->whereNotNull('published_at')
                     ->count();
                 return $tag;
-            });
+            })
+            ->sortByDesc('posts_count')
+            ->take(10)
+            ->values();
 
         return view('landing.blog-detail', [
             'post' => $post,
