@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\Category;
 use App\Models\User;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
@@ -12,43 +13,33 @@ use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
-    // For now allow CRUD without auth (auth will be added later).
     public function __construct()
     {
-        // require authentication for create/store/edit/update/destroy actions
         $this->middleware('auth')->except(['index', 'show']);
     }
 
     public function index(Request $request)
     {
-        // Show all posts (published and drafts) in the admin table view.
-        // Support column sorting via query params: sort and direction.
         $allowedSorts = ['id', 'title', 'category', 'status', 'author', 'published'];
         $sort = $request->get('sort');
         $direction = strtolower($request->get('direction', 'asc')) === 'desc' ? 'desc' : 'asc';
 
-        $query = Post::with('category', 'user');
+        $query = Post::with(['category', 'user']);
 
         if (in_array($sort, $allowedSorts, true)) {
             switch ($sort) {
                 case 'id':
-                    $query = $query->orderBy('id', $direction);
-                    break;
                 case 'title':
-                    $query = $query->orderBy('title', $direction);
+                case 'status':
+                    $query = $query->orderBy($sort, $direction);
                     break;
                 case 'category':
-                    // Order by related category name (use subquery to avoid join)
                     $query = $query->orderBy(
                         Category::select('name')->whereColumn('categories.id', 'posts.category_id'),
                         $direction
                     );
                     break;
-                case 'status':
-                    $query = $query->orderBy('status', $direction);
-                    break;
                 case 'author':
-                    // Order by related user's name
                     $query = $query->orderBy(
                         User::select('name')->whereColumn('users.id', 'posts.user_id'),
                         $direction
@@ -59,7 +50,6 @@ class PostController extends Controller
                     break;
             }
         } else {
-            // default ordering: by id ascending (1,2,3...)
             $query = $query->orderBy('id', 'asc');
         }
 
@@ -75,8 +65,10 @@ class PostController extends Controller
 
     public function create()
     {
-        $categories = Category::where('is_active', true)->get();
-        return view('posts.create', compact('categories'));
+        return view('posts.create', [
+            'categories' => Category::where('is_active', true)->get(),
+            'tags' => Tag::all(),
+        ]);
     }
 
     public function store(Request $request)
@@ -88,24 +80,25 @@ class PostController extends Controller
             'featured_image' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
             'status' => 'required|in:draft,published,archived',
             'category_id' => 'nullable|exists:categories,id',
+            'tags' => 'array',
         ]);
 
         if (empty($data['slug'])) {
             $data['slug'] = $this->uniqueSlug($data['title']);
         }
 
-        // If no authenticated user, assign to first user as fallback
         $data['user_id'] = Auth::id() ?? User::first()->id;
-
 
         if ($data['status'] === 'published') {
             $data['published_at'] = now();
         }
 
-        // handle featured image upload
         if ($request->hasFile('featured_image')) {
             $path = $request->file('featured_image')->store('featured_images', 'public');
             $data['featured_image'] = $path;
+        }
+        if (!empty($data['tags'])) {
+            $data['tags'] = array_map('intval', $data['tags']);
         }
 
         $post = Post::create($data);
@@ -115,8 +108,11 @@ class PostController extends Controller
 
     public function edit(Post $post)
     {
-        $categories = Category::where('is_active', true)->get();
-        return view('posts.edit', compact('post', 'categories'));
+        return view('posts.edit', [
+            'post' => $post,
+            'categories' => Category::where('is_active', true)->get(),
+            'tags' => Tag::all(),
+        ]);
     }
 
     public function update(Request $request, Post $post)
@@ -128,12 +124,12 @@ class PostController extends Controller
             'featured_image' => 'nullable|image|mimes:jpg,jpeg,png,gif,webp|max:2048',
             'status' => 'required|in:draft,published,archived',
             'category_id' => 'nullable|exists:categories,id',
+            'tags' => 'array',
         ]);
 
         if (empty($data['slug'])) {
             $data['slug'] = $this->uniqueSlug($data['title'], $post->id);
         }
-
 
         if ($data['status'] === 'published' && !$post->published_at) {
             $data['published_at'] = now();
@@ -143,14 +139,16 @@ class PostController extends Controller
             $data['published_at'] = null;
         }
 
-        // handle featured image replacement
         if ($request->hasFile('featured_image')) {
-            // delete old file if exists
             if ($post->featured_image) {
                 Storage::disk('public')->delete($post->featured_image);
             }
             $path = $request->file('featured_image')->store('featured_images', 'public');
             $data['featured_image'] = $path;
+        }
+
+        if (!empty($data['tags'])) {
+            $data['tags'] = array_map('intval', $data['tags']);
         }
 
         $post->update($data);

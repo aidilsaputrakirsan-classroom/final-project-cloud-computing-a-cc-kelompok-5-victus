@@ -5,10 +5,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login — {{ config('app.name', 'Travesta') }}</title>
+    <script src="{{ asset('assets/js/darkmode-head.js') }}"></script>
     <!-- Favicon for auth pages -->
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.svg') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/app.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/icons.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/darkmode.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/auth-login.css') }}">
 </head>
 
@@ -21,6 +23,16 @@
             </div>
 
             <div class="login-form">
+                <div class="flex justify-end mb-2">
+                    <button id="dark-mode-toggle" type="button" class="nav-link p-2" title="Toggle Dark Mode"
+                        aria-pressed="false">
+                        <span class="flex items-center justify-center size-6">
+                            <iconify-icon icon="tabler:moon" class="dm-moon text-2xl" aria-hidden="true"></iconify-icon>
+                            <iconify-icon icon="tabler:sun" class="dm-sun text-2xl hidden"
+                                aria-hidden="true"></iconify-icon>
+                        </span>
+                    </button>
+                </div>
                 @if(session('status'))
                     <div class="alert alert-success mb-4">{{ session('status') }}</div>
                 @endif
@@ -69,6 +81,8 @@
     </main>
 
     <script src="{{ asset('assets/js/app.js') }}"></script>
+    <script src="{{ asset('assets/libs/iconify-icon/iconify-icon.min.js') }}"></script>
+    <script src="{{ asset('assets/js/darkmode.js') }}"></script>
 </body>
 
 </html>

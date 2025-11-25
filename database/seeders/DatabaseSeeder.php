@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Seeder;
 use App\Models\User;
+use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,10 +19,11 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // Jalankan seeder lainnya
+        // 2. Panggil Seeder Berurutan
         $this->call([
-            \Database\Seeders\CategorySeeder::class,
-            \Database\Seeders\PostSeeder::class,
+            CategorySeeder::class, // Kategori dulu
+            TagSeeder::class,      // Tags dulu (WAJIB sebelum Post)
+            PostSeeder::class,     // Baru Post (karena Post butuh Tag dan Kategori)
         ]);
     }
 }

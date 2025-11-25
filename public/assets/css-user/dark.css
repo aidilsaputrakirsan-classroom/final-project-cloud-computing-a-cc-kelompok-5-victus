@@ -1,0 +1,285 @@
+/* Minimal dark mode overrides for landing pages */
+body.dark-mode {
+  background-color: #0b1220;
+  color: #e6eef8;
+}
+/* Links */
+body.dark-mode a { color: #9fd3ff; }
+
+/* Header / layout */
+body.dark-mode .header-1,
+body.dark-mode .header-3,
+body.dark-mode .offcanvas__info,
+body.dark-mode .offcanvas__wrapper { background-color: #071025; }
+
+/* Ensure common text elements switch to light color */
+body.dark-mode, body.dark-mode p, body.dark-mode span, body.dark-mode li, body.dark-mode a,
+body.dark-mode h1, body.dark-mode h2, body.dark-mode h3, body.dark-mode h4, body.dark-mode h5, body.dark-mode h6,
+body.dark-mode .text-default-800, body.dark-mode .text-default-500, body.dark-mode .card-title,
+body.dark-mode .hero-section .hero-content h1,
+body.dark-mode .hero-section .hero-content p,
+body.dark-mode .hero-section .hero-content .sub-title {
+  color: #e6eef8 !important;
+}
+
+body.dark-mode .card,
+body.dark-mode .new-top-desti-thumb,
+body.dark-mode .section-title { background-color: #071025; }
+
+body.dark-mode .card .card-header, body.dark-mode .card-header { background-color: transparent; }
+
+/* Footer: keep the simple original darkmode rule */
+/* Keep footer appearance the same as light mode even when dark-mode is active */
+body.dark-mode .footer-section,
+body.dark-mode footer.footer-section {
+  /* force the original light-mode background used in the template (teal) */
+  background-color: #1CA8CB !important;
+  /* preserve background image if present */
+  background-image: url('../images-user/footer/footer-bg.jpg') !important;
+  background-size: cover !important;
+  background-position: center !important;
+}
+
+/* Ensure footer text and links remain the light-mode colors (but readable on the teal background) */
+body.dark-mode .footer-section,
+body.dark-mode .footer-section .footer-content,
+body.dark-mode .footer-section p,
+body.dark-mode .footer-section .list-items li a,
+body.dark-mode .footer-section .footer-bottom p,
+body.dark-mode .footer-section .widget-head h4 {
+  color: #ffffff !important;
+  opacity: 0.95 !important;
+}
+
+/* Keep the footer logo image unmodified (no color inversion) so the blue logo stays blue */
+body.dark-mode .footer-section .widget-head img {
+  filter: none !important;
+  opacity: 1 !important;
+}
+
+/* If logo is an inline SVG, ensure its fills stay blue */
+body.dark-mode .footer-section .widget-head svg path,
+body.dark-mode .footer-section .widget-head svg { fill: #1CA8CB !important; color: #1CA8CB !important; }
+/* Form inputs */
+body.dark-mode input, body.dark-mode textarea, body.dark-mode select { background-color: #071025; color: #e6eef8; border-color: #173245; }
+/* Buttons adjustments */
+body.dark-mode .btn { background-color: #1b6ca8; color: #fff; }
+
+/* Utility: force background for sections that may be white */
+body.dark-mode section, body.dark-mode .section-padding { background-color: transparent; }
+
+/* News / Blog cards */
+body.dark-mode .news-card-items-3 { background: transparent; }
+body.dark-mode .news-card-items-3 .news-content {
+  background: rgba(255,255,255,0.06) !important;
+  color: #e6eef8 !important;
+  border-radius: 10px !important;
+  padding: 24px !important;
+  margin: -82px 22px 0px !important;
+}
+body.dark-mode .news-card-items-3 .news-content .post-meta { color: #9fb7cd !important; }
+body.dark-mode .news-card-items-3 .news-content .post-meta li { color: #9fb7cd !important; }
+body.dark-mode .news-card-items-3 .news-content h4 a { color: #e6eef8 !important; }
+body.dark-mode .news-card-items-3 .news-content .link-btn { color: #bfe9ff !important; }
+body.dark-mode .news-image img { opacity: 0.95; }
+
+/* Post meta icons */
+body.dark-mode .news-card-items-3 .news-content .post-meta li i { color: #9fb7cd !important; }
+
+/* Team cards (About page) */
+body.dark-mode .team-card-item { background: transparent; }
+body.dark-mode .team-card-item .team-image img { filter: brightness(0.95) contrast(0.95); border-radius: 12px; }
+body.dark-mode .team-card-item .team-content {
+  background: rgba(255,255,255,0.06) !important;
+  color: #e6eef8 !important;
+  border-radius: 12px !important;
+  padding: 30px 25px !important;
+  margin-top: -68px !important;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
+body.dark-mode .team-card-item .team-content h4 a { color: #e6eef8 !important; }
+body.dark-mode .team-card-item .team-content p { color: #9fb7cd !important; }
+body.dark-mode .team-card-item .social-profile ul li a { color: #cceeff !important; }
+body.dark-mode .team-card-item .plus-btn { background: #19a6c9 !important; color: #fff !important; }
+
+/* Testimonial (About page) */
+body.dark-mode .testimonial-section {
+  /* keep background image but darken it for contrast */
+  background-color: #071025;
+  background-blend-mode: multiply;
+}
+body.dark-mode .testimonial-card-items {
+  background: rgba(255,255,255,0.06) !important;
+  color: #e6eef8 !important;
+  border-radius: 12px !important;
+  padding: 20px !important;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.45) !important;
+}
+body.dark-mode .testimonial-card-items .client-info .content h4 {
+  color: #e6eef8 !important;
+}
+body.dark-mode .testimonial-card-items .client-info .content p {
+  color: #9fb7cd !important;
+}
+body.dark-mode .testimonial-card-items p {
+  color: rgba(230,238,248,0.95) !important;
+}
+body.dark-mode .testimonial-card-items .icon svg path,
+body.dark-mode .testimonial-card-items .icon { color: #19a6c9 !important; }
+
+/* Blog-specific pagination: keep consistent in dark mode */
+body.dark-mode .news-section .page-nav-wrap ul { display:flex; gap:8px; justify-content:center; align-items:center; padding:0; margin:0; list-style:none; }
+
+
+/* Match base pagination sizing so dark mode doesn't change dimensions */
+body.dark-mode .news-section .page-nav-wrap .page-numbers,
+body.dark-mode .news-section .page-nav-wrap a.page-numbers,
+body.dark-mode .news-section .page-nav-wrap span.page-numbers {
+  display:inline-block;
+  width:40px;
+  height:40px;
+  line-height:40px;
+  text-align:center;
+  border-radius:4px;
+  margin:0 2px;
+  background: rgba(255,255,255,0.04);
+  color: #e6eef8;
+  border: 1px solid rgba(255,255,255,0.04);
+  font-weight:700;
+  text-decoration:none;
+}
+
+@media (max-width: 767px) {
+  body.dark-mode .news-section .page-nav-wrap .page-numbers,
+  body.dark-mode .news-section .page-nav-wrap a.page-numbers,
+  body.dark-mode .news-section .page-nav-wrap span.page-numbers {
+    width:50px;
+    height:50px;
+    line-height:50px;
+    font-size:14px;
+  }
+}
+
+/* current/active page style */
+body.dark-mode .news-section .page-nav-wrap .page-numbers.current {
+  background-color: #19a6c9;
+  color: #071025;
+  border-color: #19a6c9;
+}
+
+body.dark-mode .news-section .page-nav-wrap .page-numbers:hover {
+  background: rgba(255,255,255,0.06);
+  color: #ffffff;
+}
+
+/* arrow icons color */
+body.dark-mode .news-section .page-nav-wrap .page-numbers i,
+body.dark-mode .news-section .page-nav-wrap .page-numbers svg { color: #e6eef8; }
+
+/* Footer social icons and brand-specific tweaks in dark mode */
+body.dark-mode .footer-section .social-icon a {
+  /* only change colors — keep original sizing and layout from main.css */
+  background-color: #ffffff !important; /* keep the light circle */
+  color: #071025 !important; /* dark icon color */
+}
+
+body.dark-mode .footer-section .social-icon a i,
+body.dark-mode .footer-section .social-icon a svg {
+  color: #071025 !important; /* ensure icon glyphs are dark */
+  opacity: 1 !important;
+}
+
+/* Make the year and Travesta word in the footer blue regardless of dark mode */
+body.dark-mode .footer-section .footer-bottom .footer-wrapper p > span {
+  color: #1CA8CB !important;
+  font-weight: 400 !important; /* make non-bold in dark mode */
+}
+
+/* Ensure .brand-name remains non-bold and blue if targeted specifically */
+body.dark-mode .footer-section .footer-bottom .footer-wrapper p .brand-name {
+  color: #1CA8CB !important;
+  font-weight: 400 !important;
+}
+
+/* Also ensure footer text remains readable */
+body.dark-mode .footer-section .social-icon a:hover {
+  background-color: #f0f4f5 !important;
+}
+
+/* Sidebar tags (blog-detail): remove white background and show only stroke in dark mode */
+body.dark-mode .main-sideber .single-sidebar-widget .tagcloud a,
+body.dark-mode .news-widget-categories .tagcloud a,
+body.dark-mode .news-details-area .blog-post-details .tag-share-wrap .tagcloud a {
+  background: transparent !important; /* remove white pill */
+  color: #e6eef8 !important; /* keep readable text */
+  border: 1px solid rgba(230,238,248,0.12) !important; /* light stroke */
+  box-shadow: none !important;
+}
+
+body.dark-mode .main-sideber .single-sidebar-widget .tagcloud a:hover,
+body.dark-mode .news-widget-categories .tagcloud a:hover,
+body.dark-mode .news-details-area .blog-post-details .tag-share-wrap .tagcloud a:hover {
+  background: rgba(255,255,255,0.04) !important;
+  color: #ffffff !important;
+  border-color: rgba(255,255,255,0.14) !important;
+}
+
+
+/* Pagination (global) - dark mode adjustments */
+/* stronger selectors to override other styles */
+body.dark-mode .pagination,
+body.dark-mode nav .pagination { display:flex; gap:8px; justify-content:center; align-items:center; }
+
+body.dark-mode .pagination .page-link,
+body.dark-mode .pagination span.page-link,
+body.dark-mode .page-link,
+body.dark-mode a.page-link,
+body.dark-mode .pagination li a,
+body.dark-mode .pagination li span {
+  /* light boxes with dark text per request */
+  background-color: rgba(255,255,255,0.95) !important;
+  color: #071025 !important;
+  border: 1px solid rgba(7,16,37,0.08) !important;
+  padding: 8px 12px !important;
+  border-radius: 6px !important;
+  min-width: 36px !important;
+  text-align: center !important;
+  font-family: inherit !important;
+  font-weight: 600 !important;
+}
+
+/* Force color on any child elements inside pagination links (e.g., inner spans from templates) */
+body.dark-mode .pagination .page-link *,
+body.dark-mode .page-link *,
+body.dark-mode .pagination li a *,
+body.dark-mode .pagination li span * {
+  color: #071025 !important;
+}
+
+/* active page */
+body.dark-mode .pagination .page-item.active .page-link,
+body.dark-mode .pagination .page-link.active,
+body.dark-mode .page-item.active > .page-link {
+  background-color: #19a6c9 !important;
+  color: #071025 !important;
+  border-color: #19a6c9 !important;
+}
+
+/* disabled */
+body.dark-mode .pagination .page-item.disabled .page-link,
+body.dark-mode .pagination .page-link.disabled,
+body.dark-mode .pagination .page-link[aria-disabled="true"] {
+  background-color: rgba(255,255,255,0.85) !important;
+  color: rgba(7,16,37,0.45) !important;
+  border-color: rgba(7,16,37,0.06) !important;
+  pointer-events: none !important;
+}
+
+body.dark-mode .pagination .page-link:hover,
+body.dark-mode .page-link:hover { background-color: rgba(255,255,255,0.98) !important; color: #071025 !important; }
+
+/* make the pager container text legible */
+body.dark-mode .pagination + .pagination, body.dark-mode .pagination-wrapper { color: #e6eef8 !important; }
+
+
+
