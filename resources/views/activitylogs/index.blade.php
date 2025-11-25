@@ -40,7 +40,8 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-default-800">{{ $log->action }}</td>
                                     <td class="px-6 py-4 text-sm text-default-800" style="max-width:420px; white-space:pre-wrap; word-break:break-word;">{{ \Illuminate\Support\Str::limit($log->description, 300) }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-default-800">{{ $log->ip_address }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-default-800">{{ $log->created_at->format('Y-m-d H:i') }}<br><small class="text-default-500">{{ $log->created_at->diffForHumans() }}</small></td>
+                                    @php $wita = $log->created_at->copy()->setTimezone('Asia/Makassar'); @endphp
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-default-800">{{ $wita->format('Y-m-d H:i') }}<br><small class="text-default-500">{{ $wita->diffForHumans() }}</small></td>
                                 </tr>
                             @empty
                                 <tr>
