@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Services\ActivityLogger;
 
 class CategoryController extends Controller
 {
@@ -78,7 +79,9 @@ class CategoryController extends Controller
 
         $data['is_active'] = $request->has('is_active');
 
-        Category::create($data);
+        $category = Category::create($data);
+
+        ActivityLogger::log('create_category', 'Created category: ' . $category->name, $category, $request);
 
         return redirect()->route('categories.index')->with('success', 'Category created');
     }
@@ -107,11 +110,15 @@ class CategoryController extends Controller
 
         $category->update($data);
 
+        ActivityLogger::log('update_category', 'Updated category: ' . $category->name, $category, $request);
+
         return redirect()->route('categories.index')->with('success', 'Category updated');
     }
 
     public function destroy(Category $category)
     {
+        ActivityLogger::log('delete_category', 'Deleted category: ' . $category->name, $category, request());
+
         $category->delete();
         return redirect()->route('categories.index')->with('success', 'Category deleted');
     }

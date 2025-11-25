@@ -7,6 +7,7 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Pagination\LengthAwarePaginator;
+use App\Services\ActivityLogger;
 
 class TagController extends Controller
 {
@@ -57,7 +58,9 @@ class TagController extends Controller
 
         $validated['slug'] = Str::slug($request->name);
 
-        Tag::create($validated);
+        $tag = Tag::create($validated);
+
+        ActivityLogger::log('create_tag', 'Created tag: ' . $tag->name, $tag, $request);
 
         return redirect()->route('admin.tags.index')->with('success', 'New tag has been added!');
     }
@@ -80,6 +83,8 @@ public function update(Request $request, $id)
 
     $tag->update($validated);
 
+    ActivityLogger::log('update_tag', 'Updated tag: ' . $tag->name, $tag, $request);
+
     return redirect()
         ->route('admin.tags.index')
         ->with('success', 'Tag has been updated!');
@@ -95,6 +100,8 @@ public function destroy($id)
         return redirect()->route('admin.tags.index')
             ->with('error', 'Tag cannot be deleted because it is used by posts.');
     }
+
+    ActivityLogger::log('delete_tag', 'Deleted tag: ' . $tag->name, $tag, request());
 
     $tag->delete();
 

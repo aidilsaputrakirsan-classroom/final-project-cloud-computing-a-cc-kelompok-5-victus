@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Support\Str;
+use App\Services\ActivityLogger;
 
 class CommentController extends Controller
 {
@@ -80,6 +81,8 @@ class CommentController extends Controller
         $comment->user_agent = $request->userAgent();
         $comment->save();
 
+        ActivityLogger::log('create_comment_admin', 'Admin created comment ID ' . $comment->id . ' on post ID ' . $post->id, $comment, $request);
+
         return redirect()->route('admin.comments.show', $post)->with('success', 'Comment created.');
     }
 
@@ -109,6 +112,8 @@ class CommentController extends Controller
         $comment->content = $data['content'];
         $comment->save();
 
+        ActivityLogger::log('update_comment_admin', 'Admin updated comment ID ' . $comment->id, $comment, request());
+
         // Redirect back to post comments management
         return redirect()->route('admin.comments.show', $comment->post_id)->with('success', 'Comment updated.');
     }
@@ -116,6 +121,9 @@ class CommentController extends Controller
     public function destroy(Comment $comment)
     {
         $postId = $comment->post_id;
+
+        ActivityLogger::log('delete_comment_admin', 'Admin deleted comment ID ' . $comment->id, $comment, request());
+
         $comment->delete();
         return redirect()->route('admin.comments.show', $postId)->with('success', 'Comment deleted.');
     }

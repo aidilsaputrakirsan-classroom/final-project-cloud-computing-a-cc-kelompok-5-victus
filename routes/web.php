@@ -8,6 +8,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\LandingBlogController;
 use App\Http\Controllers\Admin\CommentController as AdminCommentController;
+use App\Http\Controllers\Admin\ActivityLogController;
 
 Route::get('/', function () {
     return view('landing.index');
@@ -55,6 +56,9 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/tags/{id}/edit', [TagController::class, 'edit'])->name('admin.tags.edit');
     Route::put('/tags/{id}', [TagController::class, 'update'])->name('admin.tags.update');
     Route::delete('/tags/{id}', [TagController::class, 'destroy'])->name('admin.tags.destroy');
+
+    // Activity logs for admin
+    Route::get('activity-logs', [ActivityLogController::class, 'index'])->name('activitylogs.index');
 
 });
 

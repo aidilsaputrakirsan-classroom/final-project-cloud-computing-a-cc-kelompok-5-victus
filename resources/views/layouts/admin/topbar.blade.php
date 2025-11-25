@@ -41,6 +41,16 @@
                 </button>
             </div>
 
+            <!-- Activity Logs (icon button with optional label on md+) -->
+            <div class="relative">
+                <a href="{{ route('admin.activitylogs.index') }}" class="nav-link p-2 flex items-center gap-2" title="Activity Logs">
+                    <span class="flex items-center justify-center size-6">
+                        <iconify-icon icon="tabler:history" class="text-2xl" aria-hidden="true"></iconify-icon>
+                    </span>
+                    <span class="hidden md:inline">Activity Logs</span>
+                </a>
+            </div>
+
             <!-- Profile Dropdown Button -->
             <div class="relative">
                 <div class="hs-dropdown relative inline-flex [--placement:bottom-right]">

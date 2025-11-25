@@ -9,6 +9,7 @@ use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use App\Services\ActivityLogger;
 use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
@@ -103,6 +104,8 @@ class PostController extends Controller
 
         $post = Post::create($data);
 
+        ActivityLogger::log('create_post', 'Created post: ' . $post->title, $post, $request);
+
         return redirect()->route('posts.show', $post)->with('success', 'Post created');
     }
 
@@ -153,12 +156,17 @@ class PostController extends Controller
 
         $post->update($data);
 
+        ActivityLogger::log('update_post', 'Updated post: ' . $post->title, $post, $request);
+
         return redirect()->route('posts.show', $post)->with('success', 'Post updated');
     }
 
     public function destroy(Post $post)
     {
+        ActivityLogger::log('delete_post', 'Deleted post: ' . $post->title, $post, request());
+
         $post->delete();
+
         return redirect()->route('posts.index')->with('success', 'Post deleted');
     }
 
