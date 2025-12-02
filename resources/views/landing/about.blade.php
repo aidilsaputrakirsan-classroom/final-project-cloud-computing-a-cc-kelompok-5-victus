@@ -131,8 +131,10 @@
                                 </div>
                                 <div class="feature-items wow fadeInUp wow" data-wow-delay=".5s">
                                     <div class="feature-icon-item">
-                                        <div class="icon">
-                                            <img src="{{ asset('assets/images-user/icon/08.svg') }}" alt="img">
+                                        <div class="icon"
+                                            style="background:#00A8D8; display:flex; align-items:center; justify-content:center;">
+                                            <img src="{{ asset('assets/images-user/icon/click.png') }}" alt="img"
+                                                style="width:22px; height:auto; filter:invert(1);">
                                         </div>
                                         <div class="content">
                                             <h5>
@@ -152,8 +154,10 @@
                                 </div>
                                 <div class="feature-items wow fadeInUp wow" data-wow-delay=".7s">
                                     <div class="feature-icon-item">
-                                        <div class="icon">
-                                            <img src="{{ asset('assets/images-user/icon/09.svg') }}" alt="img">
+                                        <div class="icon"
+                                            style="background:#00A8D8; display:flex; align-items:center; justify-content:center;">
+                                            <img src="{{ asset('assets/images-user/icon/information.png') }}"
+                                                alt="img" style="width:22px; height:auto; filter:invert(1);">
                                         </div>
                                         <div class="content">
                                             <h5>
