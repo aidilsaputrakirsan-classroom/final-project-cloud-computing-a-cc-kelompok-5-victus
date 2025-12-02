@@ -50,6 +50,14 @@ class User extends Authenticatable
         return $this->hasMany(Post::class);
     }
 
+    /**
+     * User has many activity logs
+     */
+    public function activityLogs()
+    {
+        return $this->hasMany(ActivityLog::class);
+    }
+
 }
 
 

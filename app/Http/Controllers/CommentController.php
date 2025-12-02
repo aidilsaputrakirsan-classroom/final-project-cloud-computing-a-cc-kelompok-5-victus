@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use App\Services\ActivityLogger;
 
 class CommentController extends Controller
 {
@@ -34,6 +35,8 @@ class CommentController extends Controller
             'ip_address' => $request->ip(),
             'user_agent' => $request->userAgent(),
         ]);
+
+        ActivityLogger::log('create_comment', 'New comment on post ID ' . $postId, $comment, $request);
 
         // set cookie so this browser can edit/delete this comment in future (5 years)
         $minutes = 60 * 24 * 365 * 5;
@@ -79,6 +82,8 @@ class CommentController extends Controller
 
         $comment->update($data);
 
+        ActivityLogger::log('update_comment', 'Updated comment ID ' . $comment->id, $comment, $request);
+
         return redirect()->back()->with('success', 'Comment updated.');
     }
 
@@ -93,6 +98,8 @@ class CommentController extends Controller
                 abort(403);
             }
         }
+
+        ActivityLogger::log('delete_comment', 'Deleted comment ID ' . $comment->id, $comment, $request);
 
         $comment->delete();
 
